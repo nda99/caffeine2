@@ -17,6 +17,8 @@ public class Staff {
 		this.userName = userName;
 		this.password = password;
 	}
+	
+	//Standard getter and setters
 	public String getFullName() {
 		return fullName;
 	}
