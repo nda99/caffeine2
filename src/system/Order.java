@@ -5,6 +5,14 @@ import java.util.HashMap;
 public class Order {
 	
 	private int orderID;
+	private Timestamp time; 
+	//private Customer customer;
+	private double total;
+	private HashMap<String,Integer> orderItems;
+	
+	public Order(String [] items) {
+		
+	}
 	public int getOrderID() {
 		return orderID;
 	}
@@ -37,14 +45,7 @@ public class Order {
 		this.orderItems = orderItems;
 	}
 
-	private Timestamp time; 
-	//private Customer customer;
-	private double total;
-	private HashMap<String,Integer> orderItems;
-	
-	public static void main(String[] args) {
-		System.out.println("Hello World");
-	}
+
 	
 	/**
 	 * Add items order hashmap memory
