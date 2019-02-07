@@ -6,12 +6,13 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
 public class AllOrders {
 
-	private static TreeMap<Timestamp,Order> orderMap;
+	private static Map<Timestamp, Order> orderMap = new TreeMap<Timestamp,Order>();
 
 	public AllOrders() {
 		
@@ -42,6 +43,7 @@ public class AllOrders {
 				 
 				 orderMap.put(timestamp, nOrder);
 			 }
+				System.out.println("Dondoca");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 		}
@@ -59,7 +61,17 @@ public class AllOrders {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new java.sql.Timestamp(parsedDate.getTime());
+		
+		Timestamp t = new Timestamp(parsedDate.getTime());
+		
+		return t;
 	}
+	
+	
+	public Order getOrder(String t) {
+		Timestamp s = toTimestamp(t);
+		return orderMap.get(s);
+	}
+
 	
 }
