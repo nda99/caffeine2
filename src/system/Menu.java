@@ -7,18 +7,38 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Menu {
-	public static void main(String[] args){
+	
+	
+	Set<Category> categorySet = new HashSet<Category>();
+
+
+	
+		
+		//add item to hashset
+		public void addCategory(Category category) {
+			categorySet.add(category);
+	}
+		// delete item from hashset
+		public void deleteCategory(Category category) {
+			categorySet.remove(category);
+		}
+
+
+}
+	
 // add all items from list 
-	MenuItem allmenuItemList;
-	allmenuItemList = new MenuItem();
-	allmenuItemList.readFile("/Users/emmawood/Documents/git_caffine/caffeine/menuItems.csv");
+	//MenuItem allmenuItemList;
+	//allmenuItemList = new MenuItem();
+	//allmenuItemList.readFile("/caffeine/menuItems.csv");
 	
 	
 
-
+/*
 	class MeniItemList {
 		private ArrayList<MenuItem> menuItemList;
 	public  MeniItemList() {
@@ -31,9 +51,114 @@ public class Menu {
 		System.out.println(allmenuItemList.getTableOfItemsInMenu());
 	
 		
-		
+		*/
 	
+	
+	
+
+/*
+public void readFile(String filename) {
+	try {
+		Scanner inputFromFile = new Scanner(new File(filename));
+		
+		  //checks if there is a line in the scanner 
+		while (inputFromFile.hasNextLine()) {
+			
+			// reads the line and assign the data read from the line to a local variable
+			String datainLine = inputFromFile.nextLine();
+			
+			// Checks if the line has any data, if no data exists in the line then stop the reading and close the file
+			if (datainLine.length() != 0) {
+				
+				//Send the read data from a line for further processing to a function called processDataInLine
+				processLine(datainLine);
+			}
+		}
+		inputFromFile.close(); //close the file
+		
+	} 
+	catch (FileNotFoundException fnf) {
+		System.out.println("File not found ");
 	}
-	}}
+}
 
 
+public void processLine(String line) {
+String itemNumber = "";
+String itemPrice = "";
+try {
+	String parts [] = line.split(",");
+	String itemName = parts [1];
+	itemNumber = parts [0];
+	Category category = new Category(parts[2]);
+	itemPrice = parts [3];
+	BigDecimal Price = new BigDecimal(itemPrice);
+	
+	
+	//BigDecimal Price = BigDecimal.parse (itemPrice);
+	int No = Integer.parseInt(itemNumber),
+
+	
+	MenuItem i = new MenuItem(No, itemName, category, itemPrice);
+	this.add(i);
+	
+	
+}
+
+// write text to a file 
+	public void writeToFile(String filename, String report) {
+		FileWriter fw;
+		try {
+			fw = new FileWriter(filename);
+			fw.write("The report\n");
+			fw.write(report);
+			fw.close();
+		}
+		catch(FileNotFoundException fnf) {
+			System.out.println(filename + "Not found");
+			System.exit(0);
+		}
+		catch (IOException ioe) {
+			ioe.printStackTrace();
+			System.exit(1);
+		}
+	}	
+		//print to a file 
+		public void printToFile(String filename) throws IOException {
+			PrintWriter pw;
+			try { 
+				pw = new PrintWriter(filename);
+				pw.print("The report\n" );
+				pw.close();
+			}
+			catch(FileNotFoundException pfn){
+				System.out.print(filename + "Not found");
+				System.exit(2);
+				
+			}
+		}
+		
+		public class MeniItemList {
+			private ArrayList<MenuItem> menuItemList;
+			
+			public MeniItemList() {
+				this.menuItemList = new ArrayList<MenuItem>();	
+			}
+			
+		// get in a table 
+		public String getTableOfItemsInMenu() {
+			String report = "Item Number    Item Name   Category   Price \n";
+			for (MenuItem i: menuItemList) {
+				report += String.format("%-8s", i.getNumber());
+				report += String.format("%-17s", i.getName());
+				report += String.format("%-10", i.category.getCategory());
+				report += String.format("%-10s", i.getPrice());
+				report += "\n";
+			
+				}
+			return report;
+
+
+}
+		}}
+		*/

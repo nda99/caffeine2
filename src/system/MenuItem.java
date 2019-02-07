@@ -12,28 +12,32 @@ import java.util.Scanner;
 public class MenuItem  implements Comparable<MenuItem> {
 	// holds a list of items 
 	
-	private int No;
-	private String Name;
-	public Category category;
-	private BigDecimal Price;
+	private int number;
+	private String name;
+	private Category category;
+	private BigDecimal price;
 
 
 	// constructor 
-	public void Items(int itemNumber, String itemName, Category itemCategory, BigDecimal itemPrice ) {
-		No = itemNumber;
-		this.Name = itemName;
+	public MenuItem(int itemNumber, String itemName, Category itemCategory, BigDecimal itemPrice ) {
+		this.number = itemNumber;
+		this.name = itemName;
 		this.category = itemCategory;
-		this.Price = itemPrice;
+		this.price = itemPrice;
 		}
 	 //compare item categories 
 	public int compareTo (MenuItem other) {
-		return Name.compareTo(other.Name);
+		return name.compareTo(other.name);
 	}
 	//if same name find 
+	//@Override
 	public boolean equals (Object other) {
 		if (other instanceof MenuItem) {
 			MenuItem otherItem = (MenuItem)other;
-			if (Name.equals (otherItem.Name))
+			if (name.equals (otherItem.name) 
+				&& number == otherItem.number 
+				&& category.equals (otherItem.category) 
+				&& price.equals (otherItem.price) )
 				return true;
 		}
 		return false;
@@ -45,126 +49,49 @@ public class MenuItem  implements Comparable<MenuItem> {
 	
 	// return item number 
 	public int getNumber() {
-		return No;
+		return number;
 	}
 	
 	// return item name 
 	public String getName() {
-		return Name;
+		return name;
 	}
 	
 	// return price 
 	public BigDecimal getPrice() {
-		return Price;
+		return price;
 	}
+	
+	// return category
+	public Category getCategory() {
+		return category;
+	}
+	
+	
 	// get full details
 	public String getFullDetails() {
 		return String.format("Item number " + getNumber() +", name " + getName() + " is a " + category.getCategory() + ".\n" + getName() + " costs " + getPrice() );
 	
 	}
-	public void readFile(String filename) {
-		try {
-			Scanner inputFromFile = new Scanner(new File(filename));
-			
-			  //checks if there is a line in the scanner 
-			while (inputFromFile.hasNextLine()) {
-				
-				// reads the line and assign the data read from the line to a local variable
-				String datainLine = inputFromFile.nextLine();
-				
-				// Checks if the line has any data, if no data exists in the line then stop the reading and close the file
-				if (datainLine.length() != 0) {
-					
-					//Send the read data from a line for further processing to a function called processDataInLine
-					processLine(datainLine);
-				}
-			}
-			inputFromFile.close(); //close the file
-			
-		} 
-		catch (FileNotFoundException fnf) {
-			System.out.println("File not found ");
-		}
-	}
-
-
-public void processLine(String line) {
-	String itemNumber = "";
-	String itemPrice = "";
-	try {
-		String parts [] = line.split(",");
-		String itemName = parts [1];
-		itemNumber = parts [0];
-		Category category = new Category(parts[2]);
-		itemPrice = parts [3];
-		BigDecimal Price = new BigDecimal(itemPrice);
-		
-		
-		//BigDecimal Price = BigDecimal.parse (itemPrice);
-		int No = Integer.parseInt(itemNumber),
 	
-		
-		MenuItem i = new MenuItem(No, itemName, category, itemPrice);
-		this.add(i);
-		
-		
+	//set item number
+	public void setNumber(int number) {
+		this.number = number;
 	}
 	
-	// write text to a file 
-		public void writeToFile(String filename, String report) {
-			FileWriter fw;
-			try {
-				fw = new FileWriter(filename);
-				fw.write("The report\n");
-				fw.write(report);
-				fw.close();
-			}
-			catch(FileNotFoundException fnf) {
-				System.out.println(filename + "Not found");
-				System.exit(0);
-			}
-			catch (IOException ioe) {
-				ioe.printStackTrace();
-				System.exit(1);
-			}
-		}	
-			//print to a file 
-			public void printToFile(String filename) throws IOException {
-				PrintWriter pw;
-				try { 
-					pw = new PrintWriter(filename);
-					pw.print("The report\n" );
-					pw.close();
-				}
-				catch(FileNotFoundException pfn){
-					System.out.print(filename + "Not found");
-					System.exit(2);
-					
-				}
-			}
-			
-			public class MeniItemList {
-				private ArrayList<MenuItem> menuItemList;
-				
-				public MeniItemList() {
-					this.menuItemList = new ArrayList<MenuItem>();	
-				}
-				
-			// get in a table 
-			public String getTableOfItemsInMenu() {
-				String report = "Item Number    Item Name   Category   Price \n";
-				for (MenuItem i: menuItemList) {
-					report += String.format("%-8s", i.getNumber());
-					report += String.format("%-17s", i.getName());
-					report += String.format("%-10", i.category.getCategory());
-					report += String.format("%-10s", i.getPrice());
-					report += "\n";
-				
-					}
-				return report;
-	
-	
+	//set item name
+	public void setName(String name) {
+		this.name = name;
 	}
-			}}
- 
-
+	
+	//set item price
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	
+	//set item category
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+}
+	
