@@ -1,18 +1,24 @@
 package system;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Order {
-	
+	public Set<Integer> a;
 	private int orderID;
 	private Timestamp time; 
 	//private Customer customer;
 	private double total;
 	private HashMap<String,Integer> orderItems;
 	
-	public Order(String [] items) {
+	public Order(Timestamp t) {
+		time = t;
+	}
+	
+	public Order() {
 		
 	}
+	
 	public int getOrderID() {
 		return orderID;
 	}
@@ -52,7 +58,7 @@ public class Order {
 	 * @param item containing item name
 	 * @param quantity containing how many of this item have been ordered 
 	 */
-	public void addItem(String item, int quantity ) {
+	public void addItem(String item, Integer quantity ) {
 		orderItems.put(item, quantity);
 	}
 	
@@ -96,4 +102,10 @@ public class Order {
 		return discount;
 	}
 	
+	public boolean equals(Order o) {
+		if (o.getTime().equals(this.getTime())) {
+			return true;
+		}
+		return false;
+	}
 }
