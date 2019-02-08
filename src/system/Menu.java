@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -29,34 +28,28 @@ public class Menu {
 		}
 
 
-}
+		//create the hashset
+		private HashSet<MenuItem> menuItems;
+			
+
+			
+			//add item to hashset
+			public void addItem(MenuItem menuItem) {
+				menuItems.add(menuItem);
+		}
+			// delete item from hashset
+			public void deleteItem(MenuItem menuItem) {
+				menuItems.remove(menuItem);
+			}
+
+			
+
 	
-// add all items from list 
-	//MenuItem allmenuItemList;
-	//allmenuItemList = new MenuItem();
-	//allmenuItemList.readFile("/caffeine/menuItems.csv");
+
 	
 	
 
-/*
-	class MeniItemList {
-		private ArrayList<MenuItem> menuItemList;
-	public  MeniItemList() {
-		this.menuItemList = new ArrayList<MenuItem>();	
-	}
 
-	
-		
-		//print table of competitors 
-		System.out.println(allmenuItemList.getTableOfItemsInMenu());
-	
-		
-		*/
-	
-	
-	
-
-/*
 public void readFile(String filename) {
 	try {
 		Scanner inputFromFile = new Scanner(new File(filename));
@@ -82,6 +75,25 @@ public void readFile(String filename) {
 	}
 }
 
+private Category translateCategory(String test) {
+	if(test == "hot drink") {
+		return Category.HOTDRINK;
+	}
+	
+	else if (test == "cold drink") {
+		return Category.COLDDRINK;
+	}
+	
+	else if (test == "Pastries") {
+		return Category.PASTRIES;
+	}
+	
+	else { 
+		return Category.SANDWICH;
+	}
+	
+	
+	}
 
 public void processLine(String line) {
 String itemNumber = "";
@@ -90,20 +102,22 @@ try {
 	String parts [] = line.split(",");
 	String itemName = parts [1];
 	itemNumber = parts [0];
-	Category category = new Category(parts[2]);
+	
+	Category category = translateCategory(parts[2]);
+	
+	
 	itemPrice = parts [3];
 	BigDecimal Price = new BigDecimal(itemPrice);
 	
 	
 	//BigDecimal Price = BigDecimal.parse (itemPrice);
-	int No = Integer.parseInt(itemNumber),
-
-	
-	MenuItem i = new MenuItem(No, itemName, category, itemPrice);
-	this.add(i);
-	
+	int No = Integer.parseInt(itemNumber);
+}
+	finally{}
 	
 }
+
+
 
 // write text to a file 
 	public void writeToFile(String filename, String report) {
@@ -138,20 +152,14 @@ try {
 			}
 		}
 		
-		public class MeniItemList {
-			private ArrayList<MenuItem> menuItemList;
-			
-			public MeniItemList() {
-				this.menuItemList = new ArrayList<MenuItem>();	
-			}
-			
+/*			
 		// get in a table 
-		public String getTableOfItemsInMenu() {
-			String report = "Item Number    Item Name   Category   Price \n";
-			for (MenuItem i: menuItemList) {
-				report += String.format("%-8s", i.getNumber());
-				report += String.format("%-17s", i.getName());
-				report += String.format("%-10", i.category.getCategory());
+//		public String getTableOfItemsInMenu() {
+//			String report = "Item Number    Item Name   Category   Price \n";
+//			for (MenuItem i: ) {
+//				report += String.format("%-8s", i.getNumber());
+//				report += String.format("%-17s", i.getName());
+//				report += String.format("%-10", i.getCategory());
 				report += String.format("%-10s", i.getPrice());
 				report += "\n";
 			
@@ -159,6 +167,6 @@ try {
 			return report;
 
 
-}
-		}}
-		*/
+}*/
+		}
+		

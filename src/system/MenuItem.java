@@ -1,12 +1,6 @@
 package system;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Scanner;
+
 
 
 public class MenuItem  implements Comparable<MenuItem> {
@@ -69,10 +63,11 @@ public class MenuItem  implements Comparable<MenuItem> {
 	
 	
 	// get full details
-	public String getFullDetails() {
-		return String.format("Item number " + getNumber() +", name " + getName() + " is a " + category.getCategory() + ".\n" + getName() + " costs " + getPrice() );
+	public String toString() {
+		return String.format("Item number " + getNumber() +", name " + getName() + " is a " + getCategory() + ".\n" + getName() + " costs " + getPrice() );
 	
 	}
+	
 	
 	//set item number
 	public void setNumber(int number) {
@@ -92,6 +87,9 @@ public class MenuItem  implements Comparable<MenuItem> {
 	//set item category
 	public void setCategory(Category category) {
 		this.category = category;
+		
 	}
+	
+	
 }
 	
