@@ -9,6 +9,10 @@ public class MainGUI{
 		// reads items from file 
 		menu.readFile(filename);
 		
+		// report
+		//System.out.println();
+	 
+				
 	}
 
 
