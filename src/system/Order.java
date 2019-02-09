@@ -1,10 +1,25 @@
 package system;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Order {
-	
+	public Set<Integer> a;
 	private int orderID;
+	private Timestamp time; 
+	//private Customer customer;
+	private double total;
+	Map<String,Integer> orderItems = new HashMap<String,Integer>();
+	
+	public Order(Timestamp t) {
+		time = t;
+	}
+	
+	public Order() {
+		
+	}
+	
 	public int getOrderID() {
 		return orderID;
 	}
@@ -29,31 +44,23 @@ public class Order {
 		this.total = total;
 	}
 
-	public HashMap<String, Integer> getOrderItems() {
+	public Map<String, Integer> getOrderItems() {
 		return orderItems;
 	}
 
-	public void setOrderItems(HashMap<String, Integer> orderItems) {
-		this.orderItems = orderItems;
-	}
 
-	private Timestamp time; 
-	//private Customer customer;
-	private double total;
-	private HashMap<String,Integer> orderItems;
-	
 	public static void main(String[] args) {
 		System.out.println("Hello World");
 		StaffGUI sgui = new StaffGUI();
 	}
-	
+
 	/**
 	 * Add items order hashmap memory
 	 * @param item containing item name
 	 * @param quantity containing how many of this item have been ordered 
 	 */
-	public void addItem(String item, int quantity ) {
-		orderItems.put(item, quantity);
+	public void addItem(String item, Integer quantity ) {
+		this.orderItems.put(item, quantity);
 	}
 	
 	/**
@@ -63,7 +70,7 @@ public class Order {
 	public void deleteItem(String item) {
 		int quantity = orderItems.get(item);
 		if (quantity>0) {
-			orderItems.put(item, quantity - 1) ;
+			this.orderItems.put(item, quantity - 1) ;
 		}
 	}
 	
@@ -96,4 +103,20 @@ public class Order {
 		return discount;
 	}
 	
+	public String getInvoice() {
+		String item = "Latte";
+		return(String.format("%s           x%d \n %f", item, orderItems.get(item),calculateTotal()));
+	}
+	
+	public boolean equals(Order o) {
+		if (o.getTime().equals(this.getTime())) {
+			return true;
+		}
+		return false;
+	}
+	
+	public int hashCode() {
+		
+		return time.toString().hashCode();
+	}
 }
