@@ -49,7 +49,11 @@ public class Order {
 	}
 
 
-	
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		StaffGUI sgui = new StaffGUI();
+	}
+
 	/**
 	 * Add items order hashmap memory
 	 * @param item containing item name
