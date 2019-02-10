@@ -18,7 +18,9 @@ public class AllOrders {
 		
 	}
 	
-	
+	/**
+	 * Adds new order to map
+	 */
 	public void newOrder() {
 		Date date = new Date();
 		Timestamp time = new Timestamp(date.getTime());
@@ -26,6 +28,10 @@ public class AllOrders {
 		orderMap.put(time, order);
 	}
 	
+	/**
+	 * Read order file
+	 * @param orderFileName
+	 */
 	public void readOrderFile(String orderFileName) {
 		File file = new File(orderFileName);
 		try {
@@ -52,6 +58,11 @@ public class AllOrders {
 		
 	}
 	
+	/**
+	 * Convert time String to Timestamp 
+	 * @param time
+	 * @return Timestamp object
+	 */
 	public Timestamp toTimestamp(String time) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 	    Date parsedDate = null;
@@ -67,11 +78,21 @@ public class AllOrders {
 		return t;
 	}
 	
-	
+	/**
+	 * Get Order object from its time
+	 * @param t Time string to search for order
+	 * @return Order made at provided time
+	 */
 	public Order getOrder(String t) {
 		Timestamp s = toTimestamp(t);
 		return orderMap.get(s);
 	}
 
-	
+	/**
+	 * Getter for order TreeMap
+	 * @return
+	 */
+	public Map<Timestamp, Order> getOrderMap() {
+		return orderMap;
+	}
 }
