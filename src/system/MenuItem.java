@@ -38,7 +38,7 @@ public class MenuItem  implements Comparable<MenuItem> {
 		}
 	//finding hash code 
 			public int hashCode() { 
-				return category.hashCode();
+				return name.hashCode();
 			}
 	
 	// return item number 
