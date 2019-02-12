@@ -36,6 +36,7 @@ public class InvoiceGUI {
 	private JTextField voucher = new JTextField(15);
 	private JButton validate = new JButton("Validate Voucher");
 	private JButton pay = new JButton("Pay");
+	private JButton back = new JButton("Go Back");
 	JLabel title = new JLabel();
 	private final static String newline = "\n";
 	
@@ -54,6 +55,7 @@ public class InvoiceGUI {
 		southPanel.add(voucherPanel);
 		payPanel.setLayout(new BorderLayout(0,0));
 		payPanel.add(pay,BorderLayout.EAST);
+		payPanel.add(back,BorderLayout.WEST);
 		southPanel.add(payPanel);
 		invoiceText.setSize(200, 200);
 		invoiceText.append(this.order.getInvoice());
