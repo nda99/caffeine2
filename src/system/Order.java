@@ -80,7 +80,8 @@ public class Order {
 	 * @return order total price
 	 */
 	public double calculateTotal(String voucher) {
-		double discount = validateDiscount(voucher);
+		double discount = (1-validateDiscount(voucher))*calculateTotal();
+		
 		return discount;
 	}
 	
@@ -89,7 +90,7 @@ public class Order {
 	 * @return order total price
 	 */
 	public double calculateTotal() {
-		double price = 0;
+		double price = 1;
 		return price;
 	}
 	
@@ -99,7 +100,7 @@ public class Order {
 	 * @return discount percentage
 	 */
 	private double validateDiscount(String voucher){
-		double discount = 0;
+		double discount = 0.2;
 		return discount;
 	}
 	
@@ -107,6 +108,12 @@ public class Order {
 		String item = "Latte";
 		return(String.format("%s           x%d \n %f", item, orderItems.get(item),calculateTotal()));
 	}
+	
+	public String getInvoice(String voucher) {
+		String item = "Latte";
+		return(String.format("%s           x%d \n %f", item, orderItems.get(item),calculateTotal(voucher)));
+	}
+	
 	
 	public boolean equals(Order o) {
 		if (o.getTime().equals(this.getTime())) {

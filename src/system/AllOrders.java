@@ -49,7 +49,7 @@ public class AllOrders {
 				 
 				 orderMap.put(timestamp, nOrder);
 			 }
-				System.out.println("Dondoca");
+			 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 		}

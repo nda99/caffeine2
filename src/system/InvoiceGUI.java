@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+
 
 public class InvoiceGUI {
 
@@ -25,6 +28,7 @@ public class InvoiceGUI {
 	private Order order = null;
 	private JFrame invoiceFrame = new JFrame();
 	private JPanel titlePanel = new JPanel();
+	private JPanel payPanel = new JPanel();
 	private JPanel invoicePanel = new JPanel();
 	private JPanel voucherPanel = new JPanel();
 	private JPanel southPanel = new JPanel();
@@ -48,7 +52,9 @@ public class InvoiceGUI {
 		voucherPanel.add(validate);
 		southPanel.setLayout(new GridLayout(2,1));
 		southPanel.add(voucherPanel);
-		southPanel.add(pay);
+		payPanel.setLayout(new BorderLayout(0,0));
+		payPanel.add(pay,BorderLayout.EAST);
+		southPanel.add(payPanel);
 		invoiceText.setSize(200, 200);
 		invoiceText.append(this.order.getInvoice());
 		invoiceText.setEditable(false);
@@ -63,6 +69,14 @@ public class InvoiceGUI {
 		invoiceFrame.add(invoicePanel,BorderLayout.CENTER);
 		invoiceFrame.add(southPanel, BorderLayout.SOUTH);
 		invoiceFrame.setVisible(true);
+		
+		validate.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	double total = order.calculateTotal(voucher.getText());
+		    	
+		    	invoiceText.append(String.format("\n Total with discount: %f", total));
+		      }
+		    });
 	}
 	
 	public static JLabel createOneLabel (String s, int size) {
