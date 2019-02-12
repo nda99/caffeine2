@@ -1,0 +1,31 @@
+item no,item name ,category ,quantity
+1,espresso,hot drink,100
+2,Macchiato,hot drink,95
+3,Latte,hot drink,74
+4,Cappuccino,hot drink,105
+5,Americano,hot drink,115
+6,Mocha,hot drink,96
+7,tea,hot drink,150
+8,flavoured tea,hot drink,100
+9,hot chocolate,hot drink,143
+10,juice ,cold drink,67
+11,smoothie,cold drink,74
+12,bottled water,cold drink,136
+13,lemonade,cold drink,67
+14,coca cola,cold drink,70
+15,fanta,cold drink,67
+16,diet coke,cold drink,78
+17,muffin,Pastries,40
+18,bagel,Pastries,35
+19,tray bake,Pastries,24
+20,croissants,Pastries,26
+21,brownie,Pastries,30
+22,strawberry tart,Pastries,23
+23,fruit tart,Pastries,18
+24,cinnamon roll,Pastries,28
+25,cheese,sandwich,30
+26,ham,sandwich,24
+27,ham and cheese,sandwich,27
+28,BLT,sandwich,32
+29,chicken mayo,sandwich,23
+30,prawn mayo,sandwich,20
