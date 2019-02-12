@@ -152,6 +152,20 @@ try {
 			}
 		}
 		
+		// read stock csv 
+		public void readStock() {
+			Menu stock = new Menu();
+			// declares file path if file is located in diff location not in the same folder
+			String filename = "StockItems.csv";
+			// reads items from file 
+			stock.readFile(filename);
+			
+		
+		 
+					
+		
+		}
+		
 /*			
 		// get in a table 
 //		public String getTableOfItemsInMenu() {
