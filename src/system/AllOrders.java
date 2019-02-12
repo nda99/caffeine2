@@ -92,7 +92,7 @@ public class AllOrders {
 	 * Getter for order TreeMap
 	 * @return
 	 */
-	public Map<Timestamp, Order> getOrderMap() {
+	public static Map<Timestamp, Order> getOrderMap() {
 		return orderMap;
 	}
 }
