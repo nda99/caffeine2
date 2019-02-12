@@ -68,21 +68,42 @@ public class Order {
 	 * @param item Name of item
 	 */
 	public void deleteItem(String item) {
-		int quantity = orderItems.get(item);
-		if (quantity>0) {
-			this.orderItems.put(item, quantity - 1) ;
+		
+		if (orderItems.get(item)!=null) {
+			this.orderItems.put(item, orderItems.get(item) - 1) ;
 		}
 	}
 	
 	/**
-	 * Calculate order total price with discount voucher
+	 * Calculate order total price with discount voucher and special offers
 	 * @param voucher
 	 * @return order total price
 	 */
 	public double calculateTotal(String voucher) {
-		double discount = (1-validateDiscount(voucher))*calculateTotal();
+		double discount = (1-validateDiscount(voucher));
 		
-		return discount;
+		// Order 2 Mochas and get a FREE COOKIE!!!
+		if(orderItems.get("Mocha")>=2) {
+			if(orderItems.get("Cookie")==null) {
+				orderItems.put("Cookie", 1);				
+			}
+			else {
+				orderItems.put("Cookie", orderItems.get("Cookie")+1);
+			}
+		}
+			
+		// Order a brownie and  Mochas and get a FREE COOKIE!!!
+		if(orderItems.get("Mocha")>=2) {
+			if(orderItems.get("Cookie")==null) {
+				orderItems.put("Cookie", 1);				
+			}
+			else {
+				orderItems.put("Cookie", orderItems.get("Cookie")+1);
+			}
+		}
+		
+		
+		return discount*calculateTotal();
 	}
 	
 	/**
@@ -110,8 +131,11 @@ public class Order {
 	}
 	
 	public String getInvoice(String voucher) {
-		String item = "Latte";
-		return(String.format("%s           x%d \n %f", item, orderItems.get(item),calculateTotal(voucher)));
+		String item = "";
+		for (Map.Entry m: orderItems.entrySet()) {
+		item = item + String.format("%s           x%d\n", m.getKey().toString(),m.getValue());
+	}
+		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal(voucher)));
 	}
 	
 	
@@ -122,8 +146,20 @@ public class Order {
 		return false;
 	}
 	
+	public int compareTo(Order o) {
+		return time.compareTo(o.getTime());
+	}
+	
 	public int hashCode() {
 		
 		return time.toString().hashCode();
+	}
+	
+	public String toString() {
+		String items = "";
+		for (Map.Entry m: orderItems.entrySet()) {
+			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
+		}
+		return (String.format("Time: %s Items:%s", time.toString(), items));
 	}
 }
