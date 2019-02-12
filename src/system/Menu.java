@@ -13,7 +13,7 @@ import java.util.Set;
 public class Menu {
 	
 	
-	Set<Category> categorySet = new HashSet<Category>();
+	/* Set<Category> categorySet = new HashSet<Category>();
 
 
 	
@@ -26,7 +26,7 @@ public class Menu {
 		public void deleteCategory(Category category) {
 			categorySet.remove(category);
 		}
-
+*/
 
 		//create the hashset
 		private HashSet<MenuItem> menuItems;
@@ -74,6 +74,11 @@ public void readFile(String filename) {
 		System.out.println("File not found ");
 	}
 }
+/* find menu item by description
+public MenuItem getMenuItem(String name) {
+	return menuItems.get(name.hashCode())
+	
+}*/
 
 private Category translateCategory(String test) {
 	if(test == "hot drink") {
