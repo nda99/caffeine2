@@ -10,7 +10,7 @@ public class Order {
 	private Timestamp time; 
 	//private Customer customer;
 	private double total;
-	Map<String,Integer> orderItems = new HashMap<String,Integer>();
+	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	public Order(Timestamp t) {
 		time = t;
@@ -44,7 +44,7 @@ public class Order {
 		this.total = total;
 	}
 
-	public Map<String, Integer> getOrderItems() {
+	public Map<MenuItem, Integer> getOrderItems() {
 		return orderItems;
 	}
 
@@ -59,9 +59,9 @@ public class Order {
 	 * @param item containing item name
 	 * @param quantity containing how many of this item have been ordered 
 	 */
-	public void addItem(String item, Integer quantity ) {
+	public void addItem(MenuItem item, Integer quantity ) {
 		this.orderItems.put(item, quantity);
-		this.total = total + Menu.getItem(item).getPrice().doubleValue()*quantity;
+		this.total = total + item.getPrice().doubleValue()*quantity;
 		
 	}
 	
@@ -69,7 +69,7 @@ public class Order {
 	 * Removes an item from the order (just subtract one if multiple)
 	 * @param item Name of item
 	 */
-	public void deleteItem(String item) {
+	public void deleteItem(MenuItem item) {
 		
 		if (orderItems.get(item)!=null) {
 			this.orderItems.put(item, orderItems.get(item) - 1) ;
@@ -86,12 +86,12 @@ public class Order {
 		double offer = 0.0;
 		
 		// Order 2 Mochas and get a FREE COOKIE!!!
-		if (orderItems.get("Mocha") != null) {
-			if (orderItems.get("Mocha") >= 2) {
-				if (orderItems.get("Cookie") == null) {
-					orderItems.put("Cookie", 1);
+		if (orderItems.get(Menu.getItem("Mocha")) != null) {
+			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
+				if (orderItems.get(Menu.getItem("Cookie")) == null) {
+					orderItems.put(Menu.getItem("Cookie"), 1);
 				} else {
-					orderItems.put("Cookie", orderItems.get("Cookie") + 1);
+					orderItems.put(Menu.getItem("Cookie"), orderItems.get("Cookie") + 1);
 				}
 			}
 		}
@@ -138,12 +138,12 @@ public class Order {
 		double offer = 0.0;
 		
 		// Order 2 Mochas and get a FREE COOKIE!!!
-		if (orderItems.get("Mocha") != null) {
-			if (orderItems.get("Mocha") >= 2) {
-				if (orderItems.get("Cookie") == null) {
-					orderItems.put("Cookie", 1);
+		if (orderItems.get(Menu.getItem("Mocha")) != null) {
+			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
+				if (orderItems.get(Menu.getItem("Cookie")) == null) {
+					orderItems.put(Menu.getItem("Cookie"), 1);
 				} else {
-					orderItems.put("Cookie", orderItems.get("Cookie") + 1);
+					orderItems.put(Menu.getItem("Cookie"), orderItems.get(Menu.getItem("Cookie")) + 1);
 				}
 			}
 		}

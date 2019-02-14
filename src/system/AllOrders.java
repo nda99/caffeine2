@@ -44,7 +44,7 @@ public class AllOrders {
 				 Order nOrder = new Order(timestamp);
 				 
 				 for (int i=1; i<details.length; i = i+2) {
-					 nOrder.addItem(details[i], Integer.parseInt(details[i+1]));
+					 nOrder.addItem(Menu.getItem(details[i]), Integer.parseInt(details[i+1]));
 				 }
 				 
 				 orderMap.put(timestamp, nOrder);
