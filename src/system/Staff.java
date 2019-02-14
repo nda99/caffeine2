@@ -1,6 +1,6 @@
 package system;
 
-public class Staff {
+public class Staff extends User{
 	
 	protected String fullName;
 	protected String emailAddress;
