@@ -2,21 +2,23 @@ package system;
 
 public class Staff {
 	
-	private String fullName;
-	private String emailAddress;
-	private String userName;
-	private String password;
-	
+	protected String fullName;
+	protected String emailAddress;
+	protected String userName;
+
 	/**
 	 * Staff Constructor 
 	 * **/
-	public Staff(String fullName, String emailAddress, String userName, String password) {
-		super();
+	public Staff(String fullName, String emailAddress, String userName){
 		this.fullName = fullName;
 		this.emailAddress = emailAddress;
 		this.userName = userName;
-		this.password = password;
 	}
+
+	/**
+	 * Staff default constructor
+	 */
+	public Staff(){}
 	
 	//Standard getter and setters
 	public String getFullName() {
@@ -37,15 +39,6 @@ public class Staff {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
-	
-	
-	
 
 }
