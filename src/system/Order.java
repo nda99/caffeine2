@@ -193,6 +193,10 @@ public class Order {
 		return discount;
 	}
 	
+	/**
+	 * Outputs invoice String
+	 * @return Invoice String
+	 */
 	public String getInvoice() {
 		String item = "";
 		for (Map.Entry m: orderItems.entrySet()) {
@@ -201,6 +205,11 @@ public class Order {
 		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal()));
 	}
 	
+	/**
+	 * Outputs invoice String given a voucher code
+	 * @param voucher
+	 * @return Invoice String 
+	 */
 	public String getInvoice(String voucher) {
 		String item = "";
 		for (Map.Entry m: orderItems.entrySet()) {
@@ -209,7 +218,11 @@ public class Order {
 		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal(voucher)));
 	}
 	
-	
+	/**
+	 * Order equals order if their Timestamp objects are equal
+	 * @param o Order to be compared with
+	 * @return
+	 */
 	public boolean equals(Order o) {
 		if (o.getTime().equals(this.getTime())) {
 			return true;
@@ -217,6 +230,11 @@ public class Order {
 		return false;
 	}
 	
+	/**
+	 * Orders are comparable through their Timestamps
+	 * @param o Order to be compared with
+	 * @return
+	 */
 	public int compareTo(Order o) {
 		return time.compareTo(o.getTime());
 	}

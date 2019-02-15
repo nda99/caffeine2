@@ -87,6 +87,15 @@ public class AllOrders {
 		Timestamp s = toTimestamp(t);
 		return orderMap.get(s);
 	}
+	
+	/**
+	 * Get Order object from its timestamp
+	 * @param t Time Timestamp object to get correspondent order
+	 * @return Order made at provided time
+	 */
+	public Order getOrder(Timestamp t) {
+		return orderMap.get(t);
+	}
 
 	/**
 	 * Getter for order TreeMap
