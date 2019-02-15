@@ -22,7 +22,7 @@ public class Login {
         staffFile = csvFile;
         userMap = new HashMap<>();
         String line;
-        String[] userTemp = new String[2];
+        String[] userTemp = new String[4];
         int lineCounter = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
@@ -33,6 +33,8 @@ public class Login {
                 } else{
                     userTemp[0] = user[1];
                     userTemp[1] = user[2];
+                    userTemp[2] = user[3];
+                    userTemp[3] = user[4];
                     userMap.put(user[0], userTemp);
                 }
             }
