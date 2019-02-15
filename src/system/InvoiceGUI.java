@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,13 +15,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 public class InvoiceGUI {
 
 	public static void main(String[] args) {
+		Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, new BigDecimal (1.20, MathContext.DECIMAL64)));
+		Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, new BigDecimal (1.30, MathContext.DECIMAL64)));
+		Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, new BigDecimal (1.50, MathContext.DECIMAL64)));
+		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, new BigDecimal (1.40, MathContext.DECIMAL64)));
+		Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, new BigDecimal (2.30, MathContext.DECIMAL64)));
+		Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK, new BigDecimal (0.70, MathContext.DECIMAL64)));
+		Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, new BigDecimal (2.10, MathContext.DECIMAL64)));
 		AllOrders orders = new AllOrders();
 		orders.readOrderFile("D:\\Software Engineering\\caffeine\\orders.csv");
+	      for(Map.Entry m:orders.getOrderMap().entrySet()){    
+	          System.out.println(m.toString());    
+	         }    
+	      
+	      orders.getOrder("2016-12-20 13:35:07.597").deleteItem(Menu.getItem("Yogurt"));
 		InvoiceGUI iGui = new InvoiceGUI(orders.getOrder("2017-11-01 21:31:04.971"));
 		iGui.displayGUI();
 	}
@@ -76,7 +90,7 @@ public class InvoiceGUI {
 		    public void actionPerformed(ActionEvent e) {
 		    	double total = order.calculateTotal(voucher.getText());
 		    	
-		    	invoiceText.append(String.format("\n Total with discount: %f", total));
+		    	invoiceText.setText(order.getInvoice(voucher.getText()));
 		      }
 		    });
 	}

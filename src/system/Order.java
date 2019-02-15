@@ -10,7 +10,7 @@ public class Order {
 	private Timestamp time; 
 	//private Customer customer;
 	private double total;
-	Map<String,Integer> orderItems = new HashMap<String,Integer>();
+	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	public Order(Timestamp t) {
 		time = t;
@@ -37,14 +37,16 @@ public class Order {
 	}
 
 	public double getTotal() {
-		return total;
+		return total=0.0;
 	}
 
 	public void setTotal(double total) {
 		this.total = total;
 	}
 //DONT FORGET TO CHANGE STRING TO MENUITEM
-	public Map<String, Integer> getOrderItems() {
+
+
+	public Map<MenuItem, Integer> getOrderItems() {
 		return orderItems;
 	}
 
@@ -55,34 +57,79 @@ public class Order {
 	}
 
 	/**
-	 * Add items order hashmap memory
+	 * Add items order hashmap memory and copmputes their total price
 	 * @param item containing item name
 	 * @param quantity containing how many of this item have been ordered 
 	 */
-	public void addItem(String item, Integer quantity ) {
+	public void addItem(MenuItem item, Integer quantity ) {
 		this.orderItems.put(item, quantity);
+		this.total = total + item.getPrice().doubleValue()*quantity;
+		
 	}
 	
 	/**
 	 * Removes an item from the order (just subtract one if multiple)
 	 * @param item Name of item
 	 */
-	public void deleteItem(String item) {
-		int quantity = orderItems.get(item);
-		if (quantity>0) {
-			this.orderItems.put(item, quantity - 1) ;
+	public void deleteItem(MenuItem item) {
+		
+		if (orderItems.get(item)!=null) {
+			this.orderItems.put(item, orderItems.get(item) - 1) ;
 		}
 	}
 	
 	/**
-	 * Calculate order total price with discount voucher
+	 * Calculate order total price with discount voucher and special offers
 	 * @param voucher
 	 * @return order total price
 	 */
 	public double calculateTotal(String voucher) {
-		double discount = (1-validateDiscount(voucher))*calculateTotal();
+		double discount = (1-validateDiscount(voucher));
+		double offer = 0.0;
 		
-		return discount;
+		// Order 2 Mochas and get a FREE COOKIE!!!
+		if (orderItems.get(Menu.getItem("Mocha")) != null) {
+			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
+				if (orderItems.get(Menu.getItem("Cookie")) == null) {
+					orderItems.put(Menu.getItem("Cookie"), 1);
+				} else {
+					orderItems.put(Menu.getItem("Cookie"), orderItems.get("Cookie") + 1);
+				}
+			}
+		}
+		// Order a brownie and get your Latte for half price!!!
+		if (orderItems.get("Brownie") != null) {
+			if (orderItems.get("Brownie") >= 1) {
+				if (orderItems.get("Latte") != null) {
+					offer = offer + (double) Menu.getItem("Latte").getPrice().doubleValue();
+				}
+			}
+		}
+		
+		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
+		boolean cold=false, sand=false, pastry=false;
+		double cPrice=0.0, sPrice=0.0, pPrice=0.0;
+		for (Map.Entry m: orderItems.entrySet()) {
+			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.COLDDRINK) {
+				cold=true;
+				cPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+			}
+			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.SANDWICH) {
+				sand=true;
+				sPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+			}
+
+			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.PASTRIES) {
+				pPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+				pastry=true;
+			}
+		}
+		
+		if(cold && sand && pastry) {
+			offer = pPrice + cPrice + pPrice - 5.0;
+		}
+		
+		return discount*total - offer;
 	}
 	
 	/**
@@ -90,8 +137,49 @@ public class Order {
 	 * @return order total price
 	 */
 	public double calculateTotal() {
-		double price = 1;
-		return price;
+		double offer = 0.0;
+		
+		// Order 2 Mochas and get a FREE COOKIE!!!
+		if (orderItems.get(Menu.getItem("Mocha")) != null) {
+			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
+				if (orderItems.get(Menu.getItem("Cookie")) == null) {
+					orderItems.put(Menu.getItem("Cookie"), 1);
+				} else {
+					orderItems.put(Menu.getItem("Cookie"), orderItems.get(Menu.getItem("Cookie")) + 1);
+				}
+			}
+		}
+		// Order a brownie and get your Latte for half price!!!
+		if (orderItems.get("Brownie") != null) {
+			if (orderItems.get("Brownie") >= 1) {
+				if (orderItems.get("Latte") != null) {
+					offer = offer + (double) Menu.getItem("Latte").getPrice().doubleValue();
+				}
+			}
+		}
+		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
+		boolean cold=false, sand=false, pastry=false;
+		double cPrice=0.0, sPrice=0.0, pPrice=0.0;
+		for (Map.Entry m: orderItems.entrySet()) {
+			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.COLDDRINK) {
+				cold=true;
+				cPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+			}
+			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.SANDWICH) {
+				sand=true;
+				sPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+			}
+
+			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.PASTRIES) {
+				pPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+				pastry=true;
+			}
+		}
+		
+		if(cold && sand && pastry) {
+			offer = pPrice + cPrice + pPrice - 5.0;
+		}
+		return total - offer;
 	}
 	
 	/**
@@ -105,13 +193,19 @@ public class Order {
 	}
 	
 	public String getInvoice() {
-		String item = "Latte";
-		return(String.format("%s           x%d \n %f", item, orderItems.get(item),calculateTotal()));
+		String item = "";
+		for (Map.Entry m: orderItems.entrySet()) {
+		item = item + String.format("%s           x%d\n", m.getKey().toString(),m.getValue());
+	}
+		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal()));
 	}
 	
 	public String getInvoice(String voucher) {
-		String item = "Latte";
-		return(String.format("%s           x%d \n %f", item, orderItems.get(item),calculateTotal(voucher)));
+		String item = "";
+		for (Map.Entry m: orderItems.entrySet()) {
+		item = item + String.format("%s           x%d\n", m.getKey().toString(),m.getValue());
+	}
+		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal(voucher)));
 	}
 	
 	
@@ -122,8 +216,20 @@ public class Order {
 		return false;
 	}
 	
+	public int compareTo(Order o) {
+		return time.compareTo(o.getTime());
+	}
+	
 	public int hashCode() {
 		
 		return time.toString().hashCode();
+	}
+	
+	public String toString() {
+		String items = "";
+		for (Map.Entry m: orderItems.entrySet()) {
+			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
+		}
+		return (String.format("Time: %s Items:%s", time.toString(), items));
 	}
 }
