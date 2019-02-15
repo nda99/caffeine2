@@ -52,25 +52,25 @@ public class SummaryReport extends JFrame implements ActionListener{
 
         for (Map.Entry<Timestamp,Order> entry : ordersMap.entrySet())  
         {
-        	//Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
-        	Map<String,Integer> items = entry.getValue().getOrderItems();
+        	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
+        //	Map<String,Integer> items = entry.getValue().getOrderItems();
         	System.out.println("order ++");
-        	//for (MenuItem item:items.keySet())
-        	for (String item:items.keySet())
+        	for (MenuItem item:items.keySet())
+        	//for (String item:items.keySet())
         	{
         		System.out.println("item ++");
         		//if(itemsIncome.containsKey(item.getName())) {
-        		if(itemsIncome.containsKey(item)) {
+        		if(itemsIncome.containsKey(item.getName())) {
         			//cntr = itemsIncome.get(item.getName());
-        			int temp = itemsIncome.get(item);
+        			int temp = itemsIncome.get(item.getName());
         			temp ++;
-        			//itemsIncome.replace(item.getName(), cntr++);
-        			itemsIncome.replace(item,temp);
+        			itemsIncome.replace(item.getName(), temp);
+        			//itemsIncome.replace(item,temp);
         		}
         		else
         		{
-        		//itemsIncome.put(item.getName(),cntr++ );
-        			itemsIncome.put(item, 1);
+        			itemsIncome.put(item.getName(),1);
+        			//itemsIncome.put(item, 1);
         		}
         	}
         	
@@ -111,7 +111,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 		JLabel label5 ;
 		for (String item : itemsIncome.keySet())
 		{
-			label3 = new JLabel(item);
+			 label3 = new JLabel(item);
 			 label4 = new JLabel(itemsIncome.get(item).toString());
 			 label5 = new JLabel("number");
 			centralPanel.add(label3);
