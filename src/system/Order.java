@@ -43,6 +43,8 @@ public class Order {
 	public void setTotal(double total) {
 		this.total = total;
 	}
+//DONT FORGET TO CHANGE STRING TO MENUITEM
+
 
 	public Map<MenuItem, Integer> getOrderItems() {
 		return orderItems;
@@ -51,7 +53,7 @@ public class Order {
 
 	public static void main(String[] args) {
 		System.out.println("Hello World");
-		StaffGUI sgui = new StaffGUI();
+		//StaffGUI sgui = new StaffGUI();
 	}
 
 	/**
