@@ -30,8 +30,6 @@ public class SummaryReport extends JFrame implements ActionListener{
 	JPanel centralPanel = new JPanel();
 	JPanel westPanel = new JPanel();
 	JPanel eastPanel = new JPanel();
-
-
 	JLabel label = new JLabel("ItemID");
 	JLabel label1 = new JLabel("Times Ordered");
 	JLabel label2 = new JLabel("Price*Qty");
