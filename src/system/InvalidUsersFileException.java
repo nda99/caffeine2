@@ -8,10 +8,10 @@ public class InvalidUsersFileException extends Exception {
         System.out.println("Invalid users file : "+ message);
     }
     public InvalidUsersFileException(int lineCounter){
-        if(lineCounter > 3){
+        if(lineCounter > 5){
             System.out.println("too many attributes in line " + lineCounter);
         }
-        else if (lineCounter < 3){
+        else if (lineCounter < 5){
             System.out.println("missing attribute in line " + lineCounter);
         }
     }
