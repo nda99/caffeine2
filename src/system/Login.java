@@ -35,7 +35,7 @@ public class Login {
                     userTemp[1] = user[2];
                     userTemp[2] = user[3];
                     userTemp[3] = user[4];
-                    userMap.put(user[0], userTemp);
+                    userMap.put(user[0], userTemp.clone());
                 }
             }
         } catch (IOException e) {
@@ -63,8 +63,9 @@ public class Login {
      * @param password password only a SHA 256 of the password is stored, not the password itself
      * @param position staff or manager
      * @throws UserNameAlreadyTakenException
+     * @return true if successful, false if not
      */
-    public void register(String userName, String password, String position,
+    public boolean register(String userName, String password, String position,
                          String fullName, String emailAddress) throws UserNameAlreadyTakenException {
         String[] value;
         value = userMap.get(userName);
@@ -85,8 +86,10 @@ public class Login {
                 userStream.close();
             }catch (IOException e){
                 e.printStackTrace();
+                return false;
             }
         }
+        return true;
     }
 
     /**
