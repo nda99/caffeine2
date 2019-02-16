@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -34,9 +35,24 @@ public class InvoiceGUI {
 	          System.out.println(m.toString());    
 	         }    
 	      
-	      orders.getOrder("2016-12-20 13:35:07.597").deleteItem(Menu.getItem("Yogurt"));
-		InvoiceGUI iGui = new InvoiceGUI(orders.getOrder("2017-11-01 21:31:04.971"));
+	      System.out.println(orders.getNextOrder().toString());
+	      
+	      try {
+			orders.getOrder("42016-12-20 13:35:07.597").deleteItem(Menu.getItem("Yogurt"));
+		} catch (nullOrderException e) {
+			System.out.println(e.toString());
+			// TODO Auto-generated catch block
+		}
+		InvoiceGUI iGui = null;
+		try {
+			iGui = new InvoiceGUI(orders.getOrder("42017-11-01 21:31:04.971"));
+
+		} catch (nullOrderException e) {
+			iGui = new InvoiceGUI();
+		}
+		
 		iGui.displayGUI();
+		System.out.println(orders.getNextOrder().toString());
 	}
 	
 	private Order order = null;
@@ -60,6 +76,11 @@ public class InvoiceGUI {
 		
 	}
 	
+	public InvoiceGUI()
+	{
+
+	}
+	
 	public void displayGUI() {
 		title = createOneLabel("Invoice details:",18);
 		titlePanel.add(title);
@@ -72,7 +93,12 @@ public class InvoiceGUI {
 		payPanel.add(back,BorderLayout.WEST);
 		southPanel.add(payPanel);
 		invoiceText.setSize(200, 200);
-		invoiceText.append(this.order.getInvoice());
+		if(order!=null) {
+		invoiceText.append(order.getInvoice());
+		}
+		else {
+			invoiceText.append("NULL ORDER");
+		}
 		invoiceText.setEditable(false);
 		invoicePanel.setSize(250,250);
 		invoicePanel.add(invoiceText);
@@ -88,13 +114,21 @@ public class InvoiceGUI {
 		
 		validate.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+		    	if(order!=null) {
 		    	double total = order.calculateTotal(voucher.getText());
 		    	
 		    	invoiceText.setText(order.getInvoice(voucher.getText()));
+		    	}
 		      }
 		    });
 	}
 	
+	/**
+	 * Method to create a Label for the GUI
+	 * @param s
+	 * @param size
+	 * @return
+	 */
 	public static JLabel createOneLabel (String s, int size) {
 		Font f = new Font(Font.SANS_SERIF, Font.BOLD, size);
 		JLabel label= new JLabel(s, JLabel.CENTER);
@@ -102,5 +136,13 @@ public class InvoiceGUI {
 		label.setOpaque(true);
 		return label;
 		}
+	
+	public void displayFileError() {
+		
+		JOptionPane.showMessageDialog(invoiceFrame,
+			    "Oops! Something went wrong with your file, please try again.",
+			    "I/O Error :(",
+			    JOptionPane.ERROR_MESSAGE);
+	}
 	
 }

@@ -20,13 +20,6 @@ public class Order {
 		
 	}
 	
-	public int getOrderID() {
-		return orderID;
-	}
-
-	public void setOrderID(int orderID) {
-		this.orderID = orderID;
-	}
 
 	public Timestamp getTime() {
 		return time;
@@ -58,6 +51,14 @@ public class Order {
 	}
 		
 
+	public int getItemQuantity(MenuItem i) {
+		return orderItems.get(i);
+	}
+	
+	public int getItemQuantity(String i) {
+		return orderItems.get(Menu.getItem(i));
+	}
+	
 	/**
 	 * Add items order hashmap memory and copmputes their total price
 	 * @param item containing item name
@@ -68,6 +69,14 @@ public class Order {
 		this.total = total + item.getPrice().doubleValue()*quantity;
 		
 	}
+	
+	public void addItem(String item, Integer quantity ) {
+		
+		this.orderItems.put(Menu.getItem(item), quantity);
+		this.total = total + Menu.getItem(item).getPrice().doubleValue()*quantity;
+		
+	}
+	
 	
 	/**
 	 * Removes an item from the order (just subtract one if multiple)
@@ -95,15 +104,15 @@ public class Order {
 				if (orderItems.get(Menu.getItem("Cookie")) == null) {
 					orderItems.put(Menu.getItem("Cookie"), 1);
 				} else {
-					orderItems.put(Menu.getItem("Cookie"), orderItems.get("Cookie") + 1);
+					orderItems.put(Menu.getItem("Cookie"), orderItems.get(Menu.getItem("Cookie")) + 1);
 				}
 			}
 		}
 		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get("Brownie") != null) {
-			if (orderItems.get("Brownie") >= 1) {
-				if (orderItems.get("Latte") != null) {
-					offer = offer + (double) Menu.getItem("Latte").getPrice().doubleValue();
+		if (orderItems.get(Menu.getItem("Brownie")) != null) {
+			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
+				if (orderItems.get(Menu.getItem("Latte")) != null) {
+					offer = offer + (double) Menu.getItem("Latte").getPrice().doubleValue()*0.5;
 				}
 			}
 		}
@@ -128,7 +137,7 @@ public class Order {
 		}
 		
 		if(cold && sand && pastry) {
-			offer = pPrice + cPrice + pPrice - 5.0;
+			offer = discount*(pPrice + cPrice + sPrice) - 5.99;
 		}
 		
 		return discount*total - offer;
@@ -152,13 +161,14 @@ public class Order {
 			}
 		}
 		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get("Brownie") != null) {
-			if (orderItems.get("Brownie") >= 1) {
-				if (orderItems.get("Latte") != null) {
-					offer = offer + (double) Menu.getItem("Latte").getPrice().doubleValue();
+		if (orderItems.get(Menu.getItem("Brownie")) != null) {
+			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
+				if (orderItems.get(Menu.getItem("Latte")) != null) {
+					offer = offer + (double) Menu.getItem("Latte").getPrice().doubleValue()*0.5;
 				}
 			}
 		}
+		
 		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
 		boolean cold=false, sand=false, pastry=false;
 		double cPrice=0.0, sPrice=0.0, pPrice=0.0;
@@ -179,7 +189,7 @@ public class Order {
 		}
 		
 		if(cold && sand && pastry) {
-			offer = pPrice + cPrice + pPrice - 5.0;
+			offer = pPrice + cPrice + sPrice - 5.99;
 		}
 		return total - offer;
 	}

@@ -7,12 +7,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.TreeMap;
 
 public class AllOrders {
 
-	private static Map<Timestamp, Order> orderMap = new TreeMap<Timestamp,Order>();
+	private static TreeMap<Timestamp, Order> orderMap = new TreeMap<Timestamp,Order>();
 
 	public AllOrders() {
 		
@@ -29,7 +30,7 @@ public class AllOrders {
 	}
 	
 	/**
-	 * Read order file
+	 * Reads order file
 	 * @param orderFileName
 	 */
 	public void readOrderFile(String orderFileName) {
@@ -59,7 +60,7 @@ public class AllOrders {
 	}
 	
 	/**
-	 * Convert time String to Timestamp 
+	 * Converts time in String to Timestamp 
 	 * @param time
 	 * @return Timestamp object
 	 */
@@ -83,25 +84,50 @@ public class AllOrders {
 	 * @param t Time string to search for order
 	 * @return Order made at provided time
 	 */
-	public Order getOrder(String t) {
+	public Order getOrder(String t) throws nullOrderException{
 		Timestamp s = toTimestamp(t);
+		if (orderMap.get(s)==null) {throw new nullOrderException(t);}
 		return orderMap.get(s);
 	}
 	
 	/**
-	 * Get Order object from its timestamp
+	 * Get Order object from its Timestamp
 	 * @param t Time Timestamp object to get correspondent order
 	 * @return Order made at provided time
 	 */
 	public Order getOrder(Timestamp t) {
 		return orderMap.get(t);
 	}
-
+	
+	/**
+	 * Gets the next order on the queue (oldest) 
+	 * @return Next order to process
+	 */
+	public Order getNextOrder() {
+		
+		Entry<Timestamp,Order> ent = orderMap.firstEntry();
+		
+		return ent.getValue();
+	}
+	
+	/**
+	 * Gets the next order on the queue (by comparing with time of current order) 
+	 * @param t Timestamp of current order
+	 * @return Next order to be processed
+	 */
+	public Order getNextOrder(Timestamp t) {
+		
+		Entry<Timestamp,Order> ent = orderMap.higherEntry(t);
+		
+		return ent.getValue();
+	}
+	
+	
 	/**
 	 * Getter for order TreeMap
 	 * @return
 	 */
-	public static Map<Timestamp, Order> getOrderMap() {
+	public static TreeMap<Timestamp, Order> getOrderMap() {
 		return orderMap;
 	}
 }
