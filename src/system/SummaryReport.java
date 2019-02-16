@@ -12,36 +12,44 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import javafx.scene.control.DatePicker;
 
 public class SummaryReport extends JFrame implements ActionListener{
-	//private AllOrders orders = new AllOrders();
 	
 	private Map<Timestamp,Order> ordersMap = AllOrders.getOrderMap();
-	JFrame frame = new JFrame();
-	JButton print = new JButton("Print");
-	JPanel northPanel = new JPanel();
-	JPanel centralPanel = new JPanel();
-	JPanel westPanel = new JPanel();
-	JPanel eastPanel = new JPanel();
-	JLabel label = new JLabel("ItemID");
-	JLabel label1 = new JLabel("Times Ordered");
-	JLabel label2 = new JLabel("Price*Qty");
-	HashMap<String,Integer> itemsIncome = new HashMap<String,Integer>();
-
-	//JLabel label3 = new JLabel("total");
+	private JFrame frame = new JFrame();
+	private JButton print = new JButton("Print");
+	private JButton view = new JButton("View");
+	private JTextField dateFrom= new JTextField(10);
+	private JTextField dateTo= new JTextField(10);
+	private JPanel northPanel = new JPanel();
+	private JPanel centralPanel = new JPanel();
+	private JPanel westPanel = new JPanel();
+	private JPanel eastPanel = new JPanel();
+/*	private JLabel label = new JLabel("ItemID");
+	private JLabel label1 = new JLabel("Times Ordered");
+	private JLabel label2 = new JLabel("Price*Qty");*/
+	private HashMap<String,Integer> itemsIncome = new HashMap<String,Integer>();
 	
 	
 	public SummaryReport()
 	{AllOrders temp = new AllOrders();
+
 	temp.readOrderFile("orders.csv");
 	}
+	
+	
 	
 	public HashMap<String,Integer> calculateStatistics()
 	{
@@ -51,24 +59,18 @@ public class SummaryReport extends JFrame implements ActionListener{
         for (Map.Entry<Timestamp,Order> entry : ordersMap.entrySet())  
         {
         	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
-        //	Map<String,Integer> items = entry.getValue().getOrderItems();
         	System.out.println("order ++");
         	for (MenuItem item:items.keySet())
-        	//for (String item:items.keySet())
         	{
         		System.out.println("item ++");
-        		//if(itemsIncome.containsKey(item.getName())) {
         		if(itemsIncome.containsKey(item.getName())) {
-        			//cntr = itemsIncome.get(item.getName());
         			int temp = itemsIncome.get(item.getName());
         			temp ++;
         			itemsIncome.replace(item.getName(), temp);
-        			//itemsIncome.replace(item,temp);
         		}
         		else
         		{
         			itemsIncome.put(item.getName(),1);
-        			//itemsIncome.put(item, 1);
         		}
         	}
         	
@@ -78,6 +80,11 @@ public class SummaryReport extends JFrame implements ActionListener{
         System.out.println("Done");
         return itemsIncome;
         
+	}
+	
+	public void calculateOrdersIncome()
+	{
+		
 	}
 	
 	public void printSummaryReport()
@@ -104,71 +111,130 @@ public class SummaryReport extends JFrame implements ActionListener{
 	public void viewSummaryReport()
 	{
 		calculateStatistics();
-		JLabel label3 ;
-		JLabel label4 ;
-		JLabel label5 ;
-		for (String item : itemsIncome.keySet())
+		String[] columnNames = {"ItemID",
+                "Times Ordered",
+                "Price*Qty"};
+		Object[][] data = new Object[itemsIncome.keySet().size()][3] ;
+		for (Object obj : data)
 		{
-			 label3 = new JLabel(item);
-			 label4 = new JLabel(itemsIncome.get(item).toString());
-			 label5 = new JLabel("number");
-			centralPanel.add(label3);
-			centralPanel.add(label4);
-			centralPanel.add(label5);
+			for (String item : itemsIncome.keySet())
+			{
+				String[] itemDetails = new String[3];
+				 itemDetails[0] = item;
+				 itemDetails[1] = itemsIncome.get(item).toString();
+				 double total = Menu.getItem(item).getPrice().doubleValue() * itemsIncome.get(item);
+				 itemDetails[1] = Double.toString(total);
+				 obj = itemDetails;
+			}
 		}
 		
+		JTable table = new JTable(data, columnNames);
+		JScrollPane scrollPane = new JScrollPane(table);
+		frame.add(scrollPane);
+
 
 
 		
 	}
 	
-	public void buildGUI()
+	private void setupNorthPanel()
 	{
-		frame.setTitle("Caffiene App");
-		frame.setSize(500,700);
-	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setLocation(300,500);
-		//  Container con = frame.getContentPane();
-		 centralPanel.setBackground(Color.WHITE);
-
-		frame.setVisible(true);
-		frame.setLayout(new BorderLayout(10, 10));
+		//North Panel has two sub panels, a: is for the title, b: is for the filtering by date and print
+		JPanel a = new JPanel();
+		JPanel b = new JPanel();
+		//Setting up A panel
+		a.setLayout(new BorderLayout(10,10));
 		JLabel title;
 		title = new JLabel(" ** Summary Report ** ", JLabel.CENTER);
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 		title.setFont(titleFont);
+		a.add(title,BorderLayout.CENTER);
+		//Setting up B panel
+		b.setLayout(new GridLayout(1,6,5,5));
+		print.addActionListener(this);
+		view.addActionListener(this);
+		b.add(new JLabel("From: "));
+		b.add(dateFrom);
+		b.add(new JLabel("To: "));
+		b.add(dateTo);
+		b.add(view);
+		b.add(print);
+		//Adding both panels to the north panel
 		northPanel.setLayout(new GridLayout(2,1));
+		northPanel.add(a);
+		northPanel.add(b);
+		//Adding north panel to the main frame
+		frame.add(northPanel, BorderLayout.NORTH);
+		
+	}
+	private void setupCentralPanel()
+	{
+		 centralPanel.setBackground(Color.WHITE);
+		 centralPanel.setLayout(new BorderLayout(10,10));
+		 viewSummaryReport();
+		 String[] columnNames = {"First Name",
+                 "Last Name",
+                 "Sport",
+                 "# of Years",
+                 "Vegetarian"};
+		 Object[][] data = {
+				    {"Kathy", "Smith",
+				     "Snowboarding", new Integer(5), new Boolean(false)},
+				    {"John", "Doe",
+				     "Rowing", new Integer(3), new Boolean(true)},
+				    {"Sue", "Black",
+				     "Knitting", new Integer(2), new Boolean(false)},
+				    {"Jane", "White",
+				     "Speed reading", new Integer(20), new Boolean(true)},
+				    {"Joe", "Brown",
+				     "Pool", new Integer(10), new Boolean(false)}
+				};
+		 JTable table = new JTable(data, columnNames);
+			System.out.print("displaying summary report");
+
+		 JScrollPane scrollPane = new JScrollPane(table);
+		 table.setFillsViewportHeight(true);
+		 centralPanel.add(scrollPane);
+		 frame.add(centralPanel, BorderLayout.CENTER);
+
+
+
+	}
+	
+	public void buildGUI()
+	{
+		//Setting up the main frame 
+		frame.setLayout(new BorderLayout(10, 10));
+		frame.setTitle("Caffiene App");
+		frame.setSize(600,700);
+	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setLocation(300,500);
+		frame.setVisible(true);
+
+		//Adding central panel to the main frame through the setupCentralPanel method
+		setupCentralPanel();
+		//Adding north panel to the main frame through the setupNorthPanel method
+		setupNorthPanel();
+		//Adding east and west panels to the main frame
 		frame.add(eastPanel,BorderLayout.EAST);
 		frame.add(westPanel,BorderLayout.WEST);
-
-		northPanel.add(title);
-		print.addActionListener(this);
-		northPanel.add(print);
-
-		
-		frame.add(northPanel, BorderLayout.NORTH);
-		centralPanel.setLayout(new GridLayout(0,3));
-		JTable table = new JTable(5,3);
-		centralPanel.add(label);
-		centralPanel.add(label1);
-		centralPanel.add(label2);
-		//centralPanel.add(label3);
-		
-
-		frame.add(centralPanel, BorderLayout.CENTER);
-		viewSummaryReport();
-		
-		
+				
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
+		// Action taken once 'Print' button is clicked
 		if(event.getSource() == print)
 		{
 			System.out.print("creating csv file");
 
 			printSummaryReport();
+		}
+		// Action taken once 'View' button is clicked
+
+		if(event.getSource() == view)
+		{
+			setupCentralPanel();
 		}
 		
 	}
