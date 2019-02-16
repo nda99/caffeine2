@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class Menu {
 
 
 		//create the hashset
-		private HashSet<MenuItem> menuItems;
+		private HashMap<String,MenuItem> menuItems;
 			
 
 			

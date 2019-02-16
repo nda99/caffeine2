@@ -8,9 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -18,7 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 
-public class MenuGUI extends JFrame implements ActionListener{
+public class MenuGUI extends JFrame implements ActionListener, ItemListener{
 	public static void main(String[] args) {
 		Menu menu = new Menu();
 		// declares file path if file is located in diff location not in the same folder
@@ -27,6 +33,14 @@ public class MenuGUI extends JFrame implements ActionListener{
 		menu.readFile(filename);
 		
 		//MenuGUI component
+		//create menubar
+		private JMenuBar createMenuBar() {
+			
+			
+		}
+		private JMenu menu, submenu;
+		private JMenuItem munuItem;
+		
 		private JFrame frame = new JFrame();
 		private JPanel centrePanel = new JPanel();
 		private JPanel northPanel = new JPanel();
@@ -57,12 +71,29 @@ public class MenuGUI extends JFrame implements ActionListener{
 		private JButton Sandwiches = new JButton("Sandwiches");
 		private JButton Checkout = new JButton("Checkout");
 		
+		private final static String newline = "\n";
+		
+		public MenuGUI() {
+			buildMenuGUI()
+		}
+		
+		public void buildMenuGUI() {
+			title = createLable("")
+		}
 		
 		// report
 		//System.out.println();
 	 
 				
+	
 	}
 
 
+	public static JLabel createOneLabel (String s, int size) {
+		Font f = new Font(Font.SANS_SERIF, Font.BOLD, size);
+		JLabel label= new JLabel(s, JLabel.CENTER);
+		label.setFont(f);
+		label.setOpaque(true);
+		return label;
+		}
 }
