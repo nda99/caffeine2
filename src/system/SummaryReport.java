@@ -3,7 +3,6 @@ package system;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
@@ -22,8 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
-import javafx.scene.control.DatePicker;
 
 public class SummaryReport extends JFrame implements ActionListener{
 	
@@ -37,49 +33,55 @@ public class SummaryReport extends JFrame implements ActionListener{
 	private JPanel centralPanel = new JPanel();
 	private JPanel westPanel = new JPanel();
 	private JPanel eastPanel = new JPanel();
+	private String from;
+	private String to;
 /*	private JLabel label = new JLabel("ItemID");
 	private JLabel label1 = new JLabel("Times Ordered");
 	private JLabel label2 = new JLabel("Price*Qty");*/
 	private HashMap<String,Integer> itemsIncome = new HashMap<String,Integer>();
+	AllOrders temp = new AllOrders();
 	
 	
 	public SummaryReport()
-	{AllOrders temp = new AllOrders();
+	{
+		 temp.readOrderFile("orders.csv");
 
-	temp.readOrderFile("orders.csv");
 	}
 	
 	
 	
-	public HashMap<String,Integer> calculateStatistics()
+	public HashMap<String,Integer> calculateStatistics(String from,String to)
 	{
-		// Calculate frequency analysis for items
 		System.out.println(ordersMap);
-
-        for (Map.Entry<Timestamp,Order> entry : ordersMap.entrySet())  
-        {
-        	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
-        	System.out.println("order ++");
-        	for (MenuItem item:items.keySet())
-        	{
-        		System.out.println("item ++");
-        		if(itemsIncome.containsKey(item.getName())) {
-        			int temp = itemsIncome.get(item.getName());
-        			temp ++;
-        			itemsIncome.replace(item.getName(), temp);
-        		}
-        		else
-        		{
-        			itemsIncome.put(item.getName(),1);
-        		}
-        	}
-        	
-        	
-        	
-        }
-        System.out.println("Done");
-        return itemsIncome;
-        
+		  // Calculate frequency analysis for items
+		    for (Map.Entry<Timestamp,Order> entry : ordersMap.entrySet())  
+		    {
+		    	if(entry.getKey().after(temp.toTimestamp(from)) && entry.getKey().before(temp.toTimestamp(to)))
+		    	{
+		        	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
+		        	System.out.println("order ++");
+		        	for (MenuItem item:items.keySet())
+		        	{
+		        		System.out.println("item ++");
+		        		if(itemsIncome.containsKey(item.getName())) {
+		        			int temp = itemsIncome.get(item.getName());
+		        			temp ++;
+		        			itemsIncome.replace(item.getName(), temp);
+		        		}
+		        		else
+		        		{
+		        			itemsIncome.put(item.getName(),1);
+		        		}
+		        	}
+		    	}
+		    	
+		    	
+		    	
+		    }		
+		
+		  System.out.println("Done");
+	        return itemsIncome;
+	      
 	}
 	
 	public void calculateOrdersIncome()
@@ -108,9 +110,9 @@ public class SummaryReport extends JFrame implements ActionListener{
 		    }
 	}
 	
-	public void viewSummaryReport()
+	public void viewSummaryReport(String from, String to)
 	{
-		calculateStatistics();
+		calculateStatistics(from,to);
 		String[] columnNames = {"ItemID",
                 "Times Ordered",
                 "Price*Qty"};
@@ -171,7 +173,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 	{
 		 centralPanel.setBackground(Color.WHITE);
 		 centralPanel.setLayout(new BorderLayout(10,10));
-		 viewSummaryReport();
+		 viewSummaryReport(to,from);
 		 String[] columnNames = {"First Name",
                  "Last Name",
                  "Sport",
@@ -234,6 +236,8 @@ public class SummaryReport extends JFrame implements ActionListener{
 
 		if(event.getSource() == view)
 		{
+			from = dateFrom.getText();
+			to = dateTo.getText();
 			setupCentralPanel();
 		}
 		
