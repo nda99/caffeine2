@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,12 +15,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 public class InvoiceGUI {
 
 	public static void main(String[] args) {
+		Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, new BigDecimal (1.20, MathContext.DECIMAL64)));
+		Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, new BigDecimal (1.30, MathContext.DECIMAL64)));
+		Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, new BigDecimal (1.50, MathContext.DECIMAL64)));
+		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, new BigDecimal (1.40, MathContext.DECIMAL64)));
+		Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, new BigDecimal (2.30, MathContext.DECIMAL64)));
+		Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK, new BigDecimal (0.70, MathContext.DECIMAL64)));
+		Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, new BigDecimal (2.10, MathContext.DECIMAL64)));
 		AllOrders orders = new AllOrders();
 		orders.readOrderFile("D:\\Software Engineering\\caffeine\\orders.csv");
+	      for(Map.Entry m:orders.getOrderMap().entrySet()){    
+	          System.out.println(m.toString());    
+	         }    
+	      
+	      orders.getOrder("2016-12-20 13:35:07.597").deleteItem(Menu.getItem("Yogurt"));
 		InvoiceGUI iGui = new InvoiceGUI(orders.getOrder("2017-11-01 21:31:04.971"));
 		iGui.displayGUI();
 	}
@@ -25,6 +42,7 @@ public class InvoiceGUI {
 	private Order order = null;
 	private JFrame invoiceFrame = new JFrame();
 	private JPanel titlePanel = new JPanel();
+	private JPanel payPanel = new JPanel();
 	private JPanel invoicePanel = new JPanel();
 	private JPanel voucherPanel = new JPanel();
 	private JPanel southPanel = new JPanel();
@@ -32,6 +50,7 @@ public class InvoiceGUI {
 	private JTextField voucher = new JTextField(15);
 	private JButton validate = new JButton("Validate Voucher");
 	private JButton pay = new JButton("Pay");
+	private JButton back = new JButton("Go Back");
 	JLabel title = new JLabel();
 	private final static String newline = "\n";
 	
@@ -48,7 +67,10 @@ public class InvoiceGUI {
 		voucherPanel.add(validate);
 		southPanel.setLayout(new GridLayout(2,1));
 		southPanel.add(voucherPanel);
-		southPanel.add(pay);
+		payPanel.setLayout(new BorderLayout(0,0));
+		payPanel.add(pay,BorderLayout.EAST);
+		payPanel.add(back,BorderLayout.WEST);
+		southPanel.add(payPanel);
 		invoiceText.setSize(200, 200);
 		invoiceText.append(this.order.getInvoice());
 		invoiceText.setEditable(false);
@@ -63,6 +85,14 @@ public class InvoiceGUI {
 		invoiceFrame.add(invoicePanel,BorderLayout.CENTER);
 		invoiceFrame.add(southPanel, BorderLayout.SOUTH);
 		invoiceFrame.setVisible(true);
+		
+		validate.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	double total = order.calculateTotal(voucher.getText());
+		    	
+		    	invoiceText.setText(order.getInvoice(voucher.getText()));
+		      }
+		    });
 	}
 	
 	public static JLabel createOneLabel (String s, int size) {

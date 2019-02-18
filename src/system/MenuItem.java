@@ -13,11 +13,11 @@ public class MenuItem  implements Comparable<MenuItem> {
 
 
 	// constructor 
-	public MenuItem(int itemNumber, String itemName, Category itemCategory, BigDecimal itemPrice ) {
+	public MenuItem(int itemNumber, String itemName, Category itemCategory, BigDecimal bigDecimal ) {
 		this.number = itemNumber;
 		this.name = itemName;
 		this.category = itemCategory;
-		this.price = itemPrice;
+		this.price = bigDecimal;
 		}
 	 //compare item categories 
 	public int compareTo (MenuItem other) {
@@ -64,7 +64,8 @@ public class MenuItem  implements Comparable<MenuItem> {
 	
 	// get full details
 	public String toString() {
-		return String.format("Item number " + getNumber() +", name " + getName() + " is a " + getCategory() + ".\n" + getName() + " costs " + getPrice() );
+		return getName();
+		//return String.format("Item number " + getNumber() +", name " + getName() + " is a " + getCategory() + ".\n" + getName() + " costs " + getPrice() );
 	
 	}
 	
