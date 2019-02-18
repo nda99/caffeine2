@@ -1,20 +1,20 @@
 package system;
 
-public class InvalidUsersFileException extends Exception {
+public class InvalidCustomerFileException extends Exception{
     private int nb;
     private int lineCounter;
 
-    public InvalidUsersFileException(int lineNB, int num){
+    public InvalidCustomerFileException(int lineNB, int num){
         nb = num;
         lineCounter = lineNB;
     }
 
     @Override
     public String getMessage() {
-        if(nb > 5){
+        if(nb > 2){
             return "too many attributes in line " + lineCounter;
         }
-        else if (nb < 5){
+        else if (nb < 2){
             return "missing attribute in line " + lineCounter;
         }
         return "wrong number of attributes";

@@ -35,4 +35,8 @@ public class LoyalCustomer extends User {
     public String getMembershipNo() {
         return membershipNo;
     }
+
+    public LoyalCustomer copy(){
+        return new LoyalCustomer(membershipNo, points);
+    }
 }

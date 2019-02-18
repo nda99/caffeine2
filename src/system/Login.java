@@ -22,18 +22,20 @@ public class Login {
         staffFile = csvFile;
         userMap = new HashMap<>();
         String line;
-        String[] userTemp = new String[2];
+        String[] userTemp = new String[4];
         int lineCounter = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
                 lineCounter ++;
                 String[] user = line.split(",");
                 if(user.length != 5){
-                    throw new InvalidUsersFileException(lineCounter);
+                    throw new InvalidUsersFileException(lineCounter, user.length);
                 } else{
                     userTemp[0] = user[1];
                     userTemp[1] = user[2];
-                    userMap.put(user[0], userTemp);
+                    userTemp[2] = user[3];
+                    userTemp[3] = user[4];
+                    userMap.put(user[0], userTemp.clone());
                 }
             }
         } catch (IOException e) {
@@ -61,13 +63,14 @@ public class Login {
      * @param password password only a SHA 256 of the password is stored, not the password itself
      * @param position staff or manager
      * @throws UserNameAlreadyTakenException
+     * @return true if successful, false if not
      */
-    public void register(String userName, String password, String position,
-                         String fullName, String emailAddress) throws UserNameAlreadyTakenException {
+    public boolean register(String userName, String password, String position, String fullName, String emailAddress){
         String[] value;
         value = userMap.get(userName);
         if (value != null){
-            throw new UserNameAlreadyTakenException(userName);
+            System.out.println("Username " + userName + " already exists, registration failed");
+            return false;
         }else{
             value = new String[4];
             value[0] = hashPassword(password);
@@ -83,8 +86,10 @@ public class Login {
                 userStream.close();
             }catch (IOException e){
                 e.printStackTrace();
+                return false;
             }
         }
+        return true;
     }
 
     /**
@@ -132,10 +137,10 @@ public class Login {
      * @param userName
      * @return a String array with full name, email address and position in this order
      */
-    public String[] getDetails(String userName)throws StaffNonExistantException{
+    public String[] getDetails(String userName)throws CustomerNonExistantException {
         String[] result = new String[3];
         if(!staffExist(userName)){
-            throw new StaffNonExistantException(userName);
+            throw new CustomerNonExistantException(userName);
         }else{
             String[] valueTemp = userMap.get(userName);
             result[0] = valueTemp[2];

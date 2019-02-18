@@ -1,7 +1,15 @@
 package system;
 
 public class StaffNonExistantException extends Exception {
+
+    private String un;
+
     public StaffNonExistantException(String userName){
-        System.out.println("Staff member" + userName +" does not exist");
+        this.un = userName;
+    }
+
+    @Override
+    public String getMessage() {
+        return "Staff member" + un +" does not exist";
     }
 }
