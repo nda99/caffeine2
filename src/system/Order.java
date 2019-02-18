@@ -306,11 +306,17 @@ public class Order {
 		}
 		return (String.format("Time: %s Items:%s", time.toString(), items));
 	}
-	
+	/**
+	 * Check if order has been processed
+	 * @return
+	 */
 	public boolean isProcessed() {
 		return processed;
 	}
 	
+	/**
+	 * Process order
+	 */
 	public void processOrder() {
 		processed = true;
 	}
