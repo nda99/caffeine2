@@ -201,12 +201,47 @@ public class Order {
 	}
 	
 	/**
-	 * Checks if discount voucher is valid
+	 * Gets discount from customer's voucher or create a new LoyalCustomer
 	 * @param voucher
 	 * @return discount percentage
 	 */
 	private double validateDiscount(String voucher){
-		double discount = 0.2;
+		AllCustomers customers = null;
+		int points = 0;
+		double discount = 0.0;
+		
+		try { // Tries to create a new Loyal customer
+			customers = new AllCustomers("D:\\Software Engineering\\caffeine\\customers.csv");
+		} catch (InvalidCustomerFileException e) {
+			// TODO Auto-generated catch block
+			System.out.println("File not Found");
+		}
+		
+		try { // If loyal customer already exists, add points to customer file
+			customers.addLoyalCustomer(voucher);
+		} catch (UserNameAlreadyTakenException e) {
+			// TODO Auto-generated catch block
+			try {
+				LoyalCustomer loyal = customers.getLoyalCustomer(voucher);
+				points = points + loyal.getPoints();
+				loyal.addPoints((int)total);
+			} catch (CustomerNonExistantException e1) {
+				// TODO Auto-generated catch block
+			}
+		}
+		
+		customers.updateFile();
+		
+		if (points > 17 && points < 300) {
+			discount = 0.1;
+		}
+		
+		else if (points >=300) {
+			discount = 0.2;
+			
+		}
+		
+		
 		return discount;
 	}
 	
