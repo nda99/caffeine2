@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import java.math.BigDecimal;
 import java.math.MathContext;
-
+import java.util.Random;
 public class InvoiceGUI {
 
 	public static void main(String[] args) {
@@ -45,7 +45,7 @@ public class InvoiceGUI {
 		}
 		InvoiceGUI iGui = null;
 		try {
-			iGui = new InvoiceGUI(orders.getOrder("42017-11-01 21:31:04.971"));
+			iGui = new InvoiceGUI(orders.getOrder("2017-11-01 21:31:04.971"));
 
 		} catch (nullOrderException e) {
 			iGui = new InvoiceGUI();
@@ -121,6 +121,26 @@ public class InvoiceGUI {
 		    	}
 		      }
 		    });
+		
+
+		pay.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	Random rand = new Random();
+		    	int chance = rand.nextInt(100);
+		    	
+		    	if (chance>80) {
+		    		displayError("Payment unsuccessful, please try again");
+		    	}
+		    	
+		    	else {
+		    		if(order!=null) {
+		    			order.processOrder();
+		    		}
+		    		displayMessage("Payment successful");
+		    		invoiceFrame.dispose();
+		    	}
+		      }
+		    });
 	}
 	
 	/**
@@ -137,11 +157,19 @@ public class InvoiceGUI {
 		return label;
 		}
 	
-	public void displayFileError() {
+	public void displayMessage(String m) {
 		
 		JOptionPane.showMessageDialog(invoiceFrame,
-			    "Oops! Something went wrong with your file, please try again.",
-			    "I/O Error :(",
+			    m,
+			    "Comm",
+			    JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void displayError(String m) {
+		
+		JOptionPane.showMessageDialog(invoiceFrame,
+			    m,
+			    "Payment Error",
 			    JOptionPane.ERROR_MESSAGE);
 	}
 	

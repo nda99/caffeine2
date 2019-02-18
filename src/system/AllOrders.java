@@ -100,26 +100,36 @@ public class AllOrders {
 	}
 	
 	/**
-	 * Gets the next order on the queue (oldest) 
+	 * Gets the next unprocessed order on the queue (by oldest) 
 	 * @return Next order to process
 	 */
 	public Order getNextOrder() {
-		
+		Order next;
 		Entry<Timestamp,Order> ent = orderMap.firstEntry();
+		next = ent.getValue();
 		
-		return ent.getValue();
+		if(next.isProcessed()) {
+			next = getNextOrder(next.getTime());
+		}
+		
+		return next;
 	}
 	
 	/**
-	 * Gets the next order on the queue (by comparing with time of current order) 
+	 * Gets the next unprocessed order on the queue (by comparing with time of current order) 
 	 * @param t Timestamp of current order
 	 * @return Next order to be processed
 	 */
 	public Order getNextOrder(Timestamp t) {
-		
+		Order next;
 		Entry<Timestamp,Order> ent = orderMap.higherEntry(t);
+		next = ent.getValue();
 		
-		return ent.getValue();
+		if(next.isProcessed()) {
+			next = getNextOrder(next.getTime());
+		}
+		
+		return next;
 	}
 	
 	
