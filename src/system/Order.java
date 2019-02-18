@@ -10,6 +10,7 @@ public class Order {
 	private Timestamp time; 
 	//private Customer customer;
 	private double total;
+	private boolean processed = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	public Order(Timestamp t) {
@@ -60,8 +61,8 @@ public class Order {
 	}
 	
 	/**
-	 * Add items order hashmap memory and copmputes their total price
-	 * @param item containing item name
+	 * Add items order hashmap memory and computes their total price (given a MenuItem)
+	 * @param item containing MenuItem object
 	 * @param quantity containing how many of this item have been ordered 
 	 */
 	public void addItem(MenuItem item, Integer quantity ) {
@@ -70,11 +71,16 @@ public class Order {
 		
 	}
 	
+	/**
+	 *  Add items order hashmap memory and computes their total price (given the item name)
+	 * @param item containing String of item name
+	 * @param quantity containing how many of this item have been ordered
+	 */
 	public void addItem(String item, Integer quantity ) {
-		
-		this.orderItems.put(Menu.getItem(item), quantity);
-		this.total = total + Menu.getItem(item).getPrice().doubleValue()*quantity;
-		
+		if (Menu.getItem(item) != null) {
+			this.orderItems.put(Menu.getItem(item), quantity);
+			this.total = total + Menu.getItem(item).getPrice().doubleValue() * quantity;
+		}
 	}
 	
 	
@@ -211,7 +217,7 @@ public class Order {
 	public String getInvoice() {
 		String item = "";
 		for (Map.Entry m: orderItems.entrySet()) {
-		item = item + String.format("%s           x%d\n", m.getKey().toString(),m.getValue());
+			item = item + String.format("%s           x%d        %2.2f\n", m.getKey().toString(),m.getValue(),Menu.getItem(m.getKey().toString()).getPrice().doubleValue());
 	}
 		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal()));
 	}
@@ -224,8 +230,11 @@ public class Order {
 	public String getInvoice(String voucher) {
 		String item = "";
 		for (Map.Entry m: orderItems.entrySet()) {
-		item = item + String.format("%s           x%d\n", m.getKey().toString(),m.getValue());
+		item = item + String.format("%s           x%d        %2.2f\n", m.getKey().toString(),m.getValue(),Menu.getItem(m.getKey().toString()).getPrice().doubleValue());
 	}
+		if(validateDiscount(voucher)>0) {
+			item = item + String.format("\nTotal before discount: %2.2f", total);
+		}
 		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal(voucher)));
 	}
 	
@@ -261,5 +270,13 @@ public class Order {
 			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
 		}
 		return (String.format("Time: %s Items:%s", time.toString(), items));
+	}
+	
+	public boolean isProcessed() {
+		return processed;
+	}
+	
+	public void processOrder() {
+		processed = true;
 	}
 }
