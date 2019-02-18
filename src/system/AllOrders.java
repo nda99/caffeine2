@@ -7,18 +7,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.TreeMap;
 
 public class AllOrders {
 
-	private static Map<Timestamp, Order> orderMap = new TreeMap<Timestamp,Order>();
+	private static TreeMap<Timestamp, Order> orderMap = new TreeMap<Timestamp,Order>();
 
 	public AllOrders() {
 		
 	}
 	
-	
+	/**
+	 * Adds new order to map
+	 */
 	public void newOrder() {
 		Date date = new Date();
 		Timestamp time = new Timestamp(date.getTime());
@@ -26,6 +29,10 @@ public class AllOrders {
 		orderMap.put(time, order);
 	}
 	
+	/**
+	 * Reads order file
+	 * @param orderFileName
+	 */
 	public void readOrderFile(String orderFileName) {
 		File file = new File(orderFileName);
 		try {
@@ -38,12 +45,12 @@ public class AllOrders {
 				 Order nOrder = new Order(timestamp);
 				 
 				 for (int i=1; i<details.length; i = i+2) {
-					 nOrder.addItem(details[i], Integer.parseInt(details[i+1]));
+					 nOrder.addItem(Menu.getItem(details[i]), Integer.parseInt(details[i+1]));
 				 }
 				 
 				 orderMap.put(timestamp, nOrder);
 			 }
-				System.out.println("Dondoca");
+			 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 		}
@@ -52,6 +59,11 @@ public class AllOrders {
 		
 	}
 	
+	/**
+	 * Converts time in String to Timestamp 
+	 * @param time
+	 * @return Timestamp object
+	 */
 	public Timestamp toTimestamp(String time) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 	    Date parsedDate = null;
@@ -67,11 +79,65 @@ public class AllOrders {
 		return t;
 	}
 	
-	
-	public Order getOrder(String t) {
+	/**
+	 * Get Order object from its time
+	 * @param t Time string to search for order
+	 * @return Order made at provided time
+	 */
+	public Order getOrder(String t) throws nullOrderException{
 		Timestamp s = toTimestamp(t);
+		if (orderMap.get(s)==null) {throw new nullOrderException(t);}
 		return orderMap.get(s);
 	}
-
 	
+	/**
+	 * Get Order object from its Timestamp
+	 * @param t Time Timestamp object to get correspondent order
+	 * @return Order made at provided time
+	 */
+	public Order getOrder(Timestamp t) {
+		return orderMap.get(t);
+	}
+	
+	/**
+	 * Gets the next unprocessed order on the queue (by oldest) 
+	 * @return Next order to process
+	 */
+	public Order getNextOrder() {
+		Order next;
+		Entry<Timestamp,Order> ent = orderMap.firstEntry();
+		next = ent.getValue();
+		
+		if(next.isProcessed()) {
+			next = getNextOrder(next.getTime());
+		}
+		
+		return next;
+	}
+	
+	/**
+	 * Gets the next unprocessed order on the queue (by comparing with time of current order) 
+	 * @param t Timestamp of current order
+	 * @return Next order to be processed
+	 */
+	public Order getNextOrder(Timestamp t) {
+		Order next;
+		Entry<Timestamp,Order> ent = orderMap.higherEntry(t);
+		next = ent.getValue();
+		
+		if(next.isProcessed()) {
+			next = getNextOrder(next.getTime());
+		}
+		
+		return next;
+	}
+	
+	
+	/**
+	 * Getter for order TreeMap
+	 * @return
+	 */
+	public static TreeMap<Timestamp, Order> getOrderMap() {
+		return orderMap;
+	}
 }

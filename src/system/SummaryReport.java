@@ -1,6 +1,8 @@
 package system;
 
+
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,50 +13,92 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
 
 public class SummaryReport extends JFrame implements ActionListener{
-	// will need to add hashMap of orders
-	//private Map<Timestamp, Order> orders =  AllOrders.orderMap;
-	JFrame frame = new JFrame();
-	JButton print = new JButton("Print");
-	JPanel northPanel = new JPanel();
-	JPanel centralPanel = new JPanel();
-	JLabel label = new JLabel("OrderID");
-	JLabel label1 = new JLabel("Date");
-	JLabel label2 = new JLabel("Customer");
-	JLabel label3 = new JLabel("total");
-	/*JLabel label4 = new JLabel("total");
-	JLabel label5 = new JLabel("test");
-	JLabel label6 = new JLabel("test");
-	JLabel label7 = new JLabel("test");*/
+	
+	private JFrame frame = new JFrame();
+	private JButton print = new JButton("Print");
+	private JButton view = new JButton("View");
+	private JTextField dateFrom= new JTextField(10);
+	private JTextField dateTo= new JTextField(10);
+	private JPanel northPanel = new JPanel();
+	private JPanel centralPanel = new JPanel();
+	private JPanel westPanel = new JPanel();
+	private JPanel eastPanel = new JPanel();
+	private Map<Timestamp,Order> ordersMap = AllOrders.getOrderMap();
+	private String from;
+	private String to;
+	private int ordersCounter = 0;
+	private double totalIncome;
+
+	private HashMap<String,Integer> itemsIncome = new HashMap<String,Integer>();
+	AllOrders temp = new AllOrders();
+	
 	
 	public SummaryReport()
 	{
+		 temp.readOrderFile("orders.csv");
+
 	}
 	
-	public void calculateStatistics()
+	
+	public HashMap<String,Integer> calculateStatistics(String from,String to)
 	{
+		System.out.println(ordersMap);
+		  // Calculate frequency analysis for items
+		    for (Map.Entry<Timestamp,Order> entry : ordersMap.entrySet())  
+		    {
 		
+		    	if(entry.getKey().after(temp.toTimestamp(from)) && entry.getKey().before(temp.toTimestamp(to)))
+		    	{
+		    		ordersCounter ++;
+		    		totalIncome += entry.getValue().calculateTotal();
+		        	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
+		        	System.out.println("order ++");
+		        	for (MenuItem item:items.keySet())
+		        	{
+		        		System.out.println("item ++");
+		        		if(itemsIncome.containsKey(item.getName())) {
+		        			int temp = itemsIncome.get(item.getName());
+		        			temp ++;
+		        			itemsIncome.replace(item.getName(), temp);
+		        		}
+		        		else
+		        		{
+		        			itemsIncome.put(item.getName(),1);
+		        		}
+		        	}
+		    	}
+		    	
+		    	
+		    }		
+		
+		  System.out.println("Done");
+	        return itemsIncome;
+	      
 	}
+	
+	
 	
 	public void printSummaryReport()
 	{
 		 try (PrintWriter writer = new PrintWriter(new File("Summary Report.csv"))) {
 
 		      StringBuilder sb = new StringBuilder();
-		      sb.append("ID");
+		      sb.append("ItemID");
 		      sb.append(',');
-		      sb.append("Date");
+		      sb.append("Times Ordered");
 		      sb.append(',');
-		      sb.append("Customer");
-		      sb.append(',');
-		      sb.append("Total");
+		      sb.append("Price*Qty");
 		      sb.append('\n');
 
 		      writer.write(sb.toString());
@@ -66,53 +110,174 @@ public class SummaryReport extends JFrame implements ActionListener{
 		    }
 	}
 	
-	public void viewSummaryReport()
+	public void viewSummaryReport(String from, String to)
 	{
+		calculateStatistics(from,to);
+		String[] columnNames = {"ItemID",
+                "Times Ordered",
+                "Price*Qty"};
+		Object[][] data = new Object[itemsIncome.keySet().size()][3] ;
+		for (Object obj : data)
+		{
+			for (String item : itemsIncome.keySet())
+			{
+				String[] itemDetails = new String[3];
+				 itemDetails[0] = item;
+				 itemDetails[1] = itemsIncome.get(item).toString();
+				 double total = Menu.getItem(item).getPrice().doubleValue() * itemsIncome.get(item);
+				 itemDetails[1] = Double.toString(total);
+				 obj = itemDetails;
+			}
+		}
+		
+		JTable tableA = new JTable(data, columnNames);
+		JScrollPane scrollPane = new JScrollPane(tableA);
+		frame.add(scrollPane);
+		
+		/*String[] columnNames = {"ItemID",
+                "Times Ordered",
+                "Price*Qty"};
+		Object[][] data = new Object[itemsIncome.keySet().size()][3] ;
+		for (Object obj : data)
+		{
+			for (String item : itemsIncome.keySet())
+			{
+				String[] itemDetails = new String[3];
+				 itemDetails[0] = item;
+				 itemDetails[1] = itemsIncome.get(item).toString();
+				 double total = Menu.getItem(item).getPrice().doubleValue() * itemsIncome.get(item);
+				 itemDetails[1] = Double.toString(total);
+				 obj = itemDetails;
+			}
+		}*/
+
+
 		
 	}
 	
-	public void buildGUI()
+	private void setupNorthPanel()
 	{
-		frame.setTitle("Caffiene App");
-		frame.setSize(500,700);
-		frame.setLocation(300,500);
-		frame.setVisible(true);
-		frame.setLayout(new BorderLayout(10, 10));
+		//North Panel has two sub panels, a: is for the title, b: is for the filtering by date and print
+		JPanel a = new JPanel();
+		JPanel b = new JPanel();
+		//Setting up A panel
+		a.setLayout(new BorderLayout(10,10));
 		JLabel title;
 		title = new JLabel(" ** Summary Report ** ", JLabel.CENTER);
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 		title.setFont(titleFont);
-		northPanel.setLayout(new GridLayout(2,1));
-		northPanel.add(title);
+		a.add(title,BorderLayout.CENTER);
+		//Setting up B panel
+		b.setLayout(new GridLayout(1,6,5,5));
 		print.addActionListener(this);
-		northPanel.add(print);
-
-		
+		view.addActionListener(this);
+		b.add(new JLabel("From: "));
+		b.add(dateFrom);
+		b.add(new JLabel("To: "));
+		b.add(dateTo);
+		b.add(view);
+		b.add(print);
+		//Adding both panels to the north panel
+		northPanel.setLayout(new GridLayout(2,1));
+		northPanel.add(a);
+		northPanel.add(b);
+		//Adding north panel to the main frame
 		frame.add(northPanel, BorderLayout.NORTH);
-		centralPanel.setLayout(new GridLayout(0,4));
-		centralPanel.add(label);
-		centralPanel.add(label1);
-		centralPanel.add(label2);
-		centralPanel.add(label3);
-		/*centralPanel.add(label4);
-		centralPanel.add(label5);
-		centralPanel.add(label6);
-		centralPanel.add(label7);*/
-
-		frame.add(centralPanel, BorderLayout.CENTER);
-
 		
-		
+	}
+	private void setupCentralPanel()
+	{
+		 centralPanel.setBackground(Color.WHITE);
+		 centralPanel.setLayout(new GridLayout(2,1));
+		 viewSummaryReport(to,from);
+		/* String[] columnNames = {"First Name",
+                 "Last Name",
+                 "Sport",
+                 "# of Years",
+                 "Vegetarian"};
+		 Object[][] data = {
+				    {"Kathy", "Smith",
+				     "Snowboarding", new Integer(5), new Boolean(false)},
+				    {"John", "Doe",
+				     "Rowing", new Integer(3), new Boolean(true)},
+				    {"Sue", "Black",
+				     "Knitting", new Integer(2), new Boolean(false)},
+				    {"Jane", "White",
+				     "Speed reading", new Integer(20), new Boolean(true)},
+				    {"Joe", "Brown",
+				     "Pool", new Integer(10), new Boolean(false)}
+				};
+		 JTable table = new JTable(data, columnNames);
+			System.out.print("displaying summary report");
+
+		 JScrollPane scrollPane = new JScrollPane(table);
+		 table.setFillsViewportHeight(true);
+		 centralPanel.add(scrollPane);
+		 String[] columnNames2 = {"First Name",
+                 "Last Name",
+                 "Sport",
+                 "# of Years",
+                 "Vegetarian"};
+		 Object[][] data2 = {
+				    {"Kathy", "Smith",
+				     "Snowboarding", new Integer(5), new Boolean(false)},
+				    {"John", "Doe",
+				     "Rowing", new Integer(3), new Boolean(true)},
+				    {"Sue", "Black",
+				     "Knitting", new Integer(2), new Boolean(false)},
+				    {"Jane", "White",
+				     "Speed reading", new Integer(20), new Boolean(true)},
+				    {"Joe", "Brown",
+				     "Pool", new Integer(10), new Boolean(false)}
+				};
+		 JTable table2 = new JTable(data2, columnNames2);
+			System.out.print("displaying summary report");
+
+		 JScrollPane scrollPane2 = new JScrollPane(table2);
+		 table2.setFillsViewportHeight(true);
+		 centralPanel.add(scrollPane2);
+		 frame.add(centralPanel, BorderLayout.CENTER);*/
+
+
+
+	}
+	
+	public void buildGUI()
+	{
+		//Setting up the main frame 
+		frame.setLayout(new BorderLayout(10, 10));
+		frame.setTitle("Caffiene App");
+		frame.setSize(600,700);
+	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setLocation(300,500);
+		frame.setVisible(true);
+
+		//Adding central panel to the main frame through the setupCentralPanel method
+		setupCentralPanel();
+		//Adding north panel to the main frame through the setupNorthPanel method
+		setupNorthPanel();
+		//Adding east and west panels to the main frame
+		frame.add(eastPanel,BorderLayout.EAST);
+		frame.add(westPanel,BorderLayout.WEST);
+				
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
+		// Action taken once 'Print' button is clicked
 		if(event.getSource() == print)
 		{
 			System.out.print("creating csv file");
 
 			printSummaryReport();
+		}
+		// Action taken once 'View' button is clicked
+
+		if(event.getSource() == view)
+		{
+			from = dateFrom.getText();
+			to = dateTo.getText();
+			setupCentralPanel();
 		}
 		
 	}

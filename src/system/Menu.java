@@ -6,15 +6,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Menu {
 	
 	
-	Set<Category> categorySet = new HashSet<Category>();
+	/* Set<Category> categorySet = new HashSet<Category>();
 
 
 	
@@ -27,26 +29,30 @@ public class Menu {
 		public void deleteCategory(Category category) {
 			categorySet.remove(category);
 		}
-
+*/
 
 		//create the hashset
-		private HashMap<String,MenuItem> menuItems;
-			
+
+
+	static Map<String, MenuItem>  menuItems = new HashMap<String, MenuItem>();
+
 
 			
 			//add item to hashset
-			public void addItem(MenuItem menuItem) {
-				menuItems.add(menuItem);
+			public static void addItem(String name, MenuItem menuItem) {
+				menuItems.put(name,menuItem);
 		}
 			// delete item from hashset
-			public void deleteItem(MenuItem menuItem) {
-				menuItems.remove(menuItem);
+			public static void deleteItem(String name) {
+				menuItems.remove(name);
 			}
 
 			
 
 	
-
+public static MenuItem getItem(String name ) {
+	return menuItems.get(name);
+}
 	
 	
 
@@ -75,6 +81,11 @@ public void readFile(String filename) {
 		System.out.println("File not found ");
 	}
 }
+/* find menu item by description
+public MenuItem getMenuItem(String name) {
+	return menuItems.get(name.hashCode())
+	
+}*/
 
 private Category translateCategory(String test) {
 	if(test == "hot drink") {

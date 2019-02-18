@@ -23,15 +23,21 @@ public class StaffGUI extends JFrame implements ActionListener{
 	private JLabel label1 = new JLabel("Update Stock", JLabel.LEFT);
 	private JLabel label2 = new JLabel("View Stock", JLabel.LEFT);
 	private JLabel label3 = new JLabel("View Orders", JLabel.LEFT);
-	private JLabel label4 = new JLabel("Edit Menu", JLabel.LEFT);
-	private JLabel label5 = new JLabel("Discounts", JLabel.LEFT);
-	private JLabel label6 = new JLabel("Confirm Stock Orders", JLabel.LEFT);
-	private JLabel label7 = new JLabel("Summary Report", JLabel.LEFT);
+	private JLabel label4 = new JLabel("Edit Loyal Customers", JLabel.LEFT);
+	private JLabel label5 = new JLabel("Confirm Stock Orders", JLabel.LEFT);
+	private JLabel label6 = new JLabel("Summary Report", JLabel.LEFT);
 	
 	//Constructor Method don't forget to add user object as parameter
-	public StaffGUI()
+	public StaffGUI(Staff staff)
 	{
+		System.out.println("staff Logged in ");
 		buildGUI();
+	}
+	public StaffGUI(Manager mngr)
+	{
+		System.out.println("Manager Logged in ");
+		buildGUI();
+		addManagerOptions();
 	}
 	public void buildGUI()
 	{
@@ -51,10 +57,10 @@ public class StaffGUI extends JFrame implements ActionListener{
 		label1.setFont(itemsFont);
 		label2.setFont(itemsFont);
 		label3.setFont(itemsFont);
-		label7.setFont(itemsFont);
+		label6.setFont(itemsFont);
 		centerPanel.add(label2);
 		centerPanel.add(label3);
-		centerPanel.add(label7);
+		centerPanel.add(label6);
 		centerPanel.add(label1);
 		frame.add(eastPanel, BorderLayout.EAST);
 		frame.add(westPanel, BorderLayout.WEST);
@@ -63,7 +69,7 @@ public class StaffGUI extends JFrame implements ActionListener{
 		control(label1,1);
 		control(label2,2);
 		control(label3,3);
-		control(label7,7);
+		control(label6,7);
 
 		
 		
@@ -78,10 +84,11 @@ public class StaffGUI extends JFrame implements ActionListener{
 		label4.setFont(itemsFont);
 		label5.setFont(itemsFont);
 		label6.setFont(itemsFont);
+		control(label4,1);
+		control(label5,2);
+		control(label6,3);
 		centerPanel.add(label4);
-		centerPanel.add(label5);
-		centerPanel.add(label6);
-		
+		centerPanel.add(label5);		
 		
 	}
 	@Override
