@@ -47,7 +47,14 @@ public class Order {
 
 	public static void main(String[] args) {
 		System.out.println("Hello World");
-		StaffGUI gui = new StaffGUI();
+		LoginGUI gui = new LoginGUI();
+		//StaffGUI gui = new StaffGUI();
+		Menu menu = new Menu();
+		// declares file path if file is located in diff location not in the same folder
+		String filename = "menuItems.csv";
+		// reads items from file 
+		menu.readFile(filename);
+		
 		
 	}
 		
@@ -67,7 +74,7 @@ public class Order {
 	 */
 	public void addItem(MenuItem item, Integer quantity ) {
 		this.orderItems.put(item, quantity);
-		this.total = total + item.getPrice().doubleValue()*quantity;
+		this.total = total + item.getPrice()*quantity;
 		
 	}
 	
@@ -79,7 +86,7 @@ public class Order {
 	public void addItem(String item, Integer quantity ) {
 		if (Menu.getItem(item) != null) {
 			this.orderItems.put(Menu.getItem(item), quantity);
-			this.total = total + Menu.getItem(item).getPrice().doubleValue() * quantity;
+			this.total = total + Menu.getItem(item).getPrice()* quantity;
 		}
 	}
 	
@@ -118,7 +125,7 @@ public class Order {
 		if (orderItems.get(Menu.getItem("Brownie")) != null) {
 			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
 				if (orderItems.get(Menu.getItem("Latte")) != null) {
-					offer = offer + (double) Menu.getItem("Latte").getPrice().doubleValue()*0.5;
+					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
 				}
 			}
 		}
@@ -129,15 +136,15 @@ public class Order {
 		for (Map.Entry m: orderItems.entrySet()) {
 			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.COLDDRINK) {
 				cold=true;
-				cPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+				cPrice = Menu.getItem(m.getKey().toString()).getPrice();
 			}
 			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.SANDWICH) {
 				sand=true;
-				sPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+				sPrice = Menu.getItem(m.getKey().toString()).getPrice();
 			}
 
 			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.PASTRIES) {
-				pPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+				pPrice = Menu.getItem(m.getKey().toString()).getPrice();
 				pastry=true;
 			}
 		}
@@ -170,7 +177,7 @@ public class Order {
 		if (orderItems.get(Menu.getItem("Brownie")) != null) {
 			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
 				if (orderItems.get(Menu.getItem("Latte")) != null) {
-					offer = offer + (double) Menu.getItem("Latte").getPrice().doubleValue()*0.5;
+					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
 				}
 			}
 		}
@@ -181,15 +188,15 @@ public class Order {
 		for (Map.Entry m: orderItems.entrySet()) {
 			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.COLDDRINK) {
 				cold=true;
-				cPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+				cPrice = Menu.getItem(m.getKey().toString()).getPrice();
 			}
 			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.SANDWICH) {
 				sand=true;
-				sPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+				sPrice = Menu.getItem(m.getKey().toString()).getPrice();
 			}
 
 			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.PASTRIES) {
-				pPrice = Menu.getItem(m.getKey().toString()).getPrice().doubleValue();
+				pPrice = Menu.getItem(m.getKey().toString()).getPrice();
 				pastry=true;
 			}
 		}
