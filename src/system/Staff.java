@@ -44,13 +44,13 @@ public class Staff extends User{
      * @param userName
      * @param staffFile
      */
-    public Staff(String userName, String staffFile) throws CustomerNonExistantException {
+    public Staff(String userName, String staffFile) throws StaffNonExistantException {
         this.userName = userName;
         this.loggedIn = false;
 	    try{
             this.loginData = new Login(staffFile);
             if(!loginData.staffExist(userName)){
-                throw new CustomerNonExistantException(userName);
+                throw new StaffNonExistantException(userName);
             }
             String[] details = loginData.getDetails(userName);
             this.fullName = details[0];
