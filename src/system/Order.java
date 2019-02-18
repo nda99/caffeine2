@@ -259,7 +259,7 @@ public class Order {
 	public String getInvoice() {
 		String item = "";
 		for (Map.Entry m: orderItems.entrySet()) {
-			item = item + String.format("%s           x%d        %2.2f\n", m.getKey().toString(),m.getValue(),Menu.getItem(m.getKey().toString()).getPrice().doubleValue());
+			item = item + String.format("%s           x%d        %2.2f\n", m.getKey().toString(),m.getValue(),Menu.getItem(m.getKey().toString()).getPrice());
 	}
 		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal()));
 	}
@@ -272,7 +272,7 @@ public class Order {
 	public String getInvoice(String voucher) {
 		String item = "";
 		for (Map.Entry m: orderItems.entrySet()) {
-		item = item + String.format("%s           x%d        %2.2f\n", m.getKey().toString(),m.getValue(),Menu.getItem(m.getKey().toString()).getPrice().doubleValue());
+		item = item + String.format("%s           x%d        %2.2f\n", m.getKey().toString(),m.getValue(),Menu.getItem(m.getKey().toString()).getPrice());
 	}
 		if(validateDiscount(voucher)>0) {
 			item = item + String.format("\nTotal before discount: %2.2f", total);

@@ -22,13 +22,13 @@ import java.util.Random;
 public class InvoiceGUI {
 
 	public static void main(String[] args) {
-		Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, new BigDecimal (1.20, MathContext.DECIMAL64)));
-		Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, new BigDecimal (1.30, MathContext.DECIMAL64)));
-		Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, new BigDecimal (1.50, MathContext.DECIMAL64)));
-		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, new BigDecimal (1.40, MathContext.DECIMAL64)));
-		Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, new BigDecimal (2.30, MathContext.DECIMAL64)));
-		Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK, new BigDecimal (0.70, MathContext.DECIMAL64)));
-		Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, new BigDecimal (2.10, MathContext.DECIMAL64)));
+		Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, 1.20));
+		Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, 1.30));
+		Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, 1.50));
+		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, 1.40));
+		Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, 2.30));
+		Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK,0.70));
+		Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, 2.10));
 		AllOrders orders = new AllOrders();
 		orders.readOrderFile("D:\\Software Engineering\\caffeine\\orders.csv");
 	      for(Map.Entry m:orders.getOrderMap().entrySet()){    
@@ -157,6 +157,10 @@ public class InvoiceGUI {
 		return label;
 		}
 	
+	/**
+	 * Displays custom message window on Invoice GUI
+	 * @param m Custom Message
+	 */
 	public void displayMessage(String m) {
 		
 		JOptionPane.showMessageDialog(invoiceFrame,
@@ -165,6 +169,10 @@ public class InvoiceGUI {
 			    JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	/**
+	 * Displays custom ERROR window on Invoice GUI 
+	 * @param m Custom error message
+	 */
 	public void displayError(String m) {
 		
 		JOptionPane.showMessageDialog(invoiceFrame,
