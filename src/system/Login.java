@@ -137,10 +137,10 @@ public class Login {
      * @param userName
      * @return a String array with full name, email address and position in this order
      */
-    public String[] getDetails(String userName)throws CustomerNonExistantException {
+    public String[] getDetails(String userName)throws StaffNonExistantException {
         String[] result = new String[3];
         if(!staffExist(userName)){
-            throw new CustomerNonExistantException(userName);
+            throw new StaffNonExistantException(userName);
         }else{
             String[] valueTemp = userMap.get(userName);
             result[0] = valueTemp[2];
