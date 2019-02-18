@@ -21,9 +21,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
+
 public class SummaryReport extends JFrame implements ActionListener{
 	
-	private Map<Timestamp,Order> ordersMap = AllOrders.getOrderMap();
 	private JFrame frame = new JFrame();
 	private JButton print = new JButton("Print");
 	private JButton view = new JButton("View");
@@ -33,11 +34,12 @@ public class SummaryReport extends JFrame implements ActionListener{
 	private JPanel centralPanel = new JPanel();
 	private JPanel westPanel = new JPanel();
 	private JPanel eastPanel = new JPanel();
+	private Map<Timestamp,Order> ordersMap = AllOrders.getOrderMap();
 	private String from;
 	private String to;
-/*	private JLabel label = new JLabel("ItemID");
-	private JLabel label1 = new JLabel("Times Ordered");
-	private JLabel label2 = new JLabel("Price*Qty");*/
+	private int ordersCounter = 0;
+	private double totalIncome;
+
 	private HashMap<String,Integer> itemsIncome = new HashMap<String,Integer>();
 	AllOrders temp = new AllOrders();
 	
@@ -49,15 +51,17 @@ public class SummaryReport extends JFrame implements ActionListener{
 	}
 	
 	
-	
 	public HashMap<String,Integer> calculateStatistics(String from,String to)
 	{
 		System.out.println(ordersMap);
 		  // Calculate frequency analysis for items
 		    for (Map.Entry<Timestamp,Order> entry : ordersMap.entrySet())  
 		    {
+		
 		    	if(entry.getKey().after(temp.toTimestamp(from)) && entry.getKey().before(temp.toTimestamp(to)))
 		    	{
+		    		ordersCounter ++;
+		    		totalIncome += entry.getValue().calculateTotal();
 		        	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
 		        	System.out.println("order ++");
 		        	for (MenuItem item:items.keySet())
@@ -76,7 +80,6 @@ public class SummaryReport extends JFrame implements ActionListener{
 		    	}
 		    	
 		    	
-		    	
 		    }		
 		
 		  System.out.println("Done");
@@ -84,10 +87,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 	      
 	}
 	
-	public void calculateOrdersIncome()
-	{
-		
-	}
+	
 	
 	public void printSummaryReport()
 	{
@@ -130,10 +130,26 @@ public class SummaryReport extends JFrame implements ActionListener{
 			}
 		}
 		
-		JTable table = new JTable(data, columnNames);
-		JScrollPane scrollPane = new JScrollPane(table);
+		JTable tableA = new JTable(data, columnNames);
+		JScrollPane scrollPane = new JScrollPane(tableA);
 		frame.add(scrollPane);
-
+		
+		/*String[] columnNames = {"ItemID",
+                "Times Ordered",
+                "Price*Qty"};
+		Object[][] data = new Object[itemsIncome.keySet().size()][3] ;
+		for (Object obj : data)
+		{
+			for (String item : itemsIncome.keySet())
+			{
+				String[] itemDetails = new String[3];
+				 itemDetails[0] = item;
+				 itemDetails[1] = itemsIncome.get(item).toString();
+				 double total = Menu.getItem(item).getPrice().doubleValue() * itemsIncome.get(item);
+				 itemDetails[1] = Double.toString(total);
+				 obj = itemDetails;
+			}
+		}*/
 
 
 		
@@ -172,9 +188,9 @@ public class SummaryReport extends JFrame implements ActionListener{
 	private void setupCentralPanel()
 	{
 		 centralPanel.setBackground(Color.WHITE);
-		 centralPanel.setLayout(new BorderLayout(10,10));
+		 centralPanel.setLayout(new GridLayout(2,1));
 		 viewSummaryReport(to,from);
-		 String[] columnNames = {"First Name",
+		/* String[] columnNames = {"First Name",
                  "Last Name",
                  "Sport",
                  "# of Years",
@@ -197,7 +213,30 @@ public class SummaryReport extends JFrame implements ActionListener{
 		 JScrollPane scrollPane = new JScrollPane(table);
 		 table.setFillsViewportHeight(true);
 		 centralPanel.add(scrollPane);
-		 frame.add(centralPanel, BorderLayout.CENTER);
+		 String[] columnNames2 = {"First Name",
+                 "Last Name",
+                 "Sport",
+                 "# of Years",
+                 "Vegetarian"};
+		 Object[][] data2 = {
+				    {"Kathy", "Smith",
+				     "Snowboarding", new Integer(5), new Boolean(false)},
+				    {"John", "Doe",
+				     "Rowing", new Integer(3), new Boolean(true)},
+				    {"Sue", "Black",
+				     "Knitting", new Integer(2), new Boolean(false)},
+				    {"Jane", "White",
+				     "Speed reading", new Integer(20), new Boolean(true)},
+				    {"Joe", "Brown",
+				     "Pool", new Integer(10), new Boolean(false)}
+				};
+		 JTable table2 = new JTable(data2, columnNames2);
+			System.out.print("displaying summary report");
+
+		 JScrollPane scrollPane2 = new JScrollPane(table2);
+		 table2.setFillsViewportHeight(true);
+		 centralPanel.add(scrollPane2);
+		 frame.add(centralPanel, BorderLayout.CENTER);*/
 
 
 

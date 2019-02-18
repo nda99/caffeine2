@@ -23,7 +23,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 	JPanel westPanel = new JPanel();
 	JPanel southPanel = new JPanel();
 	JPanel eastPanel = new JPanel();
-	String staffFile;
+	String staffFile = "staff.csv";
 	JLabel title = new JLabel("** Login **");
 	JLabel user = new JLabel("Username");
 	JTextField userField = new JTextField();
@@ -32,6 +32,8 @@ public class LoginGUI extends JFrame implements ActionListener{
 	JButton slogin = new JButton("Staff Login");
 	JButton mlogin = new JButton("Manager Login");
 	JLabel register = new JLabel("Register");
+	JLabel error = new JLabel();
+	String pass;
 
 	
 	
@@ -49,7 +51,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 	}
 	public void setupCentralPanel()
 	{
-		centerPanel.setLayout(new GridLayout(4,2,20,20));
+		centerPanel.setLayout(new GridLayout(4,2,5,5));
 		centerPanel.add(user);
 		centerPanel.add(userField);
 		centerPanel.add(password);
@@ -59,47 +61,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 		mlogin.addActionListener(this);
 		centerPanel.add(mlogin);
 		centerPanel.add(register);
-		
-		frame.add(centerPanel,BorderLayout.CENTER);
-
-	}
-	
-	public void buildGUI()
-	{
-	frame.setLayout(new BorderLayout(90, 90));
-	frame.setTitle("Caffiene App");
-	frame.setSize(600,500);
-    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	frame.setLocation(300,500);
-	frame.setVisible(true);
-
-	//Adding central panel to the main frame through the setupCentralPanel method
-	setupCentralPanel();
-	//Adding north panel to the main frame through the setupNorthPanel method
-	setupNorthPanel();
-	//Adding east and west panels to the main frame
-	frame.add(eastPanel,BorderLayout.EAST);
-	frame.add(westPanel,BorderLayout.WEST);
-	frame.add(southPanel,BorderLayout.SOUTH);
-			
-	}
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getSource() == slogin)
-		{
-				try {
-					Staff staff = new Staff(userField.getText(),staffFile);
-					staff.login(passwordField.getPassword().toString());
-					
-				} catch (StaffNonExistantException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			
-			
-		}
-		
+		centerPanel.add(error);
 		register.addMouseListener(new MouseAdapter()  
 		{  
 			public void mouseEntered(MouseEvent e)
@@ -116,10 +78,81 @@ public class LoginGUI extends JFrame implements ActionListener{
 		    }  
 		
 		});
-	
+		frame.add(centerPanel,BorderLayout.CENTER);
 
-
-	
-
-}
 	}
+	
+	public void buildGUI()
+	{
+	frame.setLayout(new BorderLayout(90, 90));
+	frame.setTitle("Caffiene App");
+	frame.setSize(700,500);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	frame.setLocation(300,500);
+	frame.setVisible(true);
+
+	//Adding central panel to the main frame through the setupCentralPanel method
+	setupCentralPanel();
+	//Adding north panel to the main frame through the setupNorthPanel method
+	setupNorthPanel();
+	//Adding east and west panels to the main frame
+	frame.add(eastPanel,BorderLayout.EAST);
+	frame.add(westPanel,BorderLayout.WEST);
+	frame.add(southPanel,BorderLayout.SOUTH);
+			
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) 
+{
+		// TODO Auto-generated method stub
+		if(e.getSource() == slogin)
+		{
+				try {
+					Staff staff = new Staff(userField.getText(),staffFile);
+					String passText = new String(passwordField.getPassword());
+					Boolean loggedIn = staff.login(passText);
+					if(loggedIn == true)
+					{
+						error.setText("");
+						error.setVisible(false);
+						StaffGUI gui = new StaffGUI(staff);
+					}
+					
+				} catch (StaffNonExistantException e1) {
+					// TODO Auto-generated catch block
+					error.setForeground(Color.red);
+					error.setText("Oops! User does not exist. ");
+					e1.printStackTrace();
+					//e1.printStackTrace();
+				}
+			
+			
+		}
+		if(e.getSource() == mlogin)
+		{
+			try {
+				Manager manager = new Manager(userField.getText(),staffFile);
+				String passText = new String(passwordField.getPassword());
+				Boolean loggedIn = manager.login(passText);
+				if(loggedIn == true)
+				{
+					StaffGUI gusi = new StaffGUI(manager);
+					error.setVisible(false);
+				}	
+				
+			} catch (StaffNonExistantException e1) {
+				// TODO Auto-generated catch block
+				error.setForeground(Color.red);
+				error.setText("Oops! User does not exist. ");
+				e1.printStackTrace();
+			} catch (NotAManagerException e1) {
+				// TODO Auto-generated catch block
+				error.setForeground(Color.red);
+				error.setVisible(true);
+				error.setText("Oops! You don't have manager privilege. ");
+			//	e1.printStackTrace();
+			}
+		}	
+
+	}
+}
