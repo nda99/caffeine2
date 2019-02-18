@@ -9,15 +9,15 @@ public class MenuItem  implements Comparable<MenuItem> {
 	private int number;
 	private String name;
 	private Category category;
-	private BigDecimal price;
+	private double price;
 
 
 	// constructor 
-	public MenuItem(int itemNumber, String itemName, Category itemCategory, BigDecimal bigDecimal ) {
+	public MenuItem(int itemNumber, String itemName, Category itemCategory, double price ) {
 		this.number = itemNumber;
 		this.name = itemName;
 		this.category = itemCategory;
-		this.price = bigDecimal;
+		this.price = price;
 		}
 	 //compare item categories 
 	public int compareTo (MenuItem other) {
@@ -31,7 +31,7 @@ public class MenuItem  implements Comparable<MenuItem> {
 			if (name.equals (otherItem.name) 
 				&& number == otherItem.number 
 				&& category.equals (otherItem.category) 
-				&& price.equals (otherItem.price) )
+				&& price == otherItem.price )
 				return true;
 		}
 		return false;
@@ -52,7 +52,7 @@ public class MenuItem  implements Comparable<MenuItem> {
 	}
 	
 	// return price 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 	
@@ -81,7 +81,7 @@ public class MenuItem  implements Comparable<MenuItem> {
 	}
 	
 	//set item price
-	public void setPrice(BigDecimal price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	
