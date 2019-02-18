@@ -112,16 +112,28 @@ try {
 	String parts [] = line.split(",");
 	String itemName = parts [1];
 	itemNumber = parts [0];
+	System.out.println(parts[0]);
+	System.out.println(parts[1]);
+	System.out.println(parts[2]);
+	System.out.println(parts[3]);
+
+
+
+	//Integer itemNo = Integer.parseInt(itemNumber);
 	
 	Category category = translateCategory(parts[2]);
 	
 	
 	itemPrice = parts [3];
-	BigDecimal Price = new BigDecimal(itemPrice);
+	double Price = Double.parseDouble(parts[3]);
 	
 	
 	//BigDecimal Price = BigDecimal.parse (itemPrice);
 	int No = Integer.parseInt(itemNumber);
+	//	public MenuItem(int itemNumber, String itemName, Category itemCategory, double price ) {
+
+	MenuItem item = new MenuItem(No,itemName,category,Price);
+	menuItems.put(itemName, item);
 }
 	finally{}
 	
