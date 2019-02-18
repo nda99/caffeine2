@@ -1,8 +1,5 @@
 package system;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 /**
  * Staff class, doesn't have the stock methods yet
  */
@@ -16,7 +13,7 @@ public class Staff extends User{
     protected String staffFile;
 
 	/**
-	 * Staff Constructor, create a new staff member and register him
+	 * Staff Constructor, create and register a new staff member
 	 * **/
 	public Staff(String fullName, String emailAddress, String userName, String password, String staffFile)
             throws UserNameAlreadyTakenException{
@@ -47,13 +44,13 @@ public class Staff extends User{
      * @param userName
      * @param staffFile
      */
-    public Staff(String userName, String staffFile) throws StaffNonExistantException{
+    public Staff(String userName, String staffFile) throws CustomerNonExistantException {
         this.userName = userName;
         this.loggedIn = false;
 	    try{
             this.loginData = new Login(staffFile);
             if(!loginData.staffExist(userName)){
-                throw new StaffNonExistantException(userName);
+                throw new CustomerNonExistantException(userName);
             }
             String[] details = loginData.getDetails(userName);
             this.fullName = details[0];
@@ -105,14 +102,19 @@ public class Staff extends User{
         return loggedIn;
     }
 
+    /**
+     * Recommended method to use to login
+     * @param password
+     * @return
+     */
     public boolean login(String password){
 	    this.loggedIn = loginData.login(this.userName, password);
 	    return this.loggedIn;
     }
 
-    public boolean login(String userName, String password){
-	    setUserName(userName);
-	    this.loggedIn = loginData.login(userName, password);
-	    return this.loggedIn;
+    public void logout(){
+        this.loggedIn = false;
     }
+
+
 }

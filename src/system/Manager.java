@@ -9,7 +9,7 @@ public class Manager extends Staff {
         super(fullName, emailAddress, userName,password, staffFile);
     }
 
-    public Manager(String userName, String staffFile) throws StaffNonExistantException, NotAManagerException{
+    public Manager(String userName, String staffFile) throws CustomerNonExistantException, NotAManagerException{
         super(userName, staffFile);
         String position = loginData.getDetails(userName)[2];
         if(!position.equals("Manager")){
