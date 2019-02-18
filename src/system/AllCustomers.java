@@ -91,7 +91,7 @@ public class AllCustomers {
      * @return the loyal customer corresponding to the membership if found
      * @throws CustomerNonExistantException
      */
-    public LoyalCustomer getCustomer(String membership) throws CustomerNonExistantException{
+    public LoyalCustomer getLoyalCustomer(String membership) throws CustomerNonExistantException{
         String msHash = hashMembership(membership);
         LoyalCustomer res = customers.get(msHash);
         if(res == null){
@@ -102,6 +102,24 @@ public class AllCustomers {
         }
     }
 
+    /**
+     * Remove a loyal customer based on its membership number
+     * @param membership membership number
+     * @return
+     */
+    public String removeLoyalCustomer(String membership){
+        String msHash = hashMembership(membership);
+        customers.remove(membership);
+        return "Loyal customer " + membership + "has been removed";
+    }
+
+    /**
+     * Remove a loyal customer based on the hash of its membership number
+     * @param membershipHash hash of the membership
+     */
+    public void removeCustomerHash(String membershipHash){
+        customers.remove(membershipHash);
+    }
 
     /**
      * Simple copy function used in the updateFile method to create a backup file
@@ -123,7 +141,8 @@ public class AllCustomers {
     }
 
     /**
-     * update the file to record the number of points, lazy version, erases the previous file and write it again
+     * Update the file to record the number of points, lazy version, erases the previous file and write it again.
+     * This method should always be used before finishing the program to save the changes.
      * @return true if it succeeded, false else
      */
     public boolean updateFile(){
