@@ -73,9 +73,11 @@ public class Order {
 	 * @param quantity containing how many of this item have been ordered 
 	 */
 	public void addItem(MenuItem item, Integer quantity ) {
-		this.orderItems.put(item, quantity);
-		this.total = total + item.getPrice()*quantity;
-		
+		if (item != null) {
+			this.orderItems.put(item, quantity);
+			this.total = total + item.getPrice() * quantity;
+		}
+
 	}
 	
 	/**
@@ -133,7 +135,7 @@ public class Order {
 		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
 		boolean cold=false, sand=false, pastry=false;
 		double cPrice=0.0, sPrice=0.0, pPrice=0.0;
-		for (Map.Entry m: orderItems.entrySet()) {
+		for (Map.Entry m: this.orderItems.entrySet()) {
 			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.COLDDRINK) {
 				cold=true;
 				cPrice = Menu.getItem(m.getKey().toString()).getPrice();
@@ -309,9 +311,10 @@ public class Order {
 	public String toString() {
 		String items = "";
 		for (Map.Entry m: orderItems.entrySet()) {
-			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
+			//items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
+			items = items + String.format(",%s,%d", m.getKey().toString(),m.getValue());
 		}
-		return (String.format("Time: %s Items:%s", time.toString(), items));
+		return (String.format("%s %s\n", time.toString(), items));
 	}
 	/**
 	 * Check if order has been processed

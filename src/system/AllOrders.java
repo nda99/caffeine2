@@ -2,6 +2,8 @@ package system;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +24,7 @@ public class AllOrders {
 	/**
 	 * Adds new order to map
 	 */
-	public void newOrder() {
+	public static void newOrder() {
 		Date date = new Date();
 		Timestamp time = new Timestamp(date.getTime());
 		Order order = new Order(time);
@@ -33,7 +35,7 @@ public class AllOrders {
 	 * Reads order file
 	 * @param orderFileName
 	 */
-	public void readOrderFile(String orderFileName) {
+	public static void readOrderFile(String orderFileName) {
 		File file = new File(orderFileName);
 		try {
 			Scanner scanner = new Scanner(file);
@@ -41,7 +43,7 @@ public class AllOrders {
 				 String line = scanner.nextLine();
 				 String[] details = line.split(",");
 				 
-				 Timestamp timestamp = this.toTimestamp(details[0]);
+				 Timestamp timestamp = toTimestamp(details[0]);
 				 Order nOrder = new Order(timestamp);
 				 
 				 for (int i=1; i<details.length; i = i+2) {
@@ -60,18 +62,50 @@ public class AllOrders {
 	}
 	
 	/**
+	 * Updates order file with corrections and removing processed orders
+	 * 
+	 * @param orderFileName
+	 */
+	public static void updateOrderFile(String orderFileName) {
+		FileWriter file = null;
+
+		try {
+			file = new FileWriter(orderFileName);
+			for (Map.Entry m : getOrderMap().entrySet()) {
+
+				Order o = orderMap.get(m.getKey());
+				if (!orderMap.get(m.getKey()).isProcessed()) {
+					file.write(o.toString());
+					System.out.println(o.toString());
+				}
+			}
+
+			file.close();
+		} catch (IOException e) {
+			System.out.println("File not found");
+		}
+
+	}
+	
+	/**
 	 * Converts time in String to Timestamp 
 	 * @param time
 	 * @return Timestamp object
 	 */
-	public Timestamp toTimestamp(String time) {
+	public static Timestamp toTimestamp(String time) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	    Date parsedDate = null;
 		try {
 			parsedDate = dateFormat.parse(time);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				parsedDate = dateFormat2.parse(time);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		Timestamp t = new Timestamp(parsedDate.getTime());
@@ -84,7 +118,7 @@ public class AllOrders {
 	 * @param t Time string to search for order
 	 * @return Order made at provided time
 	 */
-	public Order getOrder(String t) throws nullOrderException{
+	public static Order getOrder(String t) throws nullOrderException{
 		Timestamp s = toTimestamp(t);
 		if (orderMap.get(s)==null) {throw new nullOrderException(t);}
 		return orderMap.get(s);
@@ -95,7 +129,7 @@ public class AllOrders {
 	 * @param t Time Timestamp object to get correspondent order
 	 * @return Order made at provided time
 	 */
-	public Order getOrder(Timestamp t) {
+	public static Order getOrder(Timestamp t) {
 		return orderMap.get(t);
 	}
 	
@@ -103,7 +137,7 @@ public class AllOrders {
 	 * Gets the next unprocessed order on the queue (by oldest) 
 	 * @return Next order to process
 	 */
-	public Order getNextOrder() {
+	public static Order getNextOrder() {
 		Order next;
 		Entry<Timestamp,Order> ent = orderMap.firstEntry();
 		next = ent.getValue();
@@ -120,7 +154,7 @@ public class AllOrders {
 	 * @param t Timestamp of current order
 	 * @return Next order to be processed
 	 */
-	public Order getNextOrder(Timestamp t) {
+	public static Order getNextOrder(Timestamp t) {
 		Order next;
 		Entry<Timestamp,Order> ent = orderMap.higherEntry(t);
 		next = ent.getValue();
