@@ -29,7 +29,7 @@ public class Login {
                 lineCounter ++;
                 String[] user = line.split(",");
                 if(user.length != 5){
-                    throw new InvalidUsersFileException(lineCounter);
+                    throw new InvalidUsersFileException(lineCounter, user.length);
                 } else{
                     userTemp[0] = user[1];
                     userTemp[1] = user[2];
@@ -65,12 +65,12 @@ public class Login {
      * @throws UserNameAlreadyTakenException
      * @return true if successful, false if not
      */
-    public boolean register(String userName, String password, String position,
-                         String fullName, String emailAddress) throws UserNameAlreadyTakenException {
+    public boolean register(String userName, String password, String position, String fullName, String emailAddress){
         String[] value;
         value = userMap.get(userName);
         if (value != null){
-            throw new UserNameAlreadyTakenException(userName);
+            System.out.println("Username " + userName + " already exists, registration failed");
+            return false;
         }else{
             value = new String[4];
             value[0] = hashPassword(password);
@@ -137,10 +137,10 @@ public class Login {
      * @param userName
      * @return a String array with full name, email address and position in this order
      */
-    public String[] getDetails(String userName)throws StaffNonExistantException{
+    public String[] getDetails(String userName)throws CustomerNonExistantException {
         String[] result = new String[3];
         if(!staffExist(userName)){
-            throw new StaffNonExistantException(userName);
+            throw new CustomerNonExistantException(userName);
         }else{
             String[] valueTemp = userMap.get(userName);
             result[0] = valueTemp[2];

@@ -1,8 +1,5 @@
 package system;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 /**
  * Staff class, doesn't have the stock methods yet
  */
@@ -47,13 +44,13 @@ public class Staff extends User{
      * @param userName
      * @param staffFile
      */
-    public Staff(String userName, String staffFile) throws StaffNonExistantException{
+    public Staff(String userName, String staffFile) throws CustomerNonExistantException {
         this.userName = userName;
         this.loggedIn = false;
 	    try{
             this.loginData = new Login(staffFile);
             if(!loginData.staffExist(userName)){
-                throw new StaffNonExistantException(userName);
+                throw new CustomerNonExistantException(userName);
             }
             String[] details = loginData.getDetails(userName);
             this.fullName = details[0];

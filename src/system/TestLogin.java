@@ -24,9 +24,6 @@ public class TestLogin {
         catch (InvalidUsersFileException e){
             e.printStackTrace();
         }
-        catch (UserNameAlreadyTakenException e){
-            e.printStackTrace();
-        }
 
         assertEquals("Failed to register", true, result);
 
