@@ -32,8 +32,10 @@ public class Menu {
 */
 
 		//create the hashset
+
+
 	static Map<String, MenuItem>  menuItems = new HashMap<String, MenuItem>();
-			
+
 
 			
 			//add item to hashset
