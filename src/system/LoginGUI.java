@@ -74,7 +74,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 			}
 		    public void mouseClicked(MouseEvent e)  
 		    {  
-		    	
+		    	RegisterGUI rGUI = new RegisterGUI();
 		    }  
 		
 		});
@@ -122,7 +122,6 @@ public class LoginGUI extends JFrame implements ActionListener{
 					// TODO Auto-generated catch block
 					error.setForeground(Color.red);
 					error.setText("Oops! User does not exist. ");
-					e1.printStackTrace();
 					//e1.printStackTrace();
 				}
 			
