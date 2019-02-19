@@ -17,23 +17,23 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class LoginGUI extends JFrame implements ActionListener{
-	JFrame frame = new JFrame();
-	JPanel centerPanel = new JPanel();
-	JPanel northPanel = new JPanel();
-	JPanel westPanel = new JPanel();
-	JPanel southPanel = new JPanel();
-	JPanel eastPanel = new JPanel();
-	String staffFile = "staff.csv";
-	JLabel title = new JLabel("** Login **");
-	JLabel user = new JLabel("Username");
-	JTextField userField = new JTextField();
-	JPasswordField passwordField = new JPasswordField();
-	JLabel password = new JLabel("Password");
-	JButton slogin = new JButton("Staff Login");
-	JButton mlogin = new JButton("Manager Login");
-	JLabel register = new JLabel("Register");
-	JLabel error = new JLabel();
-	String pass;
+	private JFrame frame = new JFrame();
+	private JPanel centerPanel = new JPanel();
+	private JPanel northPanel = new JPanel();
+	private JPanel westPanel = new JPanel();
+	private JPanel southPanel = new JPanel();
+	private JPanel eastPanel = new JPanel();
+	private String staffFile = "staff.csv";
+	private JLabel title = new JLabel("** Login **");
+	private JLabel user = new JLabel("Username");
+	private JTextField userField = new JTextField();
+	private JPasswordField passwordField = new JPasswordField();
+	private JLabel password = new JLabel("Password");
+	private JButton slogin = new JButton("Staff Login");
+	private JButton mlogin = new JButton("Manager Login");
+	private JLabel register = new JLabel("Register");
+	private JLabel error = new JLabel();
+	private String pass;
 
 	
 	
@@ -131,8 +131,8 @@ public class LoginGUI extends JFrame implements ActionListener{
 		{
 			try {
 				Manager manager = new Manager(userField.getText(),staffFile);
-				String passText = new String(passwordField.getPassword());
-				Boolean loggedIn = manager.login(passText);
+				pass = new String(passwordField.getPassword());
+				Boolean loggedIn = manager.login(pass);
 				if(loggedIn == true)
 				{
 					StaffGUI gusi = new StaffGUI(manager);
