@@ -314,7 +314,7 @@ public class Order {
 			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
 		}
 
-		return (String.format("%s Items: %s\n", time.toString(), items));
+		return (String.format("%s   |  %s\n", time.toString(), items));
 	}
 	
 	public String toString() {
