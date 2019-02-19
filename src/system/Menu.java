@@ -35,7 +35,6 @@ public class Menu {
 
 
 
-
     public void readFile(String filename) {
         this.menuFile = filename;
         try {
@@ -108,7 +107,6 @@ public class Menu {
             double Price = Double.parseDouble(parts[3]);
 
 
-            //BigDecimal Price = BigDecimal.parse (itemPrice);
             int No = Integer.parseInt(itemNumber);
             int quantity = Integer.parseInt(parts[4]);
             //	public MenuItem(int itemNumber, String itemName, Category itemCategory, double price ) {
