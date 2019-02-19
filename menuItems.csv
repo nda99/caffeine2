@@ -1,15 +1,15 @@
-1,espresso,Hot drink,0.90,32
+1,Espresso,Hot drink,0.90,32
 2,Macchiato,Hot drink,1.80,150
 3,Latte,hot Drink,2.40,9
 4,Cappuccino,Hot drink,2.40,89
 5,Americano,Hot drink,1.80,650
 6,Mocha,Hot drink,2.50,83
-7,tea,Hot drink,0.90,47
+7,Tea,Hot drink,0.90,47
 8,flavoured tea,Hot drink,1.20,57
 9,hot chocolate,Hot drink,2.40,32
 10,juice,Cold drink,0.90,110
 11,smoothie,Cold drink,3.60,57
-12,bottled water,Cold drink,1.50,98
+12,Water,Cold drink,1.50,98
 13,lemonade,Cold drink,2.10,14
 14,coca cola,Cold drink,2.10,27
 15,fanta,Cold drink,2.10,60
@@ -28,3 +28,4 @@
 28,BLT,sandwich,3.00,98
 29,chicken mayo,Sandwich,3.00,101
 30,prawn mayo,Sandwich,3.00,404
+31,Cookie,Pastries,1.20
