@@ -65,23 +65,15 @@ class OrderTest {
 		double expected5 = 5.99;
 		double actual5 = order5.calculateTotal();
 		
-		String message6 = "The price is wrong for the Meal Deal (1 Brownie, 1 Water, 1 Sandwich) with voucher";
-		double expected6 = 5.99;
-		double actual6 = order5.calculateTotal("voucher");
-		
-		String message7 = "The price is wrong for Cookie(x1) and Espresso (x2) with voucher";
-		double expected7 = 3.04;
-		double actual7 = order1.calculateTotal("voucher");
+
 		
 		assertEquals(message1,(Double)expected1,(Double)actual1);
 		assertEquals(message2,(Double)expected2,(Double)actual2);
-		//assertTrue(order2.getItemQuantity("Cookie")==1);
+		assertTrue(order2.getItemQuantity("Cookie")==1);
 		assertEquals(message3,(Double)expected3,(Double)actual3);
-		//assertTrue(order3.getItemQuantity("Cookie")==2);
+		assertTrue(order3.getItemQuantity("Cookie")==2);
 		assertEquals(message4,(Double)expected4,(Double)actual4);
 		assertEquals(message5,(Double)expected5,(Double)actual5);
-		assertEquals(message6,(Double)expected6,(Double)actual6);
-		assertEquals(message7,(Double)expected7,(Double)actual7);
 		
 	}
 
