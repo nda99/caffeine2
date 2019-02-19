@@ -187,8 +187,12 @@ public class Order {
 		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
 		boolean cold=false, sand=false, pastry=false;
 		double cPrice=0.0, sPrice=0.0, pPrice=0.0;
-		for (Map.Entry m: orderItems.entrySet()) {
-			if(Menu.getItem(m.getKey().toString()).getCategory()==Category.COLDDRINK) {
+		System.out.println(orderItems);
+		for (Map.Entry<MenuItem,Integer> m: orderItems.entrySet()) {
+
+
+			if(Menu.getItem(m.getKey().toString()).getCategory().equals(Category.COLDDRINK)){
+				System.out.println(m.getKey().toString());
 				cold=true;
 				cPrice = Menu.getItem(m.getKey().toString()).getPrice();
 			}
