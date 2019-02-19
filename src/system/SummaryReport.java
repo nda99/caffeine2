@@ -21,8 +21,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-//import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
-
 public class SummaryReport extends JFrame implements ActionListener{
 	
 	private JFrame frame = new JFrame();
@@ -38,7 +36,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 	private String from;
 	private String to;
 	private int ordersCounter = 0;
-	private double totalIncome;
+	private double totalIncome =0.0;
 
 	private HashMap<String,Integer> itemsIncome = new HashMap<String,Integer>();
 	AllOrders temp = new AllOrders();
@@ -51,15 +49,17 @@ public class SummaryReport extends JFrame implements ActionListener{
 	}
 	
 	
-	public HashMap<String,Integer> calculateStatistics(String from,String to)
+	public void calculateStatistics(String from,String to)
 	{
-		System.out.println(ordersMap);
+		from += " 00:00:00.000";
+		to += " 00:00:00.000";
 		  // Calculate frequency analysis for items
 		    for (Map.Entry<Timestamp,Order> entry : ordersMap.entrySet())  
 		    {
 		
 		    	if(entry.getKey().after(temp.toTimestamp(from)) && entry.getKey().before(temp.toTimestamp(to)))
 		    	{
+
 		    		ordersCounter ++;
 		    		totalIncome += entry.getValue().calculateTotal();
 		        	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
@@ -83,7 +83,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 		    }		
 		
 		  System.out.println("Done");
-	        return itemsIncome;
+	       // return itemsIncome;
 	      
 	}
 	
@@ -116,6 +116,8 @@ public class SummaryReport extends JFrame implements ActionListener{
 		String[] columnNames = {"ItemID",
                 "Times Ordered",
                 "Price*Qty"};
+		System.out.println(itemsIncome);
+
 		Object[][] data = new Object[itemsIncome.keySet().size()][3] ;
 		for (Object obj : data)
 		{
@@ -128,6 +130,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 				 itemDetails[1] = Double.toString(total);
 				 obj = itemDetails;
 			}
+			System.out.println("printing object");
 		}
 		
 		JTable tableA = new JTable(data, columnNames);
@@ -189,7 +192,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 	{
 		 centralPanel.setBackground(Color.WHITE);
 		 centralPanel.setLayout(new GridLayout(2,1));
-		 viewSummaryReport(to,from);
+		// viewSummaryReport(to,from);
 		/* String[] columnNames = {"First Name",
                  "Last Name",
                  "Sport",
@@ -277,7 +280,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 		{
 			from = dateFrom.getText();
 			to = dateTo.getText();
-			setupCentralPanel();
+			 viewSummaryReport(from,to);
 		}
 		
 	}
