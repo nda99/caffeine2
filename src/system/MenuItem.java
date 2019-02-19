@@ -10,14 +10,16 @@ public class MenuItem  implements Comparable<MenuItem> {
 	private String name;
 	private Category category;
 	private double price;
+	private int quantity;
 
 
 	// constructor 
-	public MenuItem(int itemNumber, String itemName, Category itemCategory, double price ) {
+	public MenuItem(int itemNumber, String itemName, Category itemCategory, double price, int quantity ) {
 		this.number = itemNumber;
 		this.name = itemName;
 		this.category = itemCategory;
 		this.price = price;
+		this.quantity = quantity;
 		}
 	 //compare item categories 
 	public int compareTo (MenuItem other) {
@@ -60,8 +62,12 @@ public class MenuItem  implements Comparable<MenuItem> {
 	public Category getCategory() {
 		return category;
 	}
-	
-	
+
+	//return quantity
+	public int getQuantity() {
+		return quantity;
+	}
+
 	// get full details
 	public String toString() {
 		return getName();
@@ -90,7 +96,24 @@ public class MenuItem  implements Comparable<MenuItem> {
 		this.category = category;
 		
 	}
-	
-	
+
+	//set quantity for stock
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * TODO this should throw an exception if quantity drops below 0
+	 */
+	public void decreaseQuantity(int dec){
+		if(dec > this.quantity){
+			System.out.println("Only " + this.quantity + " " + this.name + " left !");
+		}
+		this.quantity -= dec;
+	}
+
+	public void increaseQuantity(int inc){
+	    this.quantity += inc;
+    }
 }
 	

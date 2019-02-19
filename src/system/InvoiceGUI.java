@@ -16,43 +16,44 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Random;
 public class InvoiceGUI {
 
 	public static void main(String[] args) {
-		Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, 1.20));
-		Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, 1.30));
-		Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, 1.50));
-		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, 1.40));
-		Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, 2.30));
-		Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK,0.70));
-		Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, 2.10));
-		AllOrders orders = new AllOrders();
-		orders.readOrderFile("D:\\Software Engineering\\caffeine\\orders.csv");
-	      for(Map.Entry m:orders.getOrderMap().entrySet()){    
+		//Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, 1.20));
+		//Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, 1.30));
+		//Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, 1.50));
+		//Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, 1.40));
+		//Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, 2.30));
+		//Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK,0.70));
+		//Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, 2.10));
+		Menu a = new Menu();
+		a.readFile("menuItems.csv");
+		//AllOrders orders = new AllOrders();
+		AllOrders.readOrderFile("D:\\Software Engineering\\caffeine\\orders.csv");
+
+	      for(Map.Entry m: AllOrders.getOrderMap().entrySet()){    
 	          System.out.println(m.toString());    
 	         }    
 	      
-	      System.out.println(orders.getNextOrder().toString());
+	      System.out.println(AllOrders.getNextOrder().toString());
 	      
-	      try {
-			orders.getOrder("42016-12-20 13:35:07.597").deleteItem(Menu.getItem("Yogurt"));
-		} catch (nullOrderException e) {
-			System.out.println(e.toString());
+	  //    try {
+			//orders.getOrder("2016-12-20 13:35:07.597").deleteItem(Menu.getItem("Yogurt"));
+		//} catch (nullOrderException e) {
+			//System.out.println(e.toString());
 			// TODO Auto-generated catch block
-		}
+	//	}
 		InvoiceGUI iGui = null;
 		try {
-			iGui = new InvoiceGUI(orders.getOrder("2017-11-01 21:31:04.971"));
+			iGui = new InvoiceGUI(AllOrders.getOrder("2019-01-22 11:39:47.597"));
 
 		} catch (nullOrderException e) {
 			iGui = new InvoiceGUI();
 		}
 		
 		iGui.displayGUI();
-		System.out.println(orders.getNextOrder().toString());
+		System.out.println(AllOrders.getNextOrder().toString());
 	}
 	
 	private Order order = null;
@@ -135,6 +136,7 @@ public class InvoiceGUI {
 		    	else {
 		    		if(order!=null) {
 		    			order.processOrder();
+		    			AllOrders.updateOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders_update.csv");
 		    		}
 		    		displayMessage("Payment successful");
 		    		invoiceFrame.dispose();
