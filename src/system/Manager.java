@@ -5,7 +5,7 @@ package system;
  */
 public class Manager extends Staff {
     public Manager(String fullName, String emailAddress, String userName,String password, String staffFile)
-            throws UserNameAlreadyTakenException{
+            throws InvalidRegistration{
         super(fullName, emailAddress, userName,password, staffFile);
     }
 

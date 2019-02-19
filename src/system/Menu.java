@@ -74,8 +74,21 @@ public class Menu {
         else {
             return Category.SANDWICH;
         }
+    }
 
-
+    private String translateStringToCat(Category cat) {
+        if(cat.equals(Category.HOTDRINK)){
+            return "Hot drink";
+        }
+        if(cat.equals(Category.COLDDRINK)){
+            return "Cold drink";
+        }
+        if(cat.equals(Category.SANDWICH)){
+            return "Sandwich";
+        }
+        else {
+            return "Pastries";
+        }
     }
 
     public void processLine(String line) {
@@ -169,8 +182,8 @@ public class Menu {
             //fill new file with current data in the Hashmap
             for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()) {
                 MenuItem miTemp = menuItem.getValue();
-                writer.write( miTemp.getNumber() + "," + miTemp.getName() + "," + miTemp.getCategory() + "," +
-                        "," + miTemp.getPrice() + "," + miTemp.getQuantity() + newline);
+                writer.write( miTemp.getNumber() + "," + miTemp.getName() + "," + translateStringToCat(miTemp.getCategory())
+                        + "," + miTemp.getPrice() + "," + miTemp.getQuantity() + newline);
             }
 
             writer.flush();
