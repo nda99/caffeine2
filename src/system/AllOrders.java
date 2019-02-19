@@ -166,6 +166,47 @@ public class AllOrders {
 		return next;
 	}
 	
+	/**
+	 * Gets the next order on the queue in relation to another Order
+	 * @param o Order which will be followed by Next Order
+	 * @return Next Order
+	 */
+	public static Order getNextOrder(Order o) {
+		Order next;
+		Entry<Timestamp,Order> ent = orderMap.higherEntry(o.getTime());
+		next = ent.getValue();
+		
+		if(next.isProcessed()) {
+			next = getNextOrder(next.getTime());
+		}
+		
+		return next;
+	}
+	/**
+	 * Checks if there is a next order after input order
+	 * @param o Order
+	 * @return false if there is no next order, true if there is 
+	 */
+	public static boolean isNextOrder(Order o) {
+		try {
+			Entry<Timestamp,Order> ent = orderMap.higherEntry(o.getTime());
+			Order next = ent.getValue();
+			return true;
+		}
+		catch(NullPointerException e) {
+			return false;
+		}
+	}
+	
+	public static void deleteOrder(String t) {
+		try {
+		AllOrders.getOrder(t);
+		orderMap.remove(toTimestamp(t));
+		}
+		catch(nullOrderException e){
+			
+		}
+	}
 	
 	/**
 	 * Getter for order TreeMap

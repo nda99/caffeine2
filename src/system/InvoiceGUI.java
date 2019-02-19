@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Random;
 public class InvoiceGUI {
 

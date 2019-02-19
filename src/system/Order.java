@@ -308,6 +308,15 @@ public class Order {
 		return time.toString().hashCode();
 	}
 	
+	public String getDetails() {
+		String items = "";
+		for (Map.Entry m: orderItems.entrySet()) {
+			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
+		}
+
+		return (String.format("%s Items: %s\n", time.toString(), items));
+	}
+	
 	public String toString() {
 		String items = "";
 		for (Map.Entry m: orderItems.entrySet()) {
