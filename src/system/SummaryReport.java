@@ -21,7 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
+//import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
 
 public class SummaryReport extends JFrame implements ActionListener{
 	
@@ -124,7 +124,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 				String[] itemDetails = new String[3];
 				 itemDetails[0] = item;
 				 itemDetails[1] = itemsIncome.get(item).toString();
-				 double total = Menu.getItem(item).getPrice().doubleValue() * itemsIncome.get(item);
+				 double total = Menu.getItem(item).getPrice() * itemsIncome.get(item);
 				 itemDetails[1] = Double.toString(total);
 				 obj = itemDetails;
 			}

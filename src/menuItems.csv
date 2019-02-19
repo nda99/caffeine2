@@ -1,4 +1,4 @@
-1,espresso,hot drink,0.9
+1,Espresso,hot drink,0.9
 2,Macchiato,hot drink,1.8
 3,Latte,hot drink,2.4
 4,Cappuccino,hot drink,2.4
@@ -18,7 +18,7 @@
 18,bagel,Pastries,2
 19,tray bake,Pastries,1.5
 20,croissants,Pastries,1.5
-21,brownie,Pastries,1.5
+21,Brownie,Pastries,1.5
 22,strawberry tart,Pastries,1.5
 23,fruit tart,Pastries,1.5
 24,cinnamon roll,Pastries,1.5
@@ -28,3 +28,6 @@
 28,BLT,sandwich,3
 29,chicken mayo,sandwich,3
 30,prawn mayo,sandwich,3
+31,Cookie,Pastries,1.20
+32,Sandwich,sandwich,3.50 
+33,Cake,Pastries,1.80
