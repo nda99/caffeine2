@@ -19,14 +19,14 @@ class OrderTest {
 		Order order4 = new Order();
 		Order order5 = new Order();
 		
-		Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, 1.20));
-		Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, 1.30));
-		Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, 1.50));
-		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, 1.40));
-		Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, 2.30));
-		Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK,0.70));
-		Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, 2.10));
-		Menu.addItem("Sandwich", new MenuItem(8,"Sandwich",Category.SANDWICH, 3.5));
+		Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, 1.20, 9));
+		Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, 1.30,10));
+		Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, 1.50,15));
+		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, 1.40,89));
+		Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, 2.30,90));
+		Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK,0.70,101));
+		Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, 2.10,46));
+		Menu.addItem("Sandwich", new MenuItem(8,"Sandwich",Category.SANDWICH, 3.5,52));
 		
 		order1.addItem(Menu.getItem("Cookie"), 1);
 		order1.addItem(Menu.getItem("Espresso"), 2);

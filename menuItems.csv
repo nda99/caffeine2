@@ -1,31 +1,31 @@
-item no,item name ,category ,price 
-1,espresso,hot drink,£0.90 
-2,Macchiato,hot drink,£1.80 
-3,Latte,hot drink,£2.40 
-4,Cappuccino,hot drink,£2.40 
-5,Americano,hot drink,£1.80 
-6,Mocha,hot drink,£2.50 
-7,tea,hot drink,£0.90 
-8,flavoured tea,hot drink,£1.20 
-9,hot chocolate,hot drink,£2.40 
-10,juice ,cold drink,£0.90 
-11,smoothie,cold drink,£3.60 
-12,bottled water,cold drink,£1.50 
-13,lemonade,cold drink,£2.10 
-14,coca cola,cold drink,£2.10 
-15,fanta,cold drink,£2.10 
-16,diet coke,cold drink,£2.10 
-17,muffin,Pastries,£2.00 
-18,bagel,Pastries,£2.00 
-19,tray bake,Pastries,£1.50 
-20,croissants,Pastries,£1.50 
-21,brownie,Pastries,£1.50 
-22,strawberry tart,Pastries,£1.50 
-23,fruit tart,Pastries,£1.50 
-24,cinnamon roll,Pastries,£1.50 
-25,cheese,sandwich,£2.30 
-26,ham,sandwich,£2.30 
-27,ham and cheese,sandwich,£2.50 
-28,BLT,sandwich,£3.00 
-29,chicken mayo,sandwich,£3.00 
-30,prawn mayo,sandwich,£3.00 
+item no,item name,category,price,quantity
+1,espresso,hot drink,ï¿½0.90,32
+2,Macchiato,hot drink,ï¿½1.80,150
+3,Latte,hot drink,ï¿½2.40,9
+4,Cappuccino,hot drink,ï¿½2.40,89
+5,Americano,hot drink,ï¿½1.80,650
+6,Mocha,hot drink,ï¿½2.50,83
+7,tea,hot drink,ï¿½0.90,47
+8,flavoured tea,hot drink,ï¿½1.20,57
+9,hot chocolate,hot drink,ï¿½2.40,32
+10,juice,cold drink,ï¿½0.90,110
+11,smoothie,cold drink,ï¿½3.60,57
+12,bottled water,cold drink,ï¿½1.50,98
+13,lemonade,cold drink,ï¿½2.10,14
+14,coca cola,cold drink,ï¿½2.10,27
+15,fanta,cold drink,ï¿½2.10,60
+16,diet coke,cold drink,ï¿½2.10,59
+17,muffin,Pastries,ï¿½2.00,75
+18,bagel,Pastries,ï¿½2.00,32
+19,tray bake,Pastries,ï¿½1.50,78
+20,croissants,Pastries,ï¿½1.50,28
+21,brownie,Pastries,ï¿½1.50,67
+22,strawberry tart,Pastries,ï¿½1.50,12
+23,fruit tart,Pastries,ï¿½1.50,36
+24,cinnamon roll,Pastries,ï¿½1.50,95
+25,cheese,sandwich,ï¿½2.30,453
+26,ham,sandwich,ï¿½2.30,12
+27,ham and cheese,sandwich,ï¿½2.50,12
+28,BLT,sandwich,ï¿½3.00,98
+29,chicken mayo,sandwich,ï¿½3.00,101
+30,prawn mayo,sandwich,ï¿½3.00,404
