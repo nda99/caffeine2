@@ -268,6 +268,12 @@ private void setCenterPanel(){
 		{
 			this.menuDisplay.setModel(this.coldModel);
 		}
+		if (e.getSource()==b6)
+		{
+			Order o = new Order(getBasket());
+			InvoiceGUI checkoutGUI = new InvoiceGUI(o);
+			checkoutGUI.displayGUI();
+		}
 		
 	}
 	
