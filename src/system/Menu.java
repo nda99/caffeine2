@@ -52,7 +52,7 @@ public class Menu {
 
 	}
 
-    static private Category translateCategory(String test) {
+    static public Category translateCategory(String test) {
         if(test.equals("Hot drink")) {
             return Category.HOTDRINK;
         }
