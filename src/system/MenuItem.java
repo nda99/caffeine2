@@ -26,7 +26,7 @@ public class MenuItem  implements Comparable<MenuItem> {
 		return name.compareTo(other.name);
 	}
 	//if same name find 
-	//@Override
+	@Override
 	public boolean equals (Object other) {
 		if (other instanceof MenuItem) {
 			MenuItem otherItem = (MenuItem)other;
@@ -34,14 +34,19 @@ public class MenuItem  implements Comparable<MenuItem> {
 				&& number == otherItem.number 
 				&& category.equals (otherItem.category) 
 				&& price == otherItem.price )
-				return true;
+				return true ;
 		}
+		
 		return false;
 		}
+	
+	@Override
 	//finding hash code 
 			public int hashCode() { 
-				return name.hashCode();
+				return (int) number * name.hashCode() * category.hashCode();
 			}
+	
+	
 	
 	// return item number 
 	public int getNumber() {
