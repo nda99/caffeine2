@@ -11,6 +11,7 @@ public class Order {
 	//private Customer customer;
 	private double total;
 	private boolean processed = false;
+	private boolean validated = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	public Order(Timestamp t) {
@@ -114,7 +115,7 @@ public class Order {
 		double offer = 0.0;
 		
 		// Order 2 Mochas and get a FREE COOKIE!!!
-		if (orderItems.get(Menu.getItem("Mocha")) != null) {
+		if (orderItems.get(Menu.getItem("Mocha")) != null && !validated) {
 			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
 				if (orderItems.get(Menu.getItem("Cookie")) == null) {
 					orderItems.put(Menu.getItem("Cookie"), 1);
@@ -124,7 +125,7 @@ public class Order {
 			}
 		}
 		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get(Menu.getItem("Brownie")) != null) {
+		if (orderItems.get(Menu.getItem("Brownie")) != null && !validated) {
 			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
 				if (orderItems.get(Menu.getItem("Latte")) != null) {
 					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
@@ -154,7 +155,7 @@ public class Order {
 		if(cold && sand && pastry) {
 			offer = discount*(pPrice + cPrice + sPrice) - 5.99;
 		}
-		
+		validated=true;
 		return discount*total - offer;
 	}
 	
@@ -166,7 +167,7 @@ public class Order {
 		double offer = 0.0;
 		
 		// Order 2 Mochas and get a FREE COOKIE!!!
-		if (orderItems.get(Menu.getItem("Mocha")) != null) {
+		if (orderItems.get(Menu.getItem("Mocha")) != null && !validated) {
 			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
 				if (orderItems.get(Menu.getItem("Cookie")) == null) {
 					orderItems.put(Menu.getItem("Cookie"), 1);
@@ -176,7 +177,7 @@ public class Order {
 			}
 		}
 		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get(Menu.getItem("Brownie")) != null) {
+		if (orderItems.get(Menu.getItem("Brownie")) != null && !validated) {
 			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
 				if (orderItems.get(Menu.getItem("Latte")) != null) {
 					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
@@ -210,6 +211,7 @@ public class Order {
 		if(cold && sand && pastry) {
 			offer = pPrice + cPrice + sPrice - 5.99;
 		}
+		validated=true;
 		return total - offer;
 	}
 	
@@ -318,7 +320,7 @@ public class Order {
 			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
 		}
 
-		return (String.format("%s Items: %s\n", time.toString(), items));
+		return (String.format("%s   |  %s\n", time.toString(), items));
 	}
 	
 	public String toString() {

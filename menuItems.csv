@@ -1,30 +1,32 @@
-1,espresso,hot drink,0.90
-2,Macchiato,hot drink,1.80
-3,Latte,hot drink,2.40
-4,Cappuccino,hot drink,2.40
-5,Americano,hot drink,1.80
-6,Mocha,hot drink,2.50
-7,tea,hot drink,0.90
-8,flavoured tea,hot drink,1.20
-9,hot chocolate,hot drink,2.40
-10,juice ,cold drink,0.90
-11,smoothie,cold drink,3.60
-12,bottled water,cold drink,1.50
-13,lemonade,cold drink,2.10
-14,coca cola,cold drink,2.10
-15,fanta,cold drink,2.10
-16,diet coke,cold drink,2.10
-17,muffin,Pastries,2.00
-18,bagel,Pastries,2.00
-19,tray bake,Pastries,1.50
-20,croissants,Pastries,1.50
-21,brownie,Pastries,1.50
-22,strawberry tart,Pastries,1.50
-23,fruit tart,Pastries,1.50
-24,cinnamon roll,Pastries,1.50
-25,cheese,sandwich,2.30
-26,ham,sandwich,2.30
-27,ham and cheese,sandwich,2.50
-28,BLT,sandwich,3.00
-29,chicken mayo,sandwich,3.00
-30,prawn mayo,sandwich,3.00
+1,Espresso,Hot drink,0.90,32
+2,Macchiato,Hot drink,1.80,150
+3,Latte,hot Drink,2.40,9
+4,Cappuccino,Hot drink,2.40,89
+5,Americano,Hot drink,1.80,650
+6,Mocha,Hot drink,2.50,83
+7,Tea,Hot drink,0.90,47
+8,flavoured tea,Hot drink,1.20,57
+9,hot chocolate,Hot drink,2.40,32
+10,juice,Cold drink,0.90,110
+11,smoothie,Cold drink,3.60,57
+12,Water,Cold drink,1.50,98
+13,lemonade,Cold drink,2.10,14
+14,coca cola,Cold drink,2.10,27
+15,fanta,Cold drink,2.10,60
+16,diet coke,Cold drink,2.10,59
+17,muffin,Pastries,2.00,75
+18,bagel,Pastries,2.00,32
+19,tray bake,Pastries,1.50,78
+20,croissants,Pastries,1.50,28
+21,brownie,Pastries,1.50,67
+22,strawberry tart,Pastries,1.50,12
+23,fruit tart,Pastries,1.50,36
+24,cinnamon roll,Pastries,1.50,95
+25,cheese,Sandwich,2.30,453
+26,ham,Sandwich,2.30,12
+27,ham and cheese,Sandwich,2.50,12
+28,BLT,sandwich,3.00,98
+29,chicken mayo,Sandwich,3.00,101
+30,prawn mayo,Sandwich,3.00,404
+31,Cookie,Pastries,1.20,107
+>>>>>>> b905c0188e4e77d31bbf7fd0f5dcde6f294373b8
