@@ -10,6 +10,6 @@ public class InvalidRegistration extends Exception {
 
     @Override
     public String getMessage(){
-        return this.message;
+        return "[Invalid registration] " + this.message;
     }
 }

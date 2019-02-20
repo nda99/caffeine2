@@ -32,6 +32,34 @@ public class TestLogin {
 
         assertEquals("Failed to register", true, result);
 
+    }
+
+    @Test
+    public void testRegisterFail() {
+        String dummyFile = "dummy.csv";
+        boolean result = false;
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(dummyFile), "utf-8"))) {
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+        try {
+            Login login = new Login(dummyFile);
+            result = login.register("theo25", "pswd3", "Manager", "Theo", "theo@cafe.com");
+            result = login.register("theo25", "pswd3", "Manager", "Theo", "theo@cafe.com");
+        }
+        catch (InvalidUsersFileException e){
+            System.out.println(e.getMessage());
+        }
+        catch (InvalidRegistration e){
+            System.out.println(e.getMessage());
+            result = false;
+        }
+
+        new File(dummyFile).delete();
+
+        assertEquals("register should have failed", false, result);
 
     }
 
