@@ -25,6 +25,7 @@ public class StaffGUI extends JFrame implements ActionListener{
 	private JPanel eastPanel = new JPanel();
 	private JPanel westPanel = new JPanel();
 	private JLabel user = new JLabel("Welcome");
+	private JLabel logout = new JLabel("Logout");
 	private JLabel label1 = new JLabel("Update Stock", JLabel.LEFT);
 	private JLabel label2 = new JLabel("View Stock", JLabel.LEFT);
 	private JLabel label3 = new JLabel("View Orders", JLabel.LEFT);
@@ -38,6 +39,23 @@ public class StaffGUI extends JFrame implements ActionListener{
 		System.out.println("staff Logged in ");
 		user.setText("Weclome " +staff.getUserName());
 		northPanel.add(user);
+		logout.addMouseListener(new MouseAdapter()  
+		{  
+			public void mouseEntered(MouseEvent e)
+			{
+				logout.setForeground(Color.blue);
+			}
+			public void mouseExited(MouseEvent e)
+			{
+				logout.setForeground(Color.black);
+			}
+		    public void mouseClicked(MouseEvent e)  
+		    { 
+		    	staff.logout();
+		    	frame.dispose();
+		    }});
+		    
+		northPanel.add(logout);
 		frame.add(northPanel,BorderLayout.EAST);
 		buildGUI();
 	}
@@ -46,6 +64,22 @@ public class StaffGUI extends JFrame implements ActionListener{
 		System.out.println("Manager Logged in ");
 		user.setText("Weclome " +mngr.getUserName());
 		northPanel.add(user);
+		northPanel.add(logout);
+		logout.addMouseListener(new MouseAdapter()  
+		{  
+			public void mouseEntered(MouseEvent e)
+			{
+				logout.setForeground(Color.blue);
+			}
+			public void mouseExited(MouseEvent e)
+			{
+				logout.setForeground(Color.black);
+			}
+		    public void mouseClicked(MouseEvent e)  
+		    { 
+		    	mngr.logout();
+		    	frame.dispose();
+		    }});
 		frame.add(northPanel,BorderLayout.EAST);
 		buildGUI();
 		addManagerOptions();
@@ -75,12 +109,12 @@ public class StaffGUI extends JFrame implements ActionListener{
 		centerPanel.add(label1);
 		frame.add(eastPanel, BorderLayout.EAST);
 		frame.add(westPanel, BorderLayout.WEST);
-
 		frame.add(centerPanel, BorderLayout.CENTER);
 		control(label1,1);
 		control(label2,2);
 		control(label3,3);
 		control(label6,7);
+		control(logout,8);
 	}
 	
 	//Consider making in private method
@@ -117,7 +151,9 @@ public class StaffGUI extends JFrame implements ActionListener{
 		    	switch(number)
 		    	{
 		    		case 1: break;
-		    		case 2:break;
+		    		case 2:
+		    			new StockGUI();
+		    			break;
 		    		case 3:	
 		    				try {
 				    		Menu.readFile("menuItems.csv");
@@ -206,6 +242,7 @@ public class StaffGUI extends JFrame implements ActionListener{
 		    		case 7:SummaryReport report = new SummaryReport();
 		    			report.buildGUI();
 		    		break;
+		    		case 8: 
 		    		
 		    	}
 		    }  

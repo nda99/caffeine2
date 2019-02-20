@@ -68,7 +68,7 @@ public class Menu {
         }
     }
 
-    static private String translateCatToString(Category cat) {
+    static public String translateCatToString(Category cat) {
 
         if(cat.equals(Category.HOTDRINK)){
             return "Hot drink";
@@ -164,15 +164,15 @@ public class Menu {
      * This method should always be used before finishing the program to save the changes.
      * @return true if it succeeded, false else
      */
-    public boolean updateFile(){
+    static public boolean updateFile(){
         String backUpFile = "MenuTempBackup.csv";
         // Copying previous customer file before erasing it
-        copyFiles(this.menuFile, backUpFile);
+        copyFiles(Menu.menuFile, backUpFile);
         //deleting old customer file
-        new File(this.menuFile).delete();
+        new File(Menu.menuFile).delete();
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(this.menuFile), "utf-8"))) {
+                new FileOutputStream(Menu.menuFile), "utf-8"))) {
             String newline = System.getProperty("line.separator");
 
             //fill new file with current data in the Hashmap
@@ -185,7 +185,7 @@ public class Menu {
             writer.flush();
             writer.close();
         }catch (IOException e){
-            copyFiles(backUpFile, this.menuFile);
+            copyFiles(backUpFile, Menu.menuFile);
             new File(backUpFile).delete();
             e.printStackTrace();
             return false;
@@ -201,7 +201,7 @@ public class Menu {
      * @param source
      * @param dest
      */
-    private void copyFiles(String source, String dest){
+    static void copyFiles(String source, String dest){
         FileChannel sourceChannel = null;
         FileChannel destChannel = null;
         try {
@@ -220,7 +220,6 @@ public class Menu {
      * @param category category wanted
      * @return
      */
-
     static public ArrayList<MenuItem> getAllFromCategory(String category){
 
         ArrayList<MenuItem> items = new ArrayList<>();

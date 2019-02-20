@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -42,6 +44,17 @@ public class SummaryReport extends JFrame implements ActionListener{
 	
 	public SummaryReport()
 	{
+		try {
+    		Menu.readFile("menuItems.csv");
+			
+			}
+			catch(FileNotFoundException f)
+			{
+				f.getMessage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		 try {
 			AllOrders.readOrderFile("orders.csv");
@@ -110,18 +123,23 @@ public class SummaryReport extends JFrame implements ActionListener{
 		      sb.append("Price*Qty");
 		      sb.append('\n');
 
-		      writer.write(sb.toString());
 		      Map<String,Integer> itemsIncome = calculateStatistics();
 
 		      for (String item : itemsIncome.keySet())
 				{
 					
 		    	  sb.append(item);
+			      sb.append(',');
 		    	  sb.append(itemsIncome.get(item).toString());
+			      sb.append(',');
 		    	  sb.append(Menu.getItem(item).getPrice() * itemsIncome.get(item)).toString();
+			      sb.append('\n');
+
 					 
 				}		      
-		      System.out.println("done!");
+		      writer.write(sb.toString());
+
+		      JOptionPane.showMessageDialog(frame,"CSV file of the summary report is successfully created!");
 
 		    } catch (FileNotFoundException e) {
 		      System.out.println(e.getMessage());
@@ -161,22 +179,21 @@ public class SummaryReport extends JFrame implements ActionListener{
 		 centralPanel.add(scrollPane);
 		 frame.add(centralPanel);
 		
-		/*String[] columnNames = {"ItemID",
-                "Times Ordered",
-                "Price*Qty"};
-		Object[][] data = new Object[itemsIncome.keySet().size()][3] ;
-		for (Object obj : data)
-		{
-			for (String item : itemsIncome.keySet())
-			{
-				String[] itemDetails = new String[3];
-				 itemDetails[0] = item;
-				 itemDetails[1] = itemsIncome.get(item).toString();
-				 double total = Menu.getItem(item).getPrice().doubleValue() * itemsIncome.get(item);
-				 itemDetails[1] = Double.toString(total);
-				 obj = itemDetails;
-			}
-		}*/
+		String[] columnNames2 = {"Number of Orders",
+                "Total Income"};
+		Object[][] data2 = new Object[1][2] ;
+		String[] orderDetails = new String[2];
+		orderDetails[0] = ""+ordersCounter;
+		orderDetails[1] = ""+totalIncome;
+
+		
+		data2[0] =orderDetails ;
+		JTable tableB = new JTable(data2, columnNames2);
+		JScrollPane scrollPane2 = new JScrollPane(tableB);
+		tableB.setFillsViewportHeight(true);
+		centralPanel.add(scrollPane2);
+		frame.add(centralPanel);
+		
 
 
 		
@@ -217,63 +234,14 @@ public class SummaryReport extends JFrame implements ActionListener{
 		 centralPanel.setBackground(Color.WHITE);
 		 centralPanel.setLayout(new GridLayout(2,1));
 		 viewSummaryReport("2018-01-01","2019-01-01");
-		/* String[] columnNames = {"First Name",
-                 "Last Name",
-                 "Sport",
-                 "# of Years",
-                 "Vegetarian"};
-		 Object[][] data = {
-				    {"Kathy", "Smith",
-				     "Snowboarding", new Integer(5), new Boolean(false)},
-				    {"John", "Doe",
-				     "Rowing", new Integer(3), new Boolean(true)},
-				    {"Sue", "Black",
-				     "Knitting", new Integer(2), new Boolean(false)},
-				    {"Jane", "White",
-				     "Speed reading", new Integer(20), new Boolean(true)},
-				    {"Joe", "Brown",
-				     "Pool", new Integer(10), new Boolean(false)}
-				};
-		 JTable table = new JTable(data, columnNames);
-			System.out.print("displaying summary report");
-
-		 JScrollPane scrollPane = new JScrollPane(table);
-		 table.setFillsViewportHeight(true);
-		 centralPanel.add(scrollPane);
-		 String[] columnNames2 = {"First Name",
-                 "Last Name",
-                 "Sport",
-                 "# of Years",
-                 "Vegetarian"};
-		 Object[][] data2 = {
-				    {"Kathy", "Smith",
-				     "Snowboarding", new Integer(5), new Boolean(false)},
-				    {"John", "Doe",
-				     "Rowing", new Integer(3), new Boolean(true)},
-				    {"Sue", "Black",
-				     "Knitting", new Integer(2), new Boolean(false)},
-				    {"Jane", "White",
-				     "Speed reading", new Integer(20), new Boolean(true)},
-				    {"Joe", "Brown",
-				     "Pool", new Integer(10), new Boolean(false)}
-				};
-		 JTable table2 = new JTable(data2, columnNames2);
-			System.out.print("displaying summary report");
-
-		 JScrollPane scrollPane2 = new JScrollPane(table2);
-		 table2.setFillsViewportHeight(true);
-		 centralPanel.add(scrollPane2);
-		 frame.add(centralPanel, BorderLayout.CENTER);*/
-
-
-
+		
 	}
 	
 	public void buildGUI()
 	{
 		//Setting up the main frame 
 		frame.setLayout(new BorderLayout(10, 10));
-		frame.setTitle("Caffiene App");
+		frame.setTitle("Caffeine App");
 		frame.setSize(600,700);
 	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocation(300,500);

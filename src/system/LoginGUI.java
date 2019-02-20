@@ -85,7 +85,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 	public void buildGUI()
 	{
 	frame.setLayout(new BorderLayout(90, 90));
-	frame.setTitle("Caffiene App");
+	frame.setTitle("Caffeine App");
 	frame.setSize(700,500);
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	frame.setLocation(300,500);
@@ -115,7 +115,13 @@ public class LoginGUI extends JFrame implements ActionListener{
 					{
 						error.setText("");
 						error.setVisible(false);
+						frame.dispose();
+
 						StaffGUI gui = new StaffGUI(staff);
+					}
+					else
+					{
+						error.setText("Invalid Password");
 					}
 					
 				} catch (StaffNonExistantException e1) {
@@ -137,6 +143,8 @@ public class LoginGUI extends JFrame implements ActionListener{
 				{
 					StaffGUI gusi = new StaffGUI(manager);
 					error.setVisible(false);
+					frame.dispose();
+
 				}	
 				
 			} catch (StaffNonExistantException e1) {
