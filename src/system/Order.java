@@ -1,4 +1,6 @@
 package system;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +55,15 @@ public class Order {
 		// declares file path if file is located in diff location not in the same folder
 		String filename = "menuItems.csv";
 		// reads items from file 
-	    Menu.readFile(filename);
+	    try {
+			Menu.readFile(filename);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
@@ -343,5 +353,14 @@ public class Order {
 	 */
 	public void processOrder() {
 		processed = true;
+
+		for (Map.Entry m: orderItems.entrySet()) {
+			try {
+			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
+			}
+			catch(NotEnoughStockException e) {
+				
+			}
+		}
 	}
 }

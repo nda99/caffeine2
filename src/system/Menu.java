@@ -28,33 +28,29 @@ public class Menu {
     }
     
 
+	static public void readFile(String filename) throws FileNotFoundException,IOException{
+		Menu.menuFile = filename;
 
-    static public void readFile(String filename) {
-        Menu.menuFile = filename;
-        try {
-            Scanner inputFromFile = new Scanner(new File(filename));
+		Scanner inputFromFile = new Scanner(new File(filename));
 
-            //checks if there is a line in the scanner
-            while (inputFromFile.hasNextLine()) {
+		// checks if there is a line in the scanner
+		while (inputFromFile.hasNextLine()) {
 
-                // reads the line and assign the data read from the line to a local variable
-                String datainLine = inputFromFile.nextLine();
+			// reads the line and assign the data read from the line to a local variable
+			String datainLine = inputFromFile.nextLine();
 
-                // Checks if the line has any data, if no data exists in the line then stop the reading and close the file
-                if (datainLine.length() != 0) {
+			// Checks if the line has any data, if no data exists in the line then stop the
+			// reading and close the file
+			if (datainLine.length() != 0) {
 
-                    //Send the read data from a line for further processing to a function called processDataInLine
-                    processLine(datainLine);
-                }
-            }
-            inputFromFile.close(); //close the file
+				// Send the read data from a line for further processing to a function called
+				// processDataInLine
+				processLine(datainLine);
+			}
+		}
+		inputFromFile.close(); // close the file
 
-        }
-        catch (FileNotFoundException fnf) {
-            System.out.println("File not found ");
-        }
-    }
-
+	}
 
     static private Category translateCategory(String test) {
         if(test.equals("Hot drink")) {
