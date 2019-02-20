@@ -1,9 +1,7 @@
 package system;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class Menu {
@@ -26,36 +24,33 @@ public class Menu {
     public static MenuItem getItem(String name) {
         return menuItems.get(name);
     }
+    
 
+	static public void readFile(String filename) throws FileNotFoundException,IOException{
+		Menu.menuFile = filename;
 
-    static public void readFile(String filename) {
-        Menu.menuFile = filename;
-        try {
-            Scanner inputFromFile = new Scanner(new File(filename));
+		Scanner inputFromFile = new Scanner(new File(filename));
 
-            //checks if there is a line in the scanner
-            while (inputFromFile.hasNextLine()) {
+		// checks if there is a line in the scanner
+		while (inputFromFile.hasNextLine()) {
 
-                // reads the line and assign the data read from the line to a local variable
-                String datainLine = inputFromFile.nextLine();
+			// reads the line and assign the data read from the line to a local variable
+			String datainLine = inputFromFile.nextLine();
 
-                // Checks if the line has any data, if no data exists in the line then stop the reading and close the file
-                if (datainLine.length() != 0) {
+			// Checks if the line has any data, if no data exists in the line then stop the
+			// reading and close the file
+			if (datainLine.length() != 0) {
 
-                    //Send the read data from a line for further processing to a function called processDataInLine
-                    processLine(datainLine);
-                }
-            }
-            inputFromFile.close(); //close the file
+				// Send the read data from a line for further processing to a function called
+				// processDataInLine
+				processLine(datainLine);
+			}
+		}
+		inputFromFile.close(); // close the file
 
-        }
-        catch (FileNotFoundException fnf) {
-            System.out.println("File not found ");
-        }
-    }
+	}
 
-
-    static private Category translateCategory(String test) {
+    static public Category translateCategory(String test) {
         if(test.equals("Hot drink")) {
             return Category.HOTDRINK;
         }
@@ -73,7 +68,7 @@ public class Menu {
         }
     }
 
-    private String translateStringToCat(Category cat) {
+    static private String translateCatToString(Category cat) {
         if(cat.equals(Category.HOTDRINK)){
             return "Hot drink";
         }
@@ -182,7 +177,7 @@ public class Menu {
             //fill new file with current data in the Hashmap
             for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()) {
                 MenuItem miTemp = menuItem.getValue();
-                writer.write( miTemp.getNumber() + "," + miTemp.getName() + "," + translateStringToCat(miTemp.getCategory())
+                writer.write( miTemp.getNumber() + "," + miTemp.getName() + "," + translateCatToString(miTemp.getCategory())
                         + "," + miTemp.getPrice() + "," + miTemp.getQuantity() + newline);
             }
 
@@ -224,11 +219,11 @@ public class Menu {
      * @param category category wanted
      * @return
      */
-    public ArrayList<MenuItem> getAllFromCategory(Category category){
+    public ArrayList<MenuItem> getAllFromCategory(String category){
         ArrayList<MenuItem> items = new ArrayList<>();
         for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()){
             MenuItem miTemp = menuItem.getValue();
-            if (miTemp.getCategory().equals(category)) {
+            if (translateCatToString(miTemp.getCategory()).equals(category)) {
                 items.add(miTemp);
             }
         }
