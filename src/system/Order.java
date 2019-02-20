@@ -48,25 +48,7 @@ public class Order {
 	}
 
 
-	public static void main(String[] args) {
-		System.out.println("Hello World");
-		LoginGUI gui = new LoginGUI();
-		//StaffGUI gui = new StaffGUI();
-		// declares file path if file is located in diff location not in the same folder
-		String filename = "menuItems.csv";
-		// reads items from file 
-	    try {
-			Menu.readFile(filename);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
+
 		
 
 	public int getItemQuantity(MenuItem i) {
