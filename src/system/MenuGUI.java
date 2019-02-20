@@ -4,6 +4,8 @@ package system;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -180,15 +182,24 @@ private void setCenterPanel(){
 	
 	public void displayItems(String category) {
 		String filename = "menuItems.csv";
-		menu.readFile(filename);
+		try {
+			Menu.readFile(filename);
+		} catch (FileNotFoundException fnf) {
+			// file not there 
+			System.out.println("File not found");
+		} catch (IOException e) {
+			// having problems reading and writing to file
+			System.out.println("Problems accessing the file");
+			System.exit(1);
+		}
 		int counter =1;
 		ArrayList<JPanel> itemBlock = new ArrayList<JPanel>();
 
-		Map<String,MenuItem> items = Menu.menuItems;
+		Map<String,MenuItem> items = Menu.getMenuMap();
 		for (Map.Entry<String,MenuItem> entry : items.entrySet())  
 	    {
 			
-			if(entry.getValue().getCategory().equals(menu.translateCategory(category)))
+			if(entry.getValue().getCategory().equals(Menu.translateCategory(category)))
 			{			System.out.println("inside");
 
 				itemBlock.add(new JPanel())  ;
