@@ -69,6 +69,7 @@ public class Menu {
     }
 
     static private String translateCatToString(Category cat) {
+
         if(cat.equals(Category.HOTDRINK)){
             return "Hot drink";
         }
@@ -219,7 +220,7 @@ public class Menu {
      * @param category category wanted
      * @return
      */
-    public ArrayList<MenuItem> getAllFromCategory(String category){
+    static public ArrayList<MenuItem> getAllFromCategory(String category){
         ArrayList<MenuItem> items = new ArrayList<>();
         for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()){
             MenuItem miTemp = menuItem.getValue();
