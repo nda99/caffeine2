@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ public class ViewOrdersGUI {
 	private JButton remove = new JButton("Remove");
 	private JButton process = new JButton("Process Order");
 	private JTextField input = new JTextField();
+	private HashMap<Integer,String> times = new HashMap<Integer,String>(); 
 	
 	public ViewOrdersGUI() {
 		
@@ -46,7 +48,7 @@ public class ViewOrdersGUI {
 	public void displayViewOrdersGUI() {
 		
 		title = createOneLabel("Order List:",15);
-		choice = createOneLabel("Order Time: ", 11);
+		choice = createOneLabel("Order Number: ", 11);
 		orderView.setSize(500,400);
 		orderView.setLayout(new BorderLayout(0,0));
 		southPanel.setLayout(new GridLayout(1,4));
@@ -63,30 +65,48 @@ public class ViewOrdersGUI {
 		orderView.add(southPanel, BorderLayout.SOUTH);
 		orderView.setVisible(true);
 		Order o = AllOrders.getNextOrder();
-		orders.append(o.getDetails());
+		int counter = 1;
+		orders.append("Order# |                    Time                    | Items\n--------------------------------"
+				+ "-----------------------------------------------------------------------------------------\n");
+		orders.append(String.format("     %d     |   %s", counter, o.getDetails()));
+		times.put(counter, o.getTime().toString());
 		while(AllOrders.isNextOrder(o)) {
-			boolean check = AllOrders.isNextOrder(o);
+			counter++;
 			o = AllOrders.getNextOrder(o);
-			orders.append(o.getDetails());
+			orders.append(String.format("     %d     |   %s", counter, o.getDetails()));
+			times.put(counter, o.getTime().toString());
 		}
 		
 		
 		process.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	try {
-					InvoiceGUI iGUI = new InvoiceGUI(AllOrders.getOrder(input.getText()));
+					InvoiceGUI iGUI = new InvoiceGUI(AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))));
 					iGUI.displayGUI();
 				} catch (nullOrderException e1) {
 
-					InvoiceGUI iGUI = new InvoiceGUI();
-					iGUI.displayGUI();
+		    		displayError("Please enter a valid order number");
 				}
+		    	catch(NumberFormatException e2) {
+		    		displayError("Please enter the order number");
+		    	}
+		    	catch(NullPointerException e3) {
+		    		displayError("Please enter a valid order number");
+		    	}
 		      }
 		    });
 		
 		remove.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	AllOrders.deleteOrder(input.getText());
+		    	try {
+			    	AllOrders.deleteOrder(times.get(Integer.parseInt(input.getText())));
+		    	}		    	
+		    	catch(NumberFormatException e2) {
+		    		displayError("Please enter the order number");
+		    	}
+		    	catch(NullPointerException e3) {
+		    		displayError("Please enter a valid order number");
+		    	}
 		    	//AllOrders.updateOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders_update.csv");
 		    	//AllOrders.readOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders_update.csv");
 		    	orderView.dispose();
@@ -96,6 +116,17 @@ public class ViewOrdersGUI {
 		    });
 	}
 	
+	/**
+	 * Displays custom ERROR window on View Order GUI 
+	 * @param m Custom error message
+	 */
+	public void displayError(String m) {
+		
+		JOptionPane.showMessageDialog(orderView,
+			    m,
+			    "Input Error",
+			    JOptionPane.ERROR_MESSAGE);
+	}
 	
 	
 	

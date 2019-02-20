@@ -22,12 +22,44 @@ public class TestLogin {
             result = login.register("theo25", "pswd3", "Manager", "Theo", "theo@cafe.com");
         }
         catch (InvalidUsersFileException e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
+        catch (InvalidRegistration e){
+            System.out.println(e.getMessage());
+        }
+
+        new File(dummyFile).delete();
 
         assertEquals("Failed to register", true, result);
 
+    }
+
+    @Test
+    public void testRegisterFail() {
+        String dummyFile = "dummy.csv";
+        boolean result = false;
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(dummyFile), "utf-8"))) {
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+        try {
+            Login login = new Login(dummyFile);
+            result = login.register("theo25", "pswd3", "Manager", "Theo", "theo@cafe.com");
+            result = login.register("theo25", "pswd3", "Manager", "Theo", "theo@cafe.com");
+        }
+        catch (InvalidUsersFileException e){
+            System.out.println(e.getMessage());
+        }
+        catch (InvalidRegistration e){
+            System.out.println(e.getMessage());
+            result = false;
+        }
+
         new File(dummyFile).delete();
+
+        assertEquals("register should have failed", false, result);
 
     }
 
@@ -56,10 +88,10 @@ public class TestLogin {
             e.printStackTrace();
         }
 
+        new File(dummyFile).delete();
 
         assertEquals("Failed to login", true, result);
 
-        new File(dummyFile).delete();
     }
 
     @Test
@@ -87,10 +119,9 @@ public class TestLogin {
             e.printStackTrace();
         }
 
+        new File(dummyFile).delete();
 
         assertEquals("Login should have failed", false, result);
-
-        new File(dummyFile).delete();
     }
 
     @Test
@@ -118,9 +149,8 @@ public class TestLogin {
             e.printStackTrace();
         }
 
+        new File(dummyFile).delete();
 
         assertEquals("login should have failed", false, result);
-
-        new File(dummyFile).delete();
     }
 }

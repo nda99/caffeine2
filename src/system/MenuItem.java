@@ -26,7 +26,7 @@ public class MenuItem  implements Comparable<MenuItem> {
 		return name.compareTo(other.name);
 	}
 	//if same name find 
-	//@Override
+	@Override
 	public boolean equals (Object other) {
 		if (other instanceof MenuItem) {
 			MenuItem otherItem = (MenuItem)other;
@@ -34,14 +34,19 @@ public class MenuItem  implements Comparable<MenuItem> {
 				&& number == otherItem.number 
 				&& category.equals (otherItem.category) 
 				&& price == otherItem.price )
-				return true;
+				return true ;
 		}
+		
 		return false;
 		}
+	
+	@Override
 	//finding hash code 
 			public int hashCode() { 
-				return name.hashCode();
+				return (int) number * name.hashCode() * category.hashCode();
 			}
+	
+	
 	
 	// return item number 
 	public int getNumber() {
@@ -97,19 +102,17 @@ public class MenuItem  implements Comparable<MenuItem> {
 		
 	}
 
-	//set quantity for stock
+	//set quantity
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
-	/**
-	 * TODO this should throw an exception if quantity drops below 0
-	 */
-	public void decreaseQuantity(int dec){
-		if(dec > this.quantity){
-			System.out.println("Only " + this.quantity + " " + this.name + " left !");
+	public void decreaseQuantity(int dec) throws NotEnoughStockException {
+		if (dec > this.quantity) {
+			throw new NotEnoughStockException(this.quantity, this.name);
+		} else {
+			this.quantity -= dec;
 		}
-		this.quantity -= dec;
 	}
 
 	public void increaseQuantity(int inc){

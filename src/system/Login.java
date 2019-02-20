@@ -65,29 +65,26 @@ public class Login {
      * @throws UserNameAlreadyTakenException
      * @return true if successful, false if not
      */
-    public boolean register(String userName, String password, String position, String fullName, String emailAddress){
+    public boolean register(String userName, String password, String position, String fullName, String emailAddress) throws InvalidRegistration{
+        checkEmail(emailAddress);
+        checkPosition(position);
+        checkUserName(userName);
         String[] value;
-        value = userMap.get(userName);
-        if (value != null){
-            System.out.println("Username " + userName + " already exists, registration failed");
+        value = new String[4];
+        value[0] = hashPassword(password);
+        value[1] = position;
+        value[2] = fullName;
+        value[3] = emailAddress;
+        userMap.put(userName, value);
+        try {
+            FileWriter userStream = new FileWriter(staffFile, true);
+            String newline = System.getProperty("line.separator");
+            userStream.append(userName + "," + value[0] + "," + value[1] + "," + value[2] + "," + value[3] + newline);
+            userStream.flush();
+            userStream.close();
+        }catch (IOException e){
+            e.printStackTrace();
             return false;
-        }else{
-            value = new String[4];
-            value[0] = hashPassword(password);
-            value[1] = position;
-            value[2] = fullName;
-            value[3] = emailAddress;
-            userMap.put(userName, value);
-            try {
-                FileWriter userStream = new FileWriter(staffFile, true);
-                String newline = System.getProperty("line.separator");
-                userStream.append(userName + "," + value[0] + "," + value[1] + "," + value[2] + "," + value[3] + newline);
-                userStream.flush();
-                userStream.close();
-            }catch (IOException e){
-                e.printStackTrace();
-                return false;
-            }
         }
         return true;
     }
@@ -148,5 +145,27 @@ public class Login {
             result[2] = valueTemp[1];
         }
         return result;
+    }
+
+    private void checkUserName(String un) throws InvalidRegistration{
+        if(un == null) {
+            throw new InvalidRegistration("Invalid userName");
+        }
+        if(userMap.get(un)!=null) {
+            throw new InvalidRegistration("The user name " + un + " is already taken");
+        }
+    }
+
+    private void checkPosition(String pos) throws InvalidRegistration{
+        if (!(pos.equals("Staff") || pos.equals("Manager"))){
+            throw new InvalidRegistration("Invalid position, should be Staff or Manager");
+        }
+
+    }
+
+    private void checkEmail(String email) throws InvalidRegistration{
+        if (!email.contains("@")){
+            throw new InvalidRegistration("Invalid email");
+        }
     }
 }
