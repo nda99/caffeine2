@@ -147,6 +147,11 @@ public class Login {
         return result;
     }
 
+    /**
+     * Check the username, it should just not be null or already existing
+     * @param un username
+     * @throws InvalidRegistration
+     */
     private void checkUserName(String un) throws InvalidRegistration{
         if(un == null) {
             throw new InvalidRegistration("Invalid userName");
@@ -156,6 +161,11 @@ public class Login {
         }
     }
 
+    /**
+     * Check position, it should either be Staff or Manager
+     * @param pos position
+     * @throws InvalidRegistration
+     */
     private void checkPosition(String pos) throws InvalidRegistration{
     	System.out.println("pos ="+pos);
         if (!(pos.equals("Staff") || pos.equals("Manager"))){
@@ -164,6 +174,11 @@ public class Login {
 
     }
 
+    /**
+     * Check the email address just by making sur it contains "@"
+     * @param email email address
+     * @throws InvalidRegistration
+     */
     private void checkEmail(String email) throws InvalidRegistration{
         if (!email.contains("@")){
             throw new InvalidRegistration("Invalid email");
