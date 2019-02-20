@@ -70,7 +70,7 @@ public class Menu {
         }
     }
 
-    private String translateStringToCat(Category cat) {
+    private static String translateStringToCat(Category cat) {
         if(cat.equals(Category.HOTDRINK)){
             return "Hot drink";
         }
@@ -221,11 +221,11 @@ public class Menu {
      * @param category category wanted
      * @return
      */
-    public ArrayList<MenuItem> getAllFromCategory(Category category){
+    public static ArrayList<MenuItem> getAllFromCategory(String category){
         ArrayList<MenuItem> items = new ArrayList<>();
         for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()){
             MenuItem miTemp = menuItem.getValue();
-            if (miTemp.getCategory().equals(category)) {
+            if (translateStringToCat(miTemp.getCategory()).equals(category)) {
                 items.add(miTemp);
             }
         }
