@@ -68,7 +68,7 @@ public class Menu {
         }
     }
 
-    static private String translateCatToString(Category cat) {
+    static public String translateCatToString(Category cat) {
 
         if(cat.equals(Category.HOTDRINK)){
             return "Hot drink";

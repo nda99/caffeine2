@@ -273,7 +273,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 	{
 		//Setting up the main frame 
 		frame.setLayout(new BorderLayout(10, 10));
-		frame.setTitle("Caffiene App");
+		frame.setTitle("Caffeine App");
 		frame.setSize(600,700);
 	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocation(300,500);
