@@ -35,7 +35,7 @@ public class AllOrders {
 	 * Reads order file
 	 * @param orderFileName
 	 */
-	public static void readOrderFile(String orderFileName) {
+	public static void readOrderFile(String orderFileName) throws FileNotFoundException {
 		File file = new File(orderFileName);
 		try {
 			Scanner scanner = new Scanner(file);
