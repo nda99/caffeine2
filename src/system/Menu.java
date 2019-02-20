@@ -4,11 +4,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Menu {
 
@@ -63,23 +59,36 @@ public class Menu {
 
 
     private Category translateCategory(String test) {
-        if(test == "hot drink") {
+        if(test.equals("Hot drink")) {
             return Category.HOTDRINK;
         }
 
-        else if (test == "cold drink") {
+        else if (test.equals("Cold drink")) {
             return Category.COLDDRINK;
         }
 
-        else if (test == "Pastries") {
+        else if (test.equals("Pastries")) {
             return Category.PASTRIES;
         }
 
         else {
             return Category.SANDWICH;
         }
+    }
 
-
+    private String translateStringToCat(Category cat) {
+        if(cat.equals(Category.HOTDRINK)){
+            return "Hot drink";
+        }
+        if(cat.equals(Category.COLDDRINK)){
+            return "Cold drink";
+        }
+        if(cat.equals(Category.SANDWICH)){
+            return "Sandwich";
+        }
+        else {
+            return "Pastries";
+        }
     }
 
     public void processLine(String line) {
@@ -171,11 +180,10 @@ public class Menu {
             String newline = System.getProperty("line.separator");
 
             //fill new file with current data in the Hashmap
-            writer.write("item no,item name,category,price,quantity" + newline);
-            for (HashMap.Entry<String, MenuItem> custTemp : menuItems.entrySet()) {
-                MenuItem miTemp = custTemp.getValue();
-                writer.write( miTemp.getNumber() + "," + miTemp.getName() + "," + miTemp.getCategory() + "," +
-                        "," + miTemp.getPrice() + "," + miTemp.getQuantity() + newline);
+            for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()) {
+                MenuItem miTemp = menuItem.getValue();
+                writer.write( miTemp.getNumber() + "," + miTemp.getName() + "," + translateStringToCat(miTemp.getCategory())
+                        + "," + miTemp.getPrice() + "," + miTemp.getQuantity() + newline);
             }
 
             writer.flush();
@@ -209,6 +217,22 @@ public class Menu {
         } catch(IOException e){
             System.out.println(e.getMessage());
         }
+    }
+
+    /**
+     * Return an array list of items belonging to the required category
+     * @param category category wanted
+     * @return
+     */
+    public ArrayList<MenuItem> getAllFromCategory(Category category){
+        ArrayList<MenuItem> items = new ArrayList<>();
+        for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()){
+            MenuItem miTemp = menuItem.getValue();
+            if (miTemp.getCategory().equals(category)) {
+                items.add(miTemp);
+            }
+        }
+        return items;
     }
 
 }

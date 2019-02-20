@@ -35,15 +35,7 @@ public class ViewOrdersGUI {
 		
 	}
 	
-	public static void main(String[] args) {
-		ViewOrdersGUI view = new ViewOrdersGUI();
-
-		Menu a = new Menu();
-		a.readFile("D:\\\\\\\\Software Engineering\\\\\\\\caffeine\\\\\\\\menuItems.csv");
-
-		AllOrders.readOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders.csv");
-		view.displayViewOrdersGUI();
-	}
+	
 	
 	public void displayViewOrdersGUI() {
 		
