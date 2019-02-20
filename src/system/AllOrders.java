@@ -31,6 +31,10 @@ public class AllOrders {
 		orderMap.put(time, order);
 	}
 	
+	public static void addOrder(Order o) {
+		orderMap.put(o.getTime(), o);
+	}
+	
 	/**
 	 * Reads order file
 	 * @param orderFileName
