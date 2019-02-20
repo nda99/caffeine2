@@ -8,7 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,15 +38,16 @@ public class StaffGUI extends JFrame implements ActionListener{
 		System.out.println("staff Logged in ");
 		user.setText("Weclome " +staff.getUserName());
 		northPanel.add(user);
+		frame.add(northPanel,BorderLayout.EAST);
 		buildGUI();
 	}
 	public StaffGUI(Manager mngr)
 	{
 		System.out.println("Manager Logged in ");
-		buildGUI();
 		user.setText("Weclome " +mngr.getUserName());
 		northPanel.add(user);
-
+		frame.add(northPanel,BorderLayout.EAST);
+		buildGUI();
 		addManagerOptions();
 	}
 	public void buildGUI()
@@ -58,7 +62,6 @@ public class StaffGUI extends JFrame implements ActionListener{
 		title = new JLabel(" ** Staff Menu ** ", JLabel.CENTER);
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 		title.setFont(titleFont);
-		frame.add(northPanel,BorderLayout.EAST);
 		frame.add(title, BorderLayout.NORTH);
 		centerPanel.setLayout(new GridLayout(7, 1,10,10));
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
@@ -78,11 +81,6 @@ public class StaffGUI extends JFrame implements ActionListener{
 		control(label2,2);
 		control(label3,3);
 		control(label6,7);
-
-		
-		
-
-
 	}
 	
 	//Consider making in private method
@@ -92,9 +90,9 @@ public class StaffGUI extends JFrame implements ActionListener{
 		label4.setFont(itemsFont);
 		label5.setFont(itemsFont);
 		label6.setFont(itemsFont);
-		control(label4,1);
-		control(label5,2);
-		control(label6,3);
+		//control(label4,1);
+		//control(label5,2);
+		control(label6,7);
 		centerPanel.add(label4);
 		centerPanel.add(label5);		
 		
@@ -120,16 +118,93 @@ public class StaffGUI extends JFrame implements ActionListener{
 		    	{
 		    		case 1: break;
 		    		case 2:break;
-		    		case 3:	ViewOrdersGUI view = new ViewOrdersGUI();
+		    		case 3:	
+		    				try {
+				    		Menu.readFile("menuItems.csv");
+							
+		    				}
+		    				catch(FileNotFoundException f)
+		    				{
+		    					f.getMessage();
+		    					
+		    					
+		    					
+		    					/////////////////////////////////////////
+		    					JFileChooser chooser = new JFileChooser();
+		    				    chooser.setCurrentDirectory(new java.io.File("."));
+		    				    chooser.setDialogTitle("Choose an input file to process:");
+		    				    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		    				    chooser.setAcceptAllFileFilterUsed(false);
+		    				    
+		    				    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+		    				        System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
+		    				        System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
+		    				        
+		    						try {
+										Menu.readFile(chooser.getSelectedFile().toString());
+									
 
-				    		Menu a = new Menu();
-				    		a.readFile("D:\\\\\\\\Software Engineering\\\\\\\\caffeine\\\\\\\\menuItems.csv");
+										
+									} catch (FileNotFoundException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+		    				    } else {
+		    				    	System.out.println("No selection");
+		    				    }
+		    				} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+		    				
+		    				try {
+		    					ViewOrdersGUI view = new ViewOrdersGUI();
+					    		AllOrders.readOrderFile("orders.csv");
+					    		view.displayViewOrdersGUI();
 
-				    		AllOrders.readOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders.csv");
-				    		view.displayViewOrdersGUI(); break;
+		    				}
+		    				catch(FileNotFoundException f)
+		    				{
+		    					f.getMessage();		    					
+		    					/////////////////////////////////////////
+		    					JFileChooser chooser = new JFileChooser();
+		    				    chooser.setCurrentDirectory(new java.io.File("."));
+		    				    chooser.setDialogTitle("Choose an input file to process:");
+		    				    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		    				    chooser.setAcceptAllFileFilterUsed(false);
+		    				    
+		    				    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+		    				        System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
+		    				        System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
+		    				        
+		    						try {
+							    		AllOrders.readOrderFile(chooser.getSelectedFile().toString());
+									
+
+										
+									} catch (FileNotFoundException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+		    				    } else {
+		    				    	System.out.println("No selection");
+		    				    }
+		    				}
+		    					
+		    					////////////////////////////////////////
+		    				catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}break;
 		    		case 4:break;
 		    		case 7:SummaryReport report = new SummaryReport();
-		    		report.buildGUI();
+		    			report.buildGUI();
 		    		break;
 		    		
 		    	}
