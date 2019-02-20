@@ -151,7 +151,9 @@ public class StaffGUI extends JFrame implements ActionListener{
 		    	switch(number)
 		    	{
 		    		case 1: break;
-		    		case 2:break;
+		    		case 2:
+		    			new StockGUI();
+		    			break;
 		    		case 3:	
 		    				try {
 				    		Menu.readFile("menuItems.csv");

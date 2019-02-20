@@ -12,18 +12,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextArea;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class MenuGUI extends JFrame implements ActionListener{
+public class MenuGUI extends JFrame implements ActionListener, ListSelectionListener{
 JFrame Menuframe = new JFrame("Caffeine App");
 private Menu menu = new Menu();
+
 
 JPanel northPanel = new JPanel();
 JPanel eastPanel = new JPanel();
@@ -33,6 +39,9 @@ JPanel centerPanel = new JPanel();
 JLabel l1, l2, l3, l4, l5, l6;
 JButton b1, b2, b3, b4, b5, b6;
 JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout;
+JList<MenuItem> menuDisplay;
+JList<MenuItem> basket;
+DefaultListModel<MenuItem> pastriesModel, sandwichModel, hotModel, coldModel, basketModel;
 
 //need to add drop down boxes too
 
@@ -49,7 +58,7 @@ public MenuGUI(){
     menuBar.add(createMenu("Menu 3")); */
 	
 	
-	
+	setUpModels();
 	setNorthPanel();
 	setSouthPanel();
 	setEastPanel();
@@ -58,13 +67,50 @@ public MenuGUI(){
 	
 	//setMenuBar();
 
-	Menuframe.setSize(300,300);
+	Menuframe.setSize(800,800);
 	Menuframe.setLocation(300,500);
 	Menuframe.setVisible(true);
 	
 	//Menuframe.add(menuBar);
 	
 	Menuframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
+}
+
+private void setUpModels() {
+	String filename = "menuItems.csv";
+	try {
+		Menu.readFile(filename);
+	} catch (FileNotFoundException fnf) {
+		// file not there 
+		System.out.println("File not found");
+	} catch (IOException e) {
+		// having problems reading and writing to file
+		System.out.println("Problems accessing the file");
+		System.exit(1);
+	}
+	
+	this.sandwichModel = new DefaultListModel<MenuItem>();
+	ArrayList<MenuItem> listTemp = Menu.getAllFromCategory("Sandwich");
+	for (MenuItem item : listTemp) {
+		this.sandwichModel.addElement(item);
+	}
+	this.pastriesModel = new DefaultListModel<MenuItem>();
+	ArrayList<MenuItem> listTemp1 = Menu.getAllFromCategory("Pastries");
+	for (MenuItem item : listTemp1) {
+		this.pastriesModel.addElement(item);
+	}
+	this.hotModel = new DefaultListModel<MenuItem>();
+	ArrayList<MenuItem> listTemp2 = Menu.getAllFromCategory("Hot drink");
+	for (MenuItem item : listTemp2) {
+		this.hotModel.addElement(item);
+	}
+	this.coldModel = new DefaultListModel<MenuItem>();
+	ArrayList<MenuItem> listTemp3 = Menu.getAllFromCategory("Cold drink");
+	for (MenuItem item : listTemp3) {
+		this.coldModel.addElement(item);
+	}
+	
+	
 }
 
 //create the north JPanel that allows a staff member to login
@@ -76,7 +122,7 @@ private void setNorthPanel(){
 	Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 	title.setFont(titleFont);
 	b1 = new JButton("Staff Login");
-	//b1.addActionListener(this);
+	b1.addActionListener(this);
 	northPanel.add(title);
 
 	northPanel.add(b1);
@@ -86,20 +132,27 @@ private void setNorthPanel(){
 	pack();
 	}
 
+
+
 private void setWestPanel(){
 	JPanel westPanel = new JPanel();
 	westPanel.setLayout(new GridLayout(4, 1, 5, 5));
 	
-	
 	b2 = new JButton("Pastries");
-	b3 = new JButton("Sandwiches");
+	b3 = new JButton("Sandwich");
 	b4 = new JButton("Hot Drinks");
 	b5 = new JButton("Cold Drinks");
 	
 	b2.addActionListener(this);
-	b3.addActionListener(this);
+	//b3.addActionListener(this);
 	b4.addActionListener(this);
 	b5.addActionListener(this);
+	
+	b3.addActionListener(this); //{
+	    //public void actionPerformed(ActionEvent e) {
+	    //	displayItems(b3.getText());
+	    //  }
+	    //});
 	
 	westPanel.add(b2);
 	//westPanel.add(Pastries);
@@ -141,10 +194,21 @@ private void setEastPanel(){
 }
 
 private void setCenterPanel(){
-	JPanel centerPanel = new JPanel();
-	centerPanel.setLayout(new GridLayout(10,2,5,5));
+	centerPanel.setLayout(new GridLayout(1,2,5,5));
+	//JPanel centerPanel = new JPanel();
+	menuDisplay = new JList<MenuItem>();
+	basket = new JList<MenuItem>();
+	menuDisplay.setFont(new Font ("Arial",Font.BOLD,18));
+	basket.setFont(new Font ("Arial",Font.BOLD,18));
+	centerPanel.add(menuDisplay);
+	centerPanel.add(basket);
 	
 	Menuframe.add(centerPanel, BorderLayout.CENTER);
+	menuDisplay.addListSelectionListener(this);
+	//displayItems("Sandwich");
+	
+	basketModel = new DefaultListModel<MenuItem>();
+	basket.setModel(basketModel);
 	
 	pack();
 }
@@ -157,25 +221,58 @@ private void setCenterPanel(){
 	}
 
 	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		if (e.getValueIsAdjusting()) {
+			int index = menuDisplay.getSelectedIndex();
+			MenuItem item = menuDisplay.getModel().getElementAt(index);
+			basketModel.addElement(item);
+		}
+	}
+	/**
+	 * method gets an array list of the selected menu items
+	 * @return ArrayList
+	 */
+	public ArrayList<MenuItem> getBasket(){
+		ArrayList<MenuItem> basketList = new ArrayList<MenuItem>();
+		for (int i=0; i<basketModel.size(); i++) {
+			MenuItem item = basketModel.getElementAt(i);
+			basketList.add(item);
+		}
+		return basketList;
+	}
+	//basketModel.removeAllElements();
+	
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+
+		if (e.getSource()==b1){
+			LoginGUI loginGUI = new LoginGUI();
+		}
+
 		if (e.getSource()==b2)
 		{
-			displayItems(b2.getText());
+			//displayItems(b2.getText());
+			
+			this.menuDisplay.setModel(this.pastriesModel);
 		}
 		
 		if (e.getSource()==b3)
 		{
-			displayItems(b3.getText());
+			this.menuDisplay.setModel(this.sandwichModel);
 		}
 		if (e.getSource()==b4)
 		{
-			displayItems(b4.getText());
+			this.menuDisplay.setModel(this.hotModel);
 		}
 		if (e.getSource()==b5)
 		{
-			displayItems(b5.getText());
+			this.menuDisplay.setModel(this.coldModel);
+		}
+		if (e.getSource()==b6)
+		{
+			Order o = new Order(getBasket());
+			InvoiceGUI checkoutGUI = new InvoiceGUI(o);
+			checkoutGUI.displayGUI();
 		}
 		
 	}
@@ -195,16 +292,18 @@ private void setCenterPanel(){
 		int counter =1;
 		ArrayList<JPanel> itemBlock = new ArrayList<JPanel>();
 
+		ArrayList<MenuItem> listTemp = Menu.getAllFromCategory(category);
+		
 		Map<String,MenuItem> items = Menu.getMenuMap();
-		for (Map.Entry<String,MenuItem> entry : items.entrySet())  
+		centerPanel.setLayout(new GridLayout(10,2,5,5));
+		for (MenuItem mItem : listTemp)  
 	    {
 			
-			if(entry.getValue().getCategory().equals(Menu.translateCategory(category)))
 			{			System.out.println("inside");
 
 				itemBlock.add(new JPanel())  ;
 				itemBlock.get(counter-1).setLayout(new GridLayout(1,2,5,5));
-				JLabel item = new JLabel(entry.getValue().getName());
+				JLabel item = new JLabel(mItem.getName());
 				itemBlock.get(counter-1).add(item);
 				JButton add = new JButton("+");
 				JButton remove = new JButton("-");
@@ -214,8 +313,7 @@ private void setCenterPanel(){
 				qtyBlock.add(remove);
 				itemBlock.get(counter-1).add(qtyBlock);
 				centerPanel.add(itemBlock.get(counter-1));
-
-				
+				//centerPanel.add(new JTextArea(20,20));
 				counter++;
 
 				
@@ -223,8 +321,9 @@ private void setCenterPanel(){
 			}
 
 	    }
-		Menuframe.add(centerPanel);
-	
+
+		//centerPanel.add(new JTextArea(20,20));
+		Menuframe.add(centerPanel, BorderLayout.CENTER);
 		
 	}
 
@@ -234,189 +333,5 @@ private void setCenterPanel(){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*package system;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-
-
-public class MenuGUI extends JFrame implements ActionListener, ItemListener{
-	public static void main(String[] args) {
-		Menu menu = new Menu();
-		// declares file path if file is located in diff location not in the same folder
-		String filename = "menuItems.csv";
-		// reads items from file 
-		menu.readFile(filename);
-		
-		//MenuGUI component
-		//create menubar
-		private JMenuBar createMenuBar() {
-			
-			
-		}
-		private JMenu menu, submenu;
-		private JMenuItem munuItem;
-		
-		//create the MenuFrame
-		private JFrame Menuframe = new JFrame();
-		
-		//create the JPanels
-		private JPanel titlePanel = new JPanel();
-		private JPanel centrePanel = new JPanel();
-		private JPanel northPanel = new JPanel();
-		private JPanel eastPanel = new JPanel();
-		private JPanel westPanel = new JPanel();
-		private JPanel southPanel = new JPanel();
-		
-		
-		
-		//create the JLabels
-		private JLabel label1 = new JLabel("Staff Login", JLabel.NORTH_EAST);
-		//private JLabel label2 = new JLabel("Menu", JLabel.TOP);
-		private JLabel label3 = new JLabel("Hot Drinks", JLabel.LEFT);
-		private JLabel label4 = new JLabel("Cold Drinks", JLabel.LEFT);
-		private JLabel label5 = new JLabel("Pastries", JLabel.LEFT);
-		private JLabel label6 = new JLabel("Sandwiches", JLabel.LEFT);
-		
-		private JLabel title = new JLabel();
-		
-		private JLabel label7 = new JLabel("Checkout", JLabel.SOUTH);
-		
-		
-		//Create the buttons
-		private JButton StaffLogin = new JButton("Staff Login");
-		private JButton Menu = new JButton("Menu");
-		private JButton HotDrinks = new JButton("Hot Drinks");
-		private JButton ColdDrinks = new JButton("Cold Drinks");
-		private JButton Pastries = new JButton("Pastries");
-		private JButton Sandwiches = new JButton("Sandwiches");
-		private JButton Checkout = new JButton("Checkout");
-		
-		private final static String newline = "\n";
-		
-		public MenuGUI() {
-			buildMenuGUI();
-		}
-		
-		public void buildMenuGUI() {
-			//title = createLable("")
-			//set layout of components in frame
-			Menuframe.setTitle("Menu");
-			Menuframe.setSize(300,300);
-			Menuframe.setLocation(300,500);
-			Menuframe.setVisible(true);
-			Menuframe.setLayout(new BorderLayout(50,50));
-			
-			//set staff login button in north panel
-			northPanel.setLayout(new GridLayout(1, 3, 5, 5));
-			Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
-			label1.setFont(itemsFont);
-			northPanel.add(label1);
-			
-			//set list of category buttons in west panel
-			westPanel.setLayout(new GridLayout(4, 1, 5, 5));
-			//Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
-			label3.setFont(itemsFont);
-			label4.setFont(itemsFont);
-			label5.setFont(itemsFont);
-			label6.setFont(itemsFont);
-			westPanel.add(label3);
-			westPanel.add(label4);
-			westPanel.add(label5);
-			westPanel.add(label6);
-			
-			//set checkout button in the south panel
-			southPanel.setLayout(new GridLayout(1, 3, 5, 5));
-			label7.setFont(itemsFont);
-			southPanel.add(label7);
-			
-			
-			//add east and centre panels
-			Menuframe.add(eastPanel, BorderLayout.EAST);
-		    Menuframe.add(centrePanel, BorderLayout.CENTER);
-			
-			
-			
-			
-			
-			//title = createOneLabel("Menu", 16);
-			//titlePanel.add(title);
-			
-
-			
-			
-
-
-		}
-		
-		
-		
-		// report
-		//System.out.println();
-	 
-				
-	
-	}
-
-
-	public static JLabel createOneLabel (String s, int size) {
-		Font f = new Font(Font.SANS_SERIF, Font.BOLD, size);
-		JLabel label= new JLabel(s, JLabel.CENTER);
-		label.setFont(f);
-		label.setOpaque(true);
-		return label;
-		}
-}
-*/
 
 	

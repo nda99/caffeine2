@@ -2,6 +2,7 @@ package system;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -12,12 +13,26 @@ public class Order {
 	private Timestamp time; 
 	//private Customer customer;
 	private double total;
+	private double discounts;
 	private boolean processed = false;
 	private boolean validated = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	public Order(Timestamp t) {
 		time = t;
+	}
+	
+	public Order(ArrayList<MenuItem> items){
+		for(MenuItem item : items) {
+			if(!orderItems.containsKey(item)) {
+				orderItems.put(item, 1);
+				this.total = total + item.getPrice();
+			}
+			else {
+				orderItems.put(item, orderItems.get(item) + 1);
+				this.total = total + item.getPrice();
+			}
+		}
 	}
 	
 	public Order() {
@@ -47,9 +62,6 @@ public class Order {
 		return orderItems;
 	}
 
-
-
-		
 
 	public int getItemQuantity(MenuItem i) {
 		return orderItems.get(i);
@@ -147,6 +159,7 @@ public class Order {
 			offer = discount*(pPrice + cPrice + sPrice) - 5.99;
 		}
 		validated=true;
+		discounts = (1-discount)*total + offer;
 		return discount*total - offer;
 	}
 	
@@ -168,8 +181,8 @@ public class Order {
 			}
 		}
 		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get(Menu.getItem("Brownie")) != null && !validated) {
-			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
+		if (orderItems.get(Menu.getItem("brownie")) != null && !validated) {
+			if (orderItems.get(Menu.getItem("brownie")) >= 1) {
 				if (orderItems.get(Menu.getItem("Latte")) != null) {
 					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
 				}
@@ -203,6 +216,8 @@ public class Order {
 			offer = pPrice + cPrice + sPrice - 5.99;
 		}
 		validated=true;
+		System.out.println(""+offer);
+		discounts = offer;
 		return total - offer;
 	}
 	
@@ -260,6 +275,9 @@ public class Order {
 		for (Map.Entry m: orderItems.entrySet()) {
 			item = item + String.format("%s           x%d        %2.2f\n", m.getKey().toString(),m.getValue(),Menu.getItem(m.getKey().toString()).getPrice());
 	}
+
+		item = item + String.format("\nTotal before discounts: %2.2f", calculateTotal() + discounts);
+		
 		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal()));
 	}
 	
@@ -273,9 +291,13 @@ public class Order {
 		for (Map.Entry m: orderItems.entrySet()) {
 		item = item + String.format("%s           x%d        %2.2f\n", m.getKey().toString(),m.getValue(),Menu.getItem(m.getKey().toString()).getPrice());
 	}
+
 		if(validateDiscount(voucher)>0) {
-			item = item + String.format("\nTotal before discount: %2.2f", total);
+			item = item + String.format("\n Loyalty percentage: %f %", validateDiscount(voucher)*100);
 		}
+		
+		item = item + String.format("\nTotal before discounts: %2.2f", calculateTotal(voucher) + discounts);
+		
 		return(String.format("%s \nTotal: %2.2f\n", item, calculateTotal(voucher)));
 	}
 	
