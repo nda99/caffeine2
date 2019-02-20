@@ -26,37 +26,45 @@ public class SummaryReport extends JFrame implements ActionListener{
 	private JFrame frame = new JFrame();
 	private JButton print = new JButton("Print");
 	private JButton view = new JButton("View");
-	private JTextField dateFrom= new JTextField(10);
-	private JTextField dateTo= new JTextField(10);
+	private JTextField dateFrom= new JTextField("2018-01-01");
+	private JTextField dateTo= new JTextField("2019-02-20");
 	private JPanel northPanel = new JPanel();
 	private JPanel centralPanel = new JPanel();
 	private JPanel westPanel = new JPanel();
 	private JPanel eastPanel = new JPanel();
 	private Map<Timestamp,Order> ordersMap = AllOrders.getOrderMap();
-	private String from;
-	private String to;
-	private int ordersCounter = 0;
-	private double totalIncome =0.0;
-
-	private HashMap<String,Integer> itemsIncome = new HashMap<String,Integer>();
+	private String from = "2018-01-01";
+	private String to = "2020-01-01";
+	int ordersCounter = 0;
+	double totalIncome =0.0;
 	AllOrders temp = new AllOrders();
 	
 	
 	public SummaryReport()
 	{
 		
-		 AllOrders.readOrderFile("orders.csv");
+		 try {
+			AllOrders.readOrderFile("orders.csv");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	
 	
-	public void calculateStatistics(String from,String to)
+	public HashMap<String, Integer> calculateStatistics()
 	{
+		HashMap<String,Integer> itemsIncome = new HashMap<String,Integer>();
+
+		ordersCounter = 0;
+		totalIncome =0.0;
 		from += " 00:00:00.000";
 		to += " 00:00:00.000";
 		  // Calculate frequency analysis for items
 		    for (Map.Entry<Timestamp,Order> entry : ordersMap.entrySet())  
 		    {
+		    	
 		
 		    	if(entry.getKey().after(temp.toTimestamp(from)) && entry.getKey().before(temp.toTimestamp(to)))
 		    	{
@@ -65,11 +73,11 @@ public class SummaryReport extends JFrame implements ActionListener{
 		    		totalIncome += entry.getValue().calculateTotal();
 		        	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
 		        	System.out.println("order ++");
-		        	System.out.println(items);
 		        	for (MenuItem item:items.keySet())
 		        	{
 		        		System.out.println("item ++");
 		        		if(itemsIncome.containsKey(item.getName())) {
+
 		        			int temp = itemsIncome.get(item.getName());
 		        			temp ++;
 		        			itemsIncome.replace(item.getName(), temp);
@@ -84,8 +92,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 		    	
 		    }		
 		
-		  System.out.println("Done");
-	       // return itemsIncome;
+	        return itemsIncome;
 	      
 	}
 	
@@ -94,7 +101,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 	public void printSummaryReport()
 	{
 		 try (PrintWriter writer = new PrintWriter(new File("Summary Report.csv"))) {
-
+			 
 		      StringBuilder sb = new StringBuilder();
 		      sb.append("ItemID");
 		      sb.append(',');
@@ -104,7 +111,16 @@ public class SummaryReport extends JFrame implements ActionListener{
 		      sb.append('\n');
 
 		      writer.write(sb.toString());
+		      Map<String,Integer> itemsIncome = calculateStatistics();
 
+		      for (String item : itemsIncome.keySet())
+				{
+					
+		    	  sb.append(item);
+		    	  sb.append(itemsIncome.get(item).toString());
+		    	  sb.append(Menu.getItem(item).getPrice() * itemsIncome.get(item)).toString();
+					 
+				}		      
 		      System.out.println("done!");
 
 		    } catch (FileNotFoundException e) {
@@ -114,30 +130,36 @@ public class SummaryReport extends JFrame implements ActionListener{
 	
 	public void viewSummaryReport(String from, String to)
 	{
-		calculateStatistics(from,to);
+		centralPanel.removeAll();
+		centralPanel.repaint();
+		centralPanel.revalidate();		
+		Map<String,Integer> itemsIncome = calculateStatistics();
 		String[] columnNames = {"ItemID",
                 "Times Ordered",
                 "Price*Qty"};
-		System.out.println(itemsIncome);
 
 		Object[][] data = new Object[itemsIncome.keySet().size()][3] ;
-		for (Object obj : data)
-		{
+		//for (Object obj : data)
+		int counter = 0;
 			for (String item : itemsIncome.keySet())
 			{
+				
 				String[] itemDetails = new String[3];
 				 itemDetails[0] = item;
 				 itemDetails[1] = itemsIncome.get(item).toString();
 				 double total = Menu.getItem(item).getPrice() * itemsIncome.get(item);
-				 itemDetails[1] = Double.toString(total);
-				 obj = itemDetails;
+				 itemDetails[2] = Double.toString(total);
+				 data[counter] = itemDetails;
+				 
+				counter ++;
 			}
-			System.out.println("printing object");
-		}
+		
 		
 		JTable tableA = new JTable(data, columnNames);
-		JScrollPane scrollPane = new JScrollPane(tableA);
-		frame.add(scrollPane);
+		 JScrollPane scrollPane = new JScrollPane(tableA);
+		 tableA.setFillsViewportHeight(true);
+		 centralPanel.add(scrollPane);
+		 frame.add(centralPanel);
 		
 		/*String[] columnNames = {"ItemID",
                 "Times Ordered",
@@ -194,7 +216,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 	{
 		 centralPanel.setBackground(Color.WHITE);
 		 centralPanel.setLayout(new GridLayout(2,1));
-		// viewSummaryReport(to,from);
+		 viewSummaryReport("2018-01-01","2019-01-01");
 		/* String[] columnNames = {"First Name",
                  "Last Name",
                  "Sport",
@@ -282,7 +304,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 		{
 			from = dateFrom.getText();
 			to = dateTo.getText();
-			 viewSummaryReport(from,to);
+			viewSummaryReport(from,to);
 		}
 		
 	}
