@@ -102,14 +102,12 @@ public class MenuItem  implements Comparable<MenuItem> {
 		this.quantity = quantity;
 	}
 
-	/**
-	 * TODO this should throw an exception if quantity drops below 0
-	 */
-	public void decreaseQuantity(int dec){
-		if(dec > this.quantity){
-			System.out.println("Only " + this.quantity + " " + this.name + " left !");
+	public void decreaseQuantity(int dec) throws NotEnoughStockException {
+		if (dec > this.quantity) {
+			throw new NotEnoughStockException(this.quantity, this.name);
+		} else {
+			this.quantity -= dec;
 		}
-		this.quantity -= dec;
 	}
 
 	public void increaseQuantity(int inc){
