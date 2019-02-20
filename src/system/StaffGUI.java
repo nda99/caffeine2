@@ -17,9 +17,11 @@ public class StaffGUI extends JFrame implements ActionListener{
 	
 	//StaffGUI Components:
 	private JFrame frame = new JFrame();
+	private JPanel northPanel = new JPanel();
 	private JPanel centerPanel = new JPanel();
 	private JPanel eastPanel = new JPanel();
 	private JPanel westPanel = new JPanel();
+	private JLabel user = new JLabel("Welcome");
 	private JLabel label1 = new JLabel("Update Stock", JLabel.LEFT);
 	private JLabel label2 = new JLabel("View Stock", JLabel.LEFT);
 	private JLabel label3 = new JLabel("View Orders", JLabel.LEFT);
@@ -31,12 +33,17 @@ public class StaffGUI extends JFrame implements ActionListener{
 	public StaffGUI(Staff staff)
 	{
 		System.out.println("staff Logged in ");
+		user.setText("Weclome " +staff.getUserName());
+		northPanel.add(user);
 		buildGUI();
 	}
 	public StaffGUI(Manager mngr)
 	{
 		System.out.println("Manager Logged in ");
 		buildGUI();
+		user.setText("Weclome " +mngr.getUserName());
+		northPanel.add(user);
+
 		addManagerOptions();
 	}
 	public void buildGUI()
@@ -51,6 +58,7 @@ public class StaffGUI extends JFrame implements ActionListener{
 		title = new JLabel(" ** Staff Menu ** ", JLabel.CENTER);
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 		title.setFont(titleFont);
+		frame.add(northPanel,BorderLayout.EAST);
 		frame.add(title, BorderLayout.NORTH);
 		centerPanel.setLayout(new GridLayout(7, 1,10,10));
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
@@ -112,7 +120,13 @@ public class StaffGUI extends JFrame implements ActionListener{
 		    	{
 		    		case 1: break;
 		    		case 2:break;
-		    		case 3: break;
+		    		case 3:	ViewOrdersGUI view = new ViewOrdersGUI();
+
+				    		Menu a = new Menu();
+				    		a.readFile("D:\\\\\\\\Software Engineering\\\\\\\\caffeine\\\\\\\\menuItems.csv");
+
+				    		AllOrders.readOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders.csv");
+				    		view.displayViewOrdersGUI(); break;
 		    		case 4:break;
 		    		case 7:SummaryReport report = new SummaryReport();
 		    		report.buildGUI();

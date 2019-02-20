@@ -47,7 +47,7 @@ public class RegisterGUI extends JFrame implements ActionListener{
 	private JRadioButton staff = new JRadioButton("Staff");
 	private JRadioButton manager= new JRadioButton("Manager");
 	private ButtonGroup position = new ButtonGroup();
-	private String positionValue;
+	private String positionValue ="";
 	private String staffFile = "staff.csv";
 	private Login login;
 
@@ -58,6 +58,7 @@ public class RegisterGUI extends JFrame implements ActionListener{
 	{
 		try {
 			this.login  = new Login(staffFile);
+			System.out.println("successfull creation");
 		} catch (InvalidUsersFileException e) {
 			// TODO Auto-generated catch block
 			error.setText(e.getMessage());
@@ -98,6 +99,8 @@ public class RegisterGUI extends JFrame implements ActionListener{
 		centerPanel.add(manager);
 		centerPanel.add(register);
 		register.addActionListener(this);
+		staff.addActionListener(this);
+		manager.addActionListener(this);
 		error.setVisible(false);
 		centerPanel.add(error);
 		
@@ -129,14 +132,15 @@ public class RegisterGUI extends JFrame implements ActionListener{
 	{
 		if(e.getSource() == register)
 		{
-			System.out.println("clicked");
 			checkRegisterationForm();
 		}
 		if(e.getSource() == staff)
 		{
+			System.out.println("clicked");
+
 			positionValue = "Staff";
 		}
-		if(e.getSource() ==manager)
+		if(e.getSource() == manager)
 		{
 			positionValue = "Manager";
 		}
@@ -186,53 +190,58 @@ public class RegisterGUI extends JFrame implements ActionListener{
 		else if(!login.staffExist(userField.getText()))
 		{
 
-			if(!login.register(userField.getText(), passText, positionValue, nameField.getText(), emailField.getText()))
-			{
-				error.setText("Oops something went wrong!");
-			}
-			else
-			{
-				switch(positionValue) {
-					case "Staff":
-								try {
-									Staff staff = new Staff(userField.getText(),staffFile);
-									Boolean loggedIn = staff.login(passText);
+			try {
+				if(!login.register(userField.getText(), passText, positionValue, nameField.getText(), emailField.getText()))
+				{
+					error.setText("Oops something went wrong!");
+				}
+				else
+				{
+					switch(positionValue) {
+						case "Staff":
+									try {
+										Staff staff = new Staff(userField.getText(),staffFile);
+										Boolean loggedIn = staff.login(passText);
+											if(loggedIn == true)
+											{
+												error.setText("");
+												error.setVisible(false);
+												StaffGUI gui = new StaffGUI(staff);
+											}
+										} catch (StaffNonExistantException e) {
+										// TODO Auto-generated catch block
+										error.setText(e.getMessage());
+										}
+						
+						break;
+						case "Manager":
+									try {
+										Manager manager = new Manager(userField.getText(),staffFile);
+										Boolean loggedIn = manager.login(passText);
 										if(loggedIn == true)
 										{
-											error.setText("");
+											StaffGUI gusi = new StaffGUI(manager);
 											error.setVisible(false);
-											StaffGUI gui = new StaffGUI(staff);
-										}
-									} catch (StaffNonExistantException e) {
-									// TODO Auto-generated catch block
-									error.setText(e.getMessage());
+										}	
+										
+									} catch (StaffNonExistantException e1) {
+										// TODO Auto-generated catch block
+										error.setForeground(Color.red);
+										error.setText("Oops! User does not exist. ");
+										e1.printStackTrace();
+									} catch (NotAManagerException e1) {
+										// TODO Auto-generated catch block
+										error.setForeground(Color.red);
+										error.setVisible(true);
+										error.setText("Oops! You don't have manager privilege. ");
 									}
-					
-					break;
-					case "Manager":
-								try {
-									Manager manager = new Manager(userField.getText(),staffFile);
-									Boolean loggedIn = manager.login(passText);
-									if(loggedIn == true)
-									{
-										StaffGUI gusi = new StaffGUI(manager);
-										error.setVisible(false);
-									}	
-									
-								} catch (StaffNonExistantException e1) {
-									// TODO Auto-generated catch block
-									error.setForeground(Color.red);
-									error.setText("Oops! User does not exist. ");
-									e1.printStackTrace();
-								} catch (NotAManagerException e1) {
-									// TODO Auto-generated catch block
-									error.setForeground(Color.red);
-									error.setVisible(true);
-									error.setText("Oops! You don't have manager privilege. ");
-								}
-						
-					}
-			}
+							
+						}
+				}
+			} catch (InvalidRegistration e) {
+				// TODO Auto-generated catch block
+				error.setText(e.getMessage());			
+				}
 			
 			
 			//LoginGUI loginGui = new LoginGUI();
