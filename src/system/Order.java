@@ -117,24 +117,6 @@ public class Order {
 		double discount = (1-validateDiscount(voucher));
 		double offer = 0.0;
 		
-		// Order 2 Mochas and get a FREE COOKIE!!!
-		if (orderItems.get(Menu.getItem("Mocha")) != null && !validated) {
-			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
-				if (orderItems.get(Menu.getItem("Cookie")) == null) {
-					orderItems.put(Menu.getItem("Cookie"), 1);
-				} else {
-					orderItems.put(Menu.getItem("Cookie"), orderItems.get(Menu.getItem("Cookie")) + 1);
-				}
-			}
-		}
-		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get(Menu.getItem("Brownie")) != null && !validated) {
-			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
-				if (orderItems.get(Menu.getItem("Latte")) != null) {
-					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
-				}
-			}
-		}
 		
 		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
 		boolean cold=false, sand=false, pastry=false;
@@ -156,8 +138,31 @@ public class Order {
 		}
 		
 		if(cold && sand && pastry) {
-			offer = discount*(pPrice + cPrice + sPrice) - 5.99;
+			if(pPrice + cPrice + sPrice < 0) {
+				offer = discount*(pPrice + cPrice + sPrice) - 5.99;
+			}
 		}
+		
+		// Order 2 Mochas and get a FREE COOKIE!!!
+		if (orderItems.get(Menu.getItem("Mocha")) != null && !validated) {
+			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
+				if (orderItems.get(Menu.getItem("Cookie")) == null) {
+					orderItems.put(Menu.getItem("Cookie"), 1);
+				} else {
+					orderItems.put(Menu.getItem("Cookie"), orderItems.get(Menu.getItem("Cookie")) + 1);
+				}
+			}
+		}
+		
+		// Order a brownie and get your Latte for half price!!!
+		if (orderItems.get(Menu.getItem("brownie")) != null ) {
+			if (orderItems.get(Menu.getItem("brownie")) >= 1) {
+				if (orderItems.get(Menu.getItem("Latte")) != null) {
+					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
+				}
+			}
+		}
+		
 		validated=true;
 		discounts = (1-discount)*total + offer;
 		return discount*total - offer;
@@ -170,24 +175,6 @@ public class Order {
 	public double calculateTotal() {
 		double offer = 0.0;
 		
-		// Order 2 Mochas and get a FREE COOKIE!!!
-		if (orderItems.get(Menu.getItem("Mocha")) != null && !validated) {
-			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
-				if (orderItems.get(Menu.getItem("Cookie")) == null) {
-					orderItems.put(Menu.getItem("Cookie"), 1);
-				} else {
-					orderItems.put(Menu.getItem("Cookie"), orderItems.get(Menu.getItem("Cookie")) + 1);
-				}
-			}
-		}
-		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get(Menu.getItem("brownie")) != null && !validated) {
-			if (orderItems.get(Menu.getItem("brownie")) >= 1) {
-				if (orderItems.get(Menu.getItem("Latte")) != null) {
-					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
-				}
-			}
-		}
 		
 		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
 		boolean cold=false, sand=false, pastry=false;
@@ -213,8 +200,32 @@ public class Order {
 		}
 		
 		if(cold && sand && pastry) {
-			offer = pPrice + cPrice + sPrice - 5.99;
+
+			if(pPrice + cPrice + sPrice < 0) {
+				offer = pPrice + cPrice + sPrice - 5.99;
+			}
 		}
+		
+		// Order a brownie and get your Latte for half price!!!
+		if (orderItems.get(Menu.getItem("brownie")) != null) {
+			if (orderItems.get(Menu.getItem("brownie")) >= 1) {
+				if (orderItems.get(Menu.getItem("Latte")) != null) {
+					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
+				}
+			}
+		}
+		
+		// Order 2 Mochas and get a FREE COOKIE!!!
+		if (orderItems.get(Menu.getItem("Mocha")) != null && !validated) {
+			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
+				if (orderItems.get(Menu.getItem("Cookie")) == null) {
+					orderItems.put(Menu.getItem("Cookie"), 1);
+				} else {
+					orderItems.put(Menu.getItem("Cookie"), orderItems.get(Menu.getItem("Cookie")) + 1);
+				}
+			}
+		}
+		
 		validated=true;
 		System.out.println(""+offer);
 		discounts = offer;
@@ -232,7 +243,7 @@ public class Order {
 		double discount = 0.0;
 		
 		try { // Tries to create a new Loyal customer
-			customers = new AllCustomers("D:\\Software Engineering\\caffeine\\customers.csv");
+			customers = new AllCustomers("customers.csv");
 		} catch (InvalidCustomerFileException e) {
 			// TODO Auto-generated catch block
 			System.out.println("File not Found");
