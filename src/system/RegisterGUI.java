@@ -111,7 +111,7 @@ public class RegisterGUI extends JFrame implements ActionListener{
 	public void buildGUI()
 	{
 	frame.setLayout(new BorderLayout(90, 90));
-	frame.setTitle("Caffiene App");
+	frame.setTitle("Caffeine App");
 	frame.setSize(700,500);
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	frame.setLocation(300,500);

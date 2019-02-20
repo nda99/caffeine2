@@ -122,7 +122,7 @@ private void setNorthPanel(){
 	Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 	title.setFont(titleFont);
 	b1 = new JButton("Staff Login");
-	//b1.addActionListener(this);
+	b1.addActionListener(this);
 	northPanel.add(title);
 
 	northPanel.add(b1);
@@ -245,7 +245,10 @@ private void setCenterPanel(){
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		
+		if (e.getSource()==b1){
+			LoginGUI loginGUI = new LoginGUI();
+		}
+
 		if (e.getSource()==b2)
 		{
 			//displayItems(b2.getText());
