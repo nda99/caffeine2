@@ -1,9 +1,7 @@
 package system;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class Menu {
@@ -52,7 +50,7 @@ public class Menu {
 
 	}
 
-    static private Category translateCategory(String test) {
+    static public Category translateCategory(String test) {
         if(test.equals("Hot drink")) {
             return Category.HOTDRINK;
         }
@@ -70,7 +68,7 @@ public class Menu {
         }
     }
 
-    private String translateStringToCat(Category cat) {
+    static private String translateCatToString(Category cat) {
         if(cat.equals(Category.HOTDRINK)){
             return "Hot drink";
         }
@@ -179,7 +177,7 @@ public class Menu {
             //fill new file with current data in the Hashmap
             for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()) {
                 MenuItem miTemp = menuItem.getValue();
-                writer.write( miTemp.getNumber() + "," + miTemp.getName() + "," + translateStringToCat(miTemp.getCategory())
+                writer.write( miTemp.getNumber() + "," + miTemp.getName() + "," + translateCatToString(miTemp.getCategory())
                         + "," + miTemp.getPrice() + "," + miTemp.getQuantity() + newline);
             }
 
@@ -221,11 +219,11 @@ public class Menu {
      * @param category category wanted
      * @return
      */
-    public ArrayList<MenuItem> getAllFromCategory(Category category){
+    public ArrayList<MenuItem> getAllFromCategory(String category){
         ArrayList<MenuItem> items = new ArrayList<>();
         for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()){
             MenuItem miTemp = menuItem.getValue();
-            if (miTemp.getCategory().equals(category)) {
+            if (translateCatToString(miTemp.getCategory()).equals(category)) {
                 items.add(miTemp);
             }
         }
