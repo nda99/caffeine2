@@ -81,8 +81,10 @@ public class InvoiceGUI {
 		validate.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(order!=null) {
-		    	double total = order.calculateTotal(voucher.getText());
-		    	
+		    		String vouch = voucher.getText();
+		    		if(!vouch.equals("")) {
+		    			double total = order.calculateTotal(vouch);
+		    		}
 		    	invoiceText.setText(order.getInvoice(voucher.getText()));
 		    	}
 		      }
@@ -101,7 +103,7 @@ public class InvoiceGUI {
 		    	else {
 		    		if(order!=null) {
 		    			order.processOrder();
-						AllOrders.updateOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders_update.csv");
+						AllOrders.updateOrderFile("orders_update.csv");
 					}
 					displayMessage("Payment successful");
 					invoiceFrame.dispose();
