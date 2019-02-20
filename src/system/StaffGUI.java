@@ -16,9 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StaffGUI extends JFrame implements ActionListener{
-	
-	//StaffGUI Components:
+public class StaffGUI extends JFrame implements ActionListener {
+
+	// StaffGUI Components:
 	private JFrame frame = new JFrame();
 	private JPanel northPanel = new JPanel();
 	private JPanel centerPanel = new JPanel();
@@ -32,64 +32,61 @@ public class StaffGUI extends JFrame implements ActionListener{
 	private JLabel label4 = new JLabel("Edit Loyal Customers", JLabel.LEFT);
 	private JLabel label5 = new JLabel("Confirm Stock Orders", JLabel.LEFT);
 	private JLabel label6 = new JLabel("Summary Report", JLabel.LEFT);
-	
-	//Constructor Method don't forget to add user object as parameter
-	public StaffGUI(Staff staff)
-	{
+
+	// Constructor Method don't forget to add user object as parameter
+	public StaffGUI(Staff staff) {
 		System.out.println("staff Logged in ");
-		user.setText("Weclome " +staff.getUserName());
+		user.setText("Weclome " + staff.getUserName());
 		northPanel.add(user);
-		logout.addMouseListener(new MouseAdapter()  
-		{  
-			public void mouseEntered(MouseEvent e)
-			{
+		logout.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
 				logout.setForeground(Color.blue);
 			}
-			public void mouseExited(MouseEvent e)
-			{
+
+			public void mouseExited(MouseEvent e) {
 				logout.setForeground(Color.black);
 			}
-		    public void mouseClicked(MouseEvent e)  
-		    { 
-		    	staff.logout();
-		    	frame.dispose();
-		    }});
-		    
+
+			public void mouseClicked(MouseEvent e) {
+				staff.logout();
+				frame.dispose();
+			}
+		});
+
 		northPanel.add(logout);
-		frame.add(northPanel,BorderLayout.EAST);
+		frame.add(northPanel, BorderLayout.EAST);
 		buildGUI();
 	}
-	public StaffGUI(Manager mngr)
-	{
+
+	public StaffGUI(Manager mngr) {
 		System.out.println("Manager Logged in ");
-		user.setText("Weclome " +mngr.getUserName());
+		user.setText("Weclome " + mngr.getUserName());
 		northPanel.add(user);
 		northPanel.add(logout);
-		logout.addMouseListener(new MouseAdapter()  
-		{  
-			public void mouseEntered(MouseEvent e)
-			{
+		logout.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
 				logout.setForeground(Color.blue);
 			}
-			public void mouseExited(MouseEvent e)
-			{
+
+			public void mouseExited(MouseEvent e) {
 				logout.setForeground(Color.black);
 			}
-		    public void mouseClicked(MouseEvent e)  
-		    { 
-		    	mngr.logout();
-		    	frame.dispose();
-		    }});
-		frame.add(northPanel,BorderLayout.EAST);
+
+			public void mouseClicked(MouseEvent e) {
+				mngr.logout();
+				frame.dispose();
+			}
+		});
+		frame.add(northPanel, BorderLayout.EAST);
 		buildGUI();
 		addManagerOptions();
 	}
-	public void buildGUI()
-	{
+
+	public void buildGUI() {
 
 		frame.setTitle("Caffiene App");
-		frame.setSize(500,700);
-		frame.setLocation(300,500);
+		frame.setSize(500, 700);
+		frame.setLocation(300, 500);
 		frame.setVisible(true);
 		frame.setLayout(new BorderLayout(50, 50));
 		JLabel title;
@@ -97,7 +94,7 @@ public class StaffGUI extends JFrame implements ActionListener{
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 		title.setFont(titleFont);
 		frame.add(title, BorderLayout.NORTH);
-		centerPanel.setLayout(new GridLayout(7, 1,10,10));
+		centerPanel.setLayout(new GridLayout(7, 1, 10, 10));
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		label1.setFont(itemsFont);
 		label2.setFont(itemsFont);
@@ -110,145 +107,135 @@ public class StaffGUI extends JFrame implements ActionListener{
 		frame.add(eastPanel, BorderLayout.EAST);
 		frame.add(westPanel, BorderLayout.WEST);
 		frame.add(centerPanel, BorderLayout.CENTER);
-		control(label1,1);
-		control(label2,2);
-		control(label3,3);
-		control(label6,7);
-		control(logout,8);
+		control(label1, 1);
+		control(label2, 2);
+		control(label3, 3);
+		control(label6, 7);
+		control(logout, 8);
 	}
-	
-	//Consider making in private method
-	public void addManagerOptions()
-	{
+
+	// Consider making in private method
+	public void addManagerOptions() {
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		label4.setFont(itemsFont);
 		label5.setFont(itemsFont);
 		label6.setFont(itemsFont);
-		//control(label4,1);
-		//control(label5,2);
-		control(label6,7);
+		// control(label4,1);
+		// control(label5,2);
+		control(label6, 7);
 		centerPanel.add(label4);
-		centerPanel.add(label5);		
-		
+		centerPanel.add(label5);
+
 	}
+
 	@Override
-	public void actionPerformed(ActionEvent event) {}
-	
-	public void control(JLabel label, int number)
-	{
-		label.addMouseListener(new MouseAdapter()  
-		{  
-			public void mouseEntered(MouseEvent e)
-			{
+	public void actionPerformed(ActionEvent event) {
+	}
+
+	public void control(JLabel label, int number) {
+		label.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
 				label.setForeground(Color.blue);
 			}
-			public void mouseExited(MouseEvent e)
-			{
+
+			public void mouseExited(MouseEvent e) {
 				label.setForeground(Color.black);
 			}
-		    public void mouseClicked(MouseEvent e)  
-		    {  
-		    	switch(number)
-		    	{
-		    		case 1: break;
-		    		case 2:
-		    			new StockGUI();
-		    			break;
-		    		case 3:	
-		    				try {
-				    		Menu.readFile("menuItems.csv");
-							
-		    				}
-		    				catch(FileNotFoundException f)
-		    				{
-		    					f.getMessage();
-		    					
-		    					
-		    					
-		    					/////////////////////////////////////////
-		    					JFileChooser chooser = new JFileChooser();
-		    				    chooser.setCurrentDirectory(new java.io.File("."));
-		    				    chooser.setDialogTitle("Choose an input file to process:");
-		    				    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		    				    chooser.setAcceptAllFileFilterUsed(false);
-		    				    
-		    				    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-		    				        System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
-		    				        System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
-		    				        
-		    						try {
-										Menu.readFile(chooser.getSelectedFile().toString());
-									
 
-										
-									} catch (FileNotFoundException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									} catch (IOException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-		    				    } else {
-		    				    	System.out.println("No selection");
-		    				    }
-		    				} catch (IOException e1) {
+			public void mouseClicked(MouseEvent e) {
+				switch (number) {
+				case 1:
+					break;
+				case 2:
+					new StockGUI();
+					break;
+				case 3:
+					try {
+						Menu.readFile("menuItems.csv");
+
+					} catch (FileNotFoundException f) {
+						f.getMessage();
+
+						/////////////////////////////////////////
+						JFileChooser chooser = new JFileChooser();
+						chooser.setCurrentDirectory(new java.io.File("."));
+						chooser.setDialogTitle("Choose an input file to process:");
+						chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						chooser.setAcceptAllFileFilterUsed(false);
+
+						if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+							System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+							System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+
+							try {
+								Menu.readFile(chooser.getSelectedFile().toString());
+
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-		    				
-		    				try {
-		    					ViewOrdersGUI view = new ViewOrdersGUI();
-					    		AllOrders.readOrderFile("orders.csv");
-					    		view.displayViewOrdersGUI();
+						} else {
+							System.out.println("No selection");
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
-		    				}
-		    				catch(FileNotFoundException f)
-		    				{
-		    					f.getMessage();		    					
-		    					/////////////////////////////////////////
-		    					JFileChooser chooser = new JFileChooser();
-		    				    chooser.setCurrentDirectory(new java.io.File("."));
-		    				    chooser.setDialogTitle("Choose an input file to process:");
-		    				    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		    				    chooser.setAcceptAllFileFilterUsed(false);
-		    				    
-		    				    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-		    				        System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
-		    				        System.out.println("getSelectedFile() : "+ chooser.getSelectedFile());
-		    				        
-		    						try {
-							    		AllOrders.readOrderFile(chooser.getSelectedFile().toString());
-									
+					try {
+						ViewOrdersGUI view = new ViewOrdersGUI();
+						AllOrders.readOrderFile("orders.csv");
+						view.displayViewOrdersGUI();
 
-										
-									} catch (FileNotFoundException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									} catch (IOException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-		    				    } else {
-		    				    	System.out.println("No selection");
-		    				    }
-		    				}
-		    					
-		    					////////////////////////////////////////
-		    				catch (IOException e1) {
+					} catch (FileNotFoundException f) {
+						f.getMessage();
+						/////////////////////////////////////////
+						JFileChooser chooser = new JFileChooser();
+						chooser.setCurrentDirectory(new java.io.File("."));
+						chooser.setDialogTitle("Choose an input file to process:");
+						chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						chooser.setAcceptAllFileFilterUsed(false);
+
+						if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+							System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+							System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+
+							try {
+								AllOrders.readOrderFile(chooser.getSelectedFile().toString());
+
+							} catch (FileNotFoundException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
-							}break;
-		    		case 4:break;
-		    		case 7:SummaryReport report = new SummaryReport();
-		    			report.buildGUI();
-		    		break;
-		    		case 8: 
-		    		
-		    	}
-		    }  
-		}); 
-		
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						} else {
+							System.out.println("No selection");
+						}
+					}
+
+					////////////////////////////////////////
+					catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					break;
+				case 4:
+					break;
+				case 7:
+					SummaryReportGUI report = new SummaryReportGUI();
+					report.buildGUI();
+					break;
+				case 8:
+
+				}
+			}
+		});
+
 	}
-	
 
 }
