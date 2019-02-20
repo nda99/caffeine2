@@ -271,7 +271,8 @@ private void setCenterPanel(){
 		if (e.getSource()==b6)
 		{
 			Order o = new Order(getBasket());
-			InvoiceGUI checkoutGUI = new InvoiceGUI(o);
+			AllOrders.addOrder(o);
+			InvoiceGUI checkoutGUI = new InvoiceGUI(AllOrders.getOrder(o.getTime()));
 			checkoutGUI.displayGUI();
 		}
 		

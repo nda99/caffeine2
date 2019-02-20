@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +17,7 @@ public class Order {
 	private double discounts;
 	private boolean processed = false;
 	private boolean validated = false;
+	private boolean redeemed = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	public Order(Timestamp t) {
@@ -23,6 +25,10 @@ public class Order {
 	}
 	
 	public Order(ArrayList<MenuItem> items){
+		Date date= new Date();
+		long t = date. getTime();
+		Timestamp ts = new Timestamp(t);
+		time = ts;
 		for(MenuItem item : items) {
 			if(!orderItems.containsKey(item)) {
 				orderItems.put(item, 1);
@@ -234,51 +240,54 @@ public class Order {
 	
 	/**
 	 * Gets discount from customer's voucher or create a new LoyalCustomer
+	 * 
 	 * @param voucher
 	 * @return discount percentage
 	 */
-	private double validateDiscount(String voucher){
+	private double validateDiscount(String voucher) {
 		AllCustomers customers = null;
 		int points = 0;
 		double discount = 0.0;
-		
-		try { // Tries to create a new Loyal customer
+
+		try {
 			customers = new AllCustomers("customers.csv");
 		} catch (InvalidCustomerFileException e) {
 			// TODO Auto-generated catch block
 			System.out.println("File not Found");
 		}
-		
-		try { // If loyal customer already exists, add points to customer file
+
+		try {  // Tries to create a new Loyal customer
 			customers.addLoyalCustomer(voucher);
 		} catch (UserNameAlreadyTakenException e) {
 			// TODO Auto-generated catch block
-			try {
+			try {// If loyal customer already exists, add points to customer file
 				LoyalCustomer loyal = customers.getLoyalCustomer(voucher);
 				points = points + loyal.getPoints();
-				loyal.addPoints((int)total);
+				if (!redeemed) {
+					loyal.addPoints((int) total);
+					customers.updateFile();
+					redeemed = true;
+				}
 			} catch (CustomerNonExistantException e1) {
 				// TODO Auto-generated catch block
 			}
 		}
-		
-		customers.updateFile();
-		
+
 		if (points > 17 && points < 300) {
 			discount = 0.1;
 		}
-		
-		else if (points >=300) {
+
+		else if (points >= 300) {
 			discount = 0.2;
-			
+
 		}
-		
-		
+
 		return discount;
 	}
-	
+
 	/**
 	 * Outputs invoice String
+	 * 
 	 * @return Invoice String
 	 */
 	public String getInvoice() {
@@ -304,7 +313,7 @@ public class Order {
 	}
 
 		if(validateDiscount(voucher)>0) {
-			item = item + String.format("\n Loyalty percentage: %f %", validateDiscount(voucher)*100);
+			item = item + String.format("\n Loyalty percentage: %f ", validateDiscount(voucher)*100);
 		}
 		
 		item = item + String.format("\nTotal before discounts: %2.2f", calculateTotal(voucher) + discounts);
