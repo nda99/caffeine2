@@ -1,4 +1,6 @@
 package system;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,7 @@ public class Order {
 	//private Customer customer;
 	private double total;
 	private boolean processed = false;
+	private boolean validated = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	public Order(Timestamp t) {
@@ -49,11 +52,18 @@ public class Order {
 		System.out.println("Hello World");
 		LoginGUI gui = new LoginGUI();
 		//StaffGUI gui = new StaffGUI();
-		Menu menu = new Menu();
 		// declares file path if file is located in diff location not in the same folder
 		String filename = "menuItems.csv";
 		// reads items from file 
-		menu.readFile(filename);
+	    try {
+			Menu.readFile(filename);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
@@ -114,7 +124,7 @@ public class Order {
 		double offer = 0.0;
 		
 		// Order 2 Mochas and get a FREE COOKIE!!!
-		if (orderItems.get(Menu.getItem("Mocha")) != null) {
+		if (orderItems.get(Menu.getItem("Mocha")) != null && !validated) {
 			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
 				if (orderItems.get(Menu.getItem("Cookie")) == null) {
 					orderItems.put(Menu.getItem("Cookie"), 1);
@@ -124,7 +134,7 @@ public class Order {
 			}
 		}
 		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get(Menu.getItem("Brownie")) != null) {
+		if (orderItems.get(Menu.getItem("Brownie")) != null && !validated) {
 			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
 				if (orderItems.get(Menu.getItem("Latte")) != null) {
 					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
@@ -154,7 +164,7 @@ public class Order {
 		if(cold && sand && pastry) {
 			offer = discount*(pPrice + cPrice + sPrice) - 5.99;
 		}
-		
+		validated=true;
 		return discount*total - offer;
 	}
 	
@@ -166,7 +176,7 @@ public class Order {
 		double offer = 0.0;
 		
 		// Order 2 Mochas and get a FREE COOKIE!!!
-		if (orderItems.get(Menu.getItem("Mocha")) != null) {
+		if (orderItems.get(Menu.getItem("Mocha")) != null && !validated) {
 			if (orderItems.get(Menu.getItem("Mocha")) >= 2) {
 				if (orderItems.get(Menu.getItem("Cookie")) == null) {
 					orderItems.put(Menu.getItem("Cookie"), 1);
@@ -176,7 +186,7 @@ public class Order {
 			}
 		}
 		// Order a brownie and get your Latte for half price!!!
-		if (orderItems.get(Menu.getItem("Brownie")) != null) {
+		if (orderItems.get(Menu.getItem("Brownie")) != null && !validated) {
 			if (orderItems.get(Menu.getItem("Brownie")) >= 1) {
 				if (orderItems.get(Menu.getItem("Latte")) != null) {
 					offer = offer + (double) Menu.getItem("Latte").getPrice()*0.5;
@@ -210,6 +220,7 @@ public class Order {
 		if(cold && sand && pastry) {
 			offer = pPrice + cPrice + sPrice - 5.99;
 		}
+		validated=true;
 		return total - offer;
 	}
 	
@@ -342,5 +353,14 @@ public class Order {
 	 */
 	public void processOrder() {
 		processed = true;
+
+		for (Map.Entry m: orderItems.entrySet()) {
+			try {
+			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
+			}
+			catch(NotEnoughStockException e) {
+				
+			}
+		}
 	}
 }

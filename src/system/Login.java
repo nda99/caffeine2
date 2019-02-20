@@ -157,6 +157,7 @@ public class Login {
     }
 
     private void checkPosition(String pos) throws InvalidRegistration{
+    	System.out.println("pos ="+pos);
         if (!(pos.equals("Staff") || pos.equals("Manager"))){
             throw new InvalidRegistration("Invalid position, should be Staff or Manager");
         }

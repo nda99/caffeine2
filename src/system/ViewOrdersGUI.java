@@ -35,15 +35,7 @@ public class ViewOrdersGUI {
 		
 	}
 	
-	public static void main(String[] args) {
-		ViewOrdersGUI view = new ViewOrdersGUI();
-
-		Menu a = new Menu();
-		a.readFile("menuItems.csv");
-
-		AllOrders.readOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders.csv");
-		view.displayViewOrdersGUI();
-	}
+	
 	
 	public void displayViewOrdersGUI() {
 		
@@ -73,7 +65,9 @@ public class ViewOrdersGUI {
 		while(AllOrders.isNextOrder(o)) {
 			counter++;
 			o = AllOrders.getNextOrder(o);
-			orders.append(String.format("     %d     |   %s", counter, o.getDetails()));
+			if(!o.isProcessed()) {
+				orders.append(String.format("     %d     |   %s", counter, o.getDetails()));
+			}
 			times.put(counter, o.getTime().toString());
 		}
 		
@@ -81,8 +75,13 @@ public class ViewOrdersGUI {
 		process.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	try {
-					InvoiceGUI iGUI = new InvoiceGUI(AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))));
-					iGUI.displayGUI();
+		    		if(AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))).isProcessed()) {
+			    		displayError("This order has already been processed");
+		    		}
+		    		else{
+		    			InvoiceGUI iGUI = new InvoiceGUI(AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))));
+						iGUI.displayGUI();
+		    		}
 				} catch (nullOrderException e1) {
 
 		    		displayError("Please enter a valid order number");
