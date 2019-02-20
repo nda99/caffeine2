@@ -37,8 +37,8 @@ JPanel southPanel = new JPanel();
 JPanel westPanel = new JPanel();
 JPanel centerPanel = new JPanel();
 JLabel l1, l2, l3, l4, l5, l6;
-JButton b1, b2, b3, b4, b5, b6;
-JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout;
+JButton b1, b2, b3, b4, b5, b6, b7;
+JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout, EmptyBasket;
 JList<MenuItem> menuDisplay;
 JList<MenuItem> basket;
 DefaultListModel<MenuItem> pastriesModel, sandwichModel, hotModel, coldModel, basketModel;
@@ -68,7 +68,7 @@ public MenuGUI(){
 	//setMenuBar();
 
 	Menuframe.setSize(800,800);
-	Menuframe.setLocation(300,500);
+	Menuframe.setLocation(100,150);
 	Menuframe.setVisible(true);
 	
 	//Menuframe.add(menuBar);
@@ -174,9 +174,12 @@ private void setWestPanel(){
 
 private void setSouthPanel(){
 	JPanel southPanel = new JPanel();
+	southPanel.setLayout(new GridLayout(1, 2, 20, 5));
+	b7 = new JButton("Empty Basket");
+	b7.addActionListener(this);
 	b6 = new JButton("Checkout");
 	b6.addActionListener(this);
-	
+	southPanel.add(b7);
 	southPanel.add(b6);
 	//southPanel.add(Checkout);
 	
@@ -264,6 +267,10 @@ private void setCenterPanel(){
 		if (e.getSource()==b5)
 		{
 			this.menuDisplay.setModel(this.coldModel);
+		}
+		if (e.getSource()==b7)
+		{
+			//this.menuDisplay.setModel(this.coldModel);
 		}
 		
 	}
