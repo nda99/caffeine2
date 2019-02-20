@@ -52,7 +52,7 @@ public class AllCustomers {
         if(customer != null){
             throw new UserNameAlreadyTakenException(membershipNo);
         }else{
-            customer = new LoyalCustomer(membershipNo);
+            customer = new LoyalCustomer(msHash);
             customers.put(msHash, customer.copy());
             try {
                 FileWriter customerStream = new FileWriter(customerFile, true);

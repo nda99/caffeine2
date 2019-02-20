@@ -25,7 +25,7 @@ class OrderTest {
 		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, 1.40,89));
 		Menu.addItem("Cake", new MenuItem(5,"Cake",Category.PASTRIES, 2.30,90));
 		Menu.addItem("Water", new MenuItem(6,"Water",Category.COLDDRINK,0.70,101));
-		Menu.addItem("Brownie", new MenuItem(7,"Brownie",Category.PASTRIES, 2.10,46));
+		Menu.addItem("brownie", new MenuItem(7,"brownie",Category.PASTRIES, 2.10,46));
 		Menu.addItem("Sandwich", new MenuItem(8,"Sandwich",Category.SANDWICH, 3.5,52));
 		
 		order1.addItem(Menu.getItem("Cookie"), 1);
@@ -36,10 +36,10 @@ class OrderTest {
 		order3.addItem(Menu.getItem("Mocha"), 2);
 		order3.addItem("Cookie", 1);
 		
-		order4.addItem("Brownie", 1);
+		order4.addItem("brownie", 1);
 		order4.addItem("Latte", 1);
 		
-		order5.addItem("Brownie", 1);
+		order5.addItem("brownie", 1);
 		order5.addItem("Water", 1);
 		order5.addItem("Sandwich", 1);
 		

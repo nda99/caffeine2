@@ -101,15 +101,23 @@ public class InvoiceGUI {
 		    	else {
 		    		if(order!=null) {
 		    			order.processOrder();
-		    			AllOrders.updateOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders_update.csv");
-		    		}
-		    		displayMessage("Payment successful");
-		    		invoiceFrame.dispose();
-		    	}
-		      }
-		    });
+						AllOrders.updateOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders_update.csv");
+					}
+					displayMessage("Payment successful");
+					invoiceFrame.dispose();
+				}
+			}
+		});
+
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				invoiceFrame.dispose();
+
+			}
+		});
 	}
-	
+
 	/**
 	 * Method to create a Label for the GUI
 	 * @param s
