@@ -16,7 +16,7 @@ public class Staff extends User{
 	 * Staff Constructor, create and register a new staff member
 	 * **/
 	public Staff(String fullName, String emailAddress, String userName, String password, String staffFile)
-            throws UserNameAlreadyTakenException{
+            throws InvalidRegistration{
 		this.fullName = fullName;
 		this.emailAddress = emailAddress;
 		this.userName = userName;

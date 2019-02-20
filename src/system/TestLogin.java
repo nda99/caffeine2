@@ -22,12 +22,16 @@ public class TestLogin {
             result = login.register("theo25", "pswd3", "Manager", "Theo", "theo@cafe.com");
         }
         catch (InvalidUsersFileException e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
+        catch (InvalidRegistration e){
+            System.out.println(e.getMessage());
+        }
+
+        new File(dummyFile).delete();
 
         assertEquals("Failed to register", true, result);
 
-        new File(dummyFile).delete();
 
     }
 
@@ -56,10 +60,10 @@ public class TestLogin {
             e.printStackTrace();
         }
 
+        new File(dummyFile).delete();
 
         assertEquals("Failed to login", true, result);
 
-        new File(dummyFile).delete();
     }
 
     @Test
@@ -87,10 +91,9 @@ public class TestLogin {
             e.printStackTrace();
         }
 
+        new File(dummyFile).delete();
 
         assertEquals("Login should have failed", false, result);
-
-        new File(dummyFile).delete();
     }
 
     @Test
@@ -118,9 +121,8 @@ public class TestLogin {
             e.printStackTrace();
         }
 
+        new File(dummyFile).delete();
 
         assertEquals("login should have failed", false, result);
-
-        new File(dummyFile).delete();
     }
 }
