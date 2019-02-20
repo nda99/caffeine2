@@ -23,13 +23,9 @@ public class Menu {
     }
 
 
-
-
     public static MenuItem getItem(String name) {
         return menuItems.get(name);
     }
-
-
 
     public void readFile(String filename) {
         this.menuFile = filename;
