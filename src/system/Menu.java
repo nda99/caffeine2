@@ -219,11 +219,12 @@ public class Menu {
      * @param category category wanted
      * @return
      */
-    public ArrayList<MenuItem> getAllFromCategory(String category){
+    public static ArrayList<MenuItem> getAllFromCategory(String category){
         ArrayList<MenuItem> items = new ArrayList<>();
         for (HashMap.Entry<String, MenuItem> menuItem : menuItems.entrySet()){
             MenuItem miTemp = menuItem.getValue();
             if (translateCatToString(miTemp.getCategory()).equals(category)) {
+
                 items.add(miTemp);
             }
         }
