@@ -44,7 +44,8 @@ public class SummaryReport extends JFrame implements ActionListener{
 	
 	public SummaryReport()
 	{
-		 temp.readOrderFile("orders.csv");
+		
+		 AllOrders.readOrderFile("orders.csv");
 
 	}
 	
@@ -64,6 +65,7 @@ public class SummaryReport extends JFrame implements ActionListener{
 		    		totalIncome += entry.getValue().calculateTotal();
 		        	Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
 		        	System.out.println("order ++");
+		        	System.out.println(items);
 		        	for (MenuItem item:items.keySet())
 		        	{
 		        		System.out.println("item ++");
