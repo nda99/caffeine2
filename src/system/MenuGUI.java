@@ -4,6 +4,12 @@ package system;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,7 +22,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class MenuGUI extends JFrame implements ActionListener{
-JFrame Menuframe;
+JFrame Menuframe = new JFrame("Caffeine App");
+private Menu menu = new Menu();
+
+JPanel northPanel = new JPanel();
+JPanel eastPanel = new JPanel();
+JPanel southPanel = new JPanel();
+JPanel westPanel = new JPanel();
+JPanel centerPanel = new JPanel();
 JLabel l1, l2, l3, l4, l5, l6;
 JButton b1, b2, b3, b4, b5, b6;
 JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout;
@@ -26,15 +39,10 @@ JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout;
 //set up panels that will be on the GUI 
 
 public MenuGUI(){
-	JFrame Menuframe = new JFrame("Menu");
-	JPanel northPanel = new JPanel();
-	JPanel eastPanel = new JPanel();
-	JPanel southPanel = new JPanel();
-	JPanel westPanel = new JPanel();
-	JPanel centerPanel = new JPanel();
+
 	
 	
-	JMenuBar menuBar = new JMenuBar();
+	//JMenuBar menuBar = new JMenuBar();
     /*menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.PAGE_AXIS));
     menuBar.add(createMenu("Menu 1"));
     menuBar.add(createMenu("Menu 2"));
@@ -49,16 +57,12 @@ public MenuGUI(){
 	setCenterPanel();
 	
 	//setMenuBar();
-	
-	Menuframe.add(northPanel);
-	Menuframe.add(southPanel);
-	Menuframe.add(eastPanel);
-	Menuframe.add(westPanel);
-	Menuframe.add(centerPanel);
+
 	Menuframe.setSize(300,300);
 	Menuframe.setLocation(300,500);
+	Menuframe.setVisible(true);
 	
-	Menuframe.add(menuBar);
+	//Menuframe.add(menuBar);
 	
 	Menuframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
 }
@@ -66,19 +70,25 @@ public MenuGUI(){
 //create the north JPanel that allows a staff member to login
 private void setNorthPanel(){
 	JPanel northPanel = new JPanel();
+	northPanel.setLayout(new GridLayout(1, 2, 5, 5));
+	JLabel title;
+	title = new JLabel(" ** Menu ** ", JLabel.CENTER);
+	Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
+	title.setFont(titleFont);
 	b1 = new JButton("Staff Login");
 	//b1.addActionListener(this);
-	
+	northPanel.add(title);
+
 	northPanel.add(b1);
 	//northPanel.add(StaffLogin);
 	
-	this.add(northPanel, BorderLayout.NORTH);
+	Menuframe.add(northPanel, BorderLayout.NORTH);
 	pack();
 	}
 
 private void setWestPanel(){
 	JPanel westPanel = new JPanel();
-	
+	westPanel.setLayout(new GridLayout(4, 1, 5, 5));
 	
 	
 	b2 = new JButton("Pastries");
@@ -103,7 +113,7 @@ private void setWestPanel(){
 	westPanel.add(b5);
 	//westPanel.add(ColdDrinks);
 	
-	this.add(westPanel, BorderLayout.WEST);
+	Menuframe.add(westPanel, BorderLayout.WEST);
 	
 	pack();
 	}
@@ -117,7 +127,7 @@ private void setSouthPanel(){
 	southPanel.add(b6);
 	//southPanel.add(Checkout);
 	
-	this.add(southPanel, BorderLayout.SOUTH);
+	Menuframe.add(southPanel, BorderLayout.SOUTH);
 	
 	pack();
 }
@@ -125,118 +135,96 @@ private void setSouthPanel(){
 private void setEastPanel(){
 	JPanel eastPanel = new JPanel();
 	
-	this.add(eastPanel, BorderLayout.EAST);
+	Menuframe.add(eastPanel, BorderLayout.EAST);
 	
 	pack();
 }
 
 private void setCenterPanel(){
 	JPanel centerPanel = new JPanel();
+	centerPanel.setLayout(new GridLayout(10,2,5,5));
 	
-	this.add(centerPanel, BorderLayout.CENTER);
+	Menuframe.add(centerPanel, BorderLayout.CENTER);
 	
 	pack();
 }
-
-
-/*private void setMenuBar() {
-	 JMenuBar menuBar = new JMenuBar();
-	 
-     menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.PAGE_AXIS));
-     
-     menuBar.add(createMenu("Pastries"));
-     menuBar.add(createMenu("Sandwiches"));
-     menuBar.add(createMenu("HotDrinks"));
-     menuBar.add(createMenu("ColdDrinks"));
-     
-     //the tutorial I looked at had a return, should be void or not?
-     //return menuBar;
-}
-
-public JMenu createMenu(String title){
-	JMenu m = new HorizontalMenu(title);
-	m.add("muffin");
-	m.add("bagel");
-	m.add("tray bake");
-	m.add("croissant");
-	m.add("brownie");
-	m.add("strawberry tart");
-	m.add("fruit tart");
-	m.add("cinnamon roll");
-	
-	return m;
-	}
-
-public JMenu createMenu2(String title){
-	JMenu m2 = new HorizontalMenu(title);
-	m2.add("cheese");
-	m2.add("ham");
-	m2.add("ham and cheese");
-	m2.add("BLT");
-	m2.add("chicken mayo");
-	m2.add("prawn mayo");
-	
-	return m2;
-	}
-
-public JMenu createMenu3(String title){
-	JMenu m3 = new HorizontalMenu(title);
-	m3.add("espresso");
-	m3.add("Macchiato");
-	m3.add("Latte");
-	m3.add("Cappuccino");
-	m3.add("Americano");
-	m3.add("Mocha");
-	m3.add("tea");
-	m3.add("flavoured tea");
-	m3.add("hot chocolate");
-	
-	return m3;
-	}
-
-public JMenu createMenu4(String title){
-	JMenu m4 = new HorizontalMenu(title);
-	m4.add("juics");
-	m4.add("smoothie");
-	m4.add("bottled water");
-	m4.add("lemonade");
-	m4.add("coca cola");
-	m4.add("fanta");
-	m4.add("diet coke");
-	
-	return m4;
-	}
-
-
-//create HorizontalMenu class
-class HorizontalMenu extends JMenu {
-	HorizontalMenu(String label) {
-		super(label);
-		JPopupMenu pm = getPopupMenu();
-		pm.setLayout(new BoxLayout(pm, BoxLayout.LINE_AXIS));
-}
-}
-	
-	//set popup menu visible*/
-	
-	
-
-//methods describing what happens when each button is pressed
-
 
 
 	
 	
 	public static void main (String [] args) {
 		MenuGUI gui = new MenuGUI();
-		Menu menu = new Menu();
-		String filename = "menuItem.csv";
-				menu.readFile(filename);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
+		if (e.getSource()==b2)
+		{
+			displayItems(b2.getText());
+		}
+		
+		if (e.getSource()==b3)
+		{
+			displayItems(b3.getText());
+		}
+		if (e.getSource()==b4)
+		{
+			displayItems(b4.getText());
+		}
+		if (e.getSource()==b5)
+		{
+			displayItems(b5.getText());
+		}
+		
+	}
+	
+	public void displayItems(String category) {
+		String filename = "menuItems.csv";
+		try {
+			Menu.readFile(filename);
+		} catch (FileNotFoundException fnf) {
+			// file not there 
+			System.out.println("File not found");
+		} catch (IOException e) {
+			// having problems reading and writing to file
+			System.out.println("Problems accessing the file");
+			System.exit(1);
+		}
+		int counter =1;
+		ArrayList<JPanel> itemBlock = new ArrayList<JPanel>();
+
+		Map<String,MenuItem> items = Menu.getMenuMap();
+		for (Map.Entry<String,MenuItem> entry : items.entrySet())  
+	    {
+			
+			if(entry.getValue().getCategory().equals(Menu.translateCategory(category)))
+			{			System.out.println("inside");
+
+				itemBlock.add(new JPanel())  ;
+				itemBlock.get(counter-1).setLayout(new GridLayout(1,2,5,5));
+				JLabel item = new JLabel(entry.getValue().getName());
+				itemBlock.get(counter-1).add(item);
+				JButton add = new JButton("+");
+				JButton remove = new JButton("-");
+				JPanel qtyBlock = new JPanel();
+				qtyBlock.setLayout(new GridLayout(2,1,5,5));
+				qtyBlock.add(add);
+				qtyBlock.add(remove);
+				itemBlock.get(counter-1).add(qtyBlock);
+				centerPanel.add(itemBlock.get(counter-1));
+
+				
+				counter++;
+
+				
+				
+			}
+
+	    }
+		Menuframe.add(centerPanel);
+	
 		
 	}
 
@@ -245,44 +233,6 @@ class HorizontalMenu extends JMenu {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-/*private void buildMenus() {
-	 JMenuBar menuBar=new JMenuBar();
-	  
-	 JMenu menu=new JMenu("Menu");
-	  
-	 JMenu fileMenu=new JMenu("Pastries");
-	 fileMenu.setBackground(Color.RED);
-	  
-	 JMenu editMenu=new JMenu("Sandwiches");
-	 editMenu.setBackground(Color.GREEN);
-	  
-	 JMenu viewMenu=new JMenu("Hot Drinks");
-	 viewMenu.setBackground(Color.BLUE);
-	 
-	 JMenu viewMenu=new JMenu("Cold Drinks");
-	 viewMenu.setBackground(Color.BLUE);
-	  
-	 menu.add(fileMenu);
-	 menu.addSeparator();
-	 menu.add(editMenu);
-	 menu.addSeparator();
-	 menu.add(viewMenu);
-	  
-	 menuBar.add(menu);
-	  
-	  
-	 setJMenuBar(menuBar);
-	 }*/
 
 
 
