@@ -102,7 +102,7 @@ public class MenuItem  implements Comparable<MenuItem> {
 		
 	}
 
-	//set quantity for stock
+	//set quantity
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
