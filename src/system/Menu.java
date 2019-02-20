@@ -8,8 +8,8 @@ import java.util.*;
 
 public class Menu {
 
-    static Map<String, MenuItem>  menuItems = new HashMap<String, MenuItem>();
-    private String menuFile;
+    static private Map<String, MenuItem>  menuItems = new HashMap<String, MenuItem>();
+    static private String menuFile;
 
 
 
@@ -27,8 +27,9 @@ public class Menu {
         return menuItems.get(name);
     }
 
-    public void readFile(String filename) {
-        this.menuFile = filename;
+
+    static public void readFile(String filename) {
+        Menu.menuFile = filename;
         try {
             Scanner inputFromFile = new Scanner(new File(filename));
 
@@ -54,7 +55,7 @@ public class Menu {
     }
 
 
-    private Category translateCategory(String test) {
+    static private Category translateCategory(String test) {
         if(test.equals("Hot drink")) {
             return Category.HOTDRINK;
         }
@@ -87,7 +88,7 @@ public class Menu {
         }
     }
 
-    public void processLine(String line) {
+    static public void processLine(String line) {
         String itemNumber = "";
         String itemPrice = "";
         try {
@@ -158,6 +159,9 @@ public class Menu {
         }
     }
 
+    static public Map<String, MenuItem> getMenuMap(){
+        return Menu.menuItems;
+    }
 
     /**
      * Update the file to record the number of points, lazy version, erases the previous file and write it again.
