@@ -50,11 +50,10 @@ public class Order {
 		System.out.println("Hello World");
 		LoginGUI gui = new LoginGUI();
 		//StaffGUI gui = new StaffGUI();
-		Menu menu = new Menu();
 		// declares file path if file is located in diff location not in the same folder
 		String filename = "menuItems.csv";
 		// reads items from file 
-		menu.readFile(filename);
+	    Menu.readFile(filename);
 		
 		
 	}
