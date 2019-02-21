@@ -14,6 +14,7 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class StaffGUI extends JFrame implements ActionListener {
@@ -84,7 +85,7 @@ public class StaffGUI extends JFrame implements ActionListener {
 
 	public void buildGUI() {
 
-		frame.setTitle("Caffiene App");
+		frame.setTitle("Caffeine App");
 		frame.setSize(500, 700);
 		frame.setLocation(300, 500);
 		frame.setVisible(true);
@@ -144,7 +145,9 @@ public class StaffGUI extends JFrame implements ActionListener {
 
 			public void mouseClicked(MouseEvent e) {
 				switch (number) {
-				case 1:
+				case 1:					
+					JOptionPane.showMessageDialog(frame, "This feature will be available soon!");
+
 					break;
 				case 2:
 					new StockGUI();

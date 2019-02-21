@@ -5,8 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class SummaryReport {
 	int ordersCounter = 0;
@@ -14,13 +18,38 @@ public class SummaryReport {
 	private Map<Timestamp, Order> ordersMap = AllOrders.getOrderMap();
 	AllOrders orders = new AllOrders();
 
-
+/**
+ * Constructor method
+ 	It reads the menuItems.csv and Orders.csv**/
 	public SummaryReport() {
 		try {
 			Menu.readFile("menuItems.csv");
 
 		} catch (FileNotFoundException f) {
 			f.getMessage();
+			JFileChooser chooser = new JFileChooser();
+			chooser.setCurrentDirectory(new java.io.File("."));
+			chooser.setDialogTitle("Choose an input file to process:");
+			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			chooser.setAcceptAllFileFilterUsed(false);
+
+			if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+				System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+
+				try {
+					Menu.readFile(chooser.getSelectedFile().toString());
+
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else {
+				System.out.println("No selection");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,15 +64,19 @@ public class SummaryReport {
 	}
 	
 	
+	/**
+	 * @param time String
+	 * @return HashMap of the itemsIncome
+	 * */
 	
-	public HashMap<String, Integer> calculateStatistics(String from,String to) {
+	public HashMap<String, Integer> calculateStatistics(String from,String to)  {
 		HashMap<String, Integer> itemsIncome = new HashMap<String, Integer>();
 
 		ordersCounter = 0;
 		totalIncome = 0.0;
-		from += " 00:00:00.000";
-		to += " 00:00:00.000";
-		// Calculate frequency analysis for items
+		
+		
+		// Calculate frequency analysis for items only for the time range
 		for (Map.Entry<Timestamp, Order> entry : ordersMap.entrySet()) {
 
 			if (entry.getKey().after(AllOrders.toTimestamp(from)) && entry.getKey().before(AllOrders.toTimestamp(to))) {
@@ -112,5 +145,54 @@ public class SummaryReport {
 	{
 		return totalIncome;
 	}
+	
+	public boolean checkTimeStamp(String time)
+	{
+
+		 for (int i = 0; i < time.length(); i++) {
+	         // checks whether the character is not a letter
+	         // if it is not a letter ,it will return false
+	         if ((Character.isLetter(time.charAt(i)) == true)) {
+	            return false;
+	         }
+	      }
+		 return true;
+	}
+	
+	public boolean isCorrectRange(String from,String to)
+	{
+		
+		System.out.println(from);
+		System.out.println(to);
+		
+		if(checkTimeStamp(from) && checkTimeStamp(to))
+		{
+			if(AllOrders.isTime(from) && AllOrders.isTime(to))
+			{
+				if(AllOrders.toTimestamp(to).before(AllOrders.toTimestamp(from)))		
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+			else
+			{
+				return false;
+			}
+			
+		}
+		else
+			{
+				return false;
+			}
+		 
+		
+		
+	}
+	
+	 
 
 }
