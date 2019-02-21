@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,6 +43,7 @@ public class SummaryReportGUI extends JFrame implements ActionListener {
 
 	
 	public void viewSummaryReport(String from, String to) {
+		
 		//Refresh the central panel because the user can change the values in from and to
 		centralPanel.removeAll();
 		centralPanel.repaint();
@@ -133,7 +136,11 @@ public class SummaryReportGUI extends JFrame implements ActionListener {
 	private void setupCentralPanel() {
 		centralPanel.setBackground(Color.WHITE);
 		centralPanel.setLayout(new GridLayout(2, 1,5,5));
-		viewSummaryReport("2018-01-01", "2019-01-01");
+		if(report.isCorrectRange(from, to))
+		{
+			viewSummaryReport(from, to);
+
+		}
 
 	}
 
@@ -178,7 +185,25 @@ public class SummaryReportGUI extends JFrame implements ActionListener {
 			//Set the values of from and to, because both are needed to call other methods
 			from = dateFrom.getText();
 			to = dateTo.getText();
-			viewSummaryReport(from, to);
+			//Check first if the from is before the to
+
+			/*if(AllOrders.toTimestamp(from).after(AllOrders.toTimestamp(to)))		
+			{
+				JOptionPane.showMessageDialog(frame, "Oops! You didn't set the interval correctly!");
+				
+			}*/
+			
+				if(report.isCorrectRange(from, to))
+				{
+					viewSummaryReport(from, to);
+
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(frame, "Oops! You didn't set the interval correctly!");
+
+				}
+			
 		}
 
 	}
