@@ -3,7 +3,7 @@ package system;
 /**
  * Staff class, doesn't have the stock methods yet
  */
-public class Staff extends User{
+public class Staff {
 	
 	protected String fullName;
 	protected String emailAddress;

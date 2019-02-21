@@ -41,6 +41,7 @@ public class ViewOrdersGUI {
 		
 		title = createOneLabel("Order List:",15);
 		choice = createOneLabel("Order Number: ", 11);
+		orderView.setTitle("Caffeine App");
 		orderView.setSize(500,400);
 		orderView.setLayout(new BorderLayout(0,0));
 		southPanel.setLayout(new GridLayout(1,4));
@@ -106,8 +107,7 @@ public class ViewOrdersGUI {
 		    	catch(NullPointerException e3) {
 		    		displayError("Please enter a valid order number");
 		    	}
-		    	//AllOrders.updateOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders_update.csv");
-		    	//AllOrders.readOrderFile("D:\\\\Software Engineering\\\\caffeine\\\\orders_update.csv");
+		    	AllOrders.updateOrderFile("orders.csv");
 		    	orderView.dispose();
 		    	ViewOrdersGUI newView = new ViewOrdersGUI();
 		    	newView.displayViewOrdersGUI();

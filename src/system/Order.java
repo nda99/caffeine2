@@ -19,7 +19,7 @@ public class Order {
 	
 	/**
 	 * Constructs Order object from a Timestamp
-	 * @param t
+	 * @param t Timestamp from Order
 	 */
 	public Order(Timestamp t) {
 		time = t;
@@ -121,7 +121,7 @@ public class Order {
 	
 	/**
 	 * Calculate order total price with discount voucher and special offers
-	 * @param voucher
+	 * @param voucher Voucher to be entered by customer
 	 * @return order total price
 	 */
 	public double calculateTotal(String voucher) {
@@ -190,12 +190,11 @@ public class Order {
 		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
 		boolean cold=false, sand=false, pastry=false;
 		double cPrice=0.0, sPrice=0.0, pPrice=0.0;
-		System.out.println(orderItems);
+		
 		for (Map.Entry<MenuItem,Integer> m: orderItems.entrySet()) {
 
 
 			if(Menu.getItem(m.getKey().toString()).getCategory().equals(Category.COLDDRINK)){
-				System.out.println(m.getKey().toString());
 				cold=true;
 				cPrice = Menu.getItem(m.getKey().toString()).getPrice();
 			}
@@ -238,7 +237,6 @@ public class Order {
 		}
 		
 		validated=true;
-		System.out.println(""+offer);
 		discounts = offer;
 		return total - offer;
 	}
@@ -308,7 +306,7 @@ public class Order {
 	
 	/**
 	 * Outputs invoice String given a voucher code
-	 * @param voucher
+	 * @param voucher Voucher to be entered by customer
 	 * @return Invoice String 
 	 */
 	public String getInvoice(String voucher) {
@@ -329,7 +327,7 @@ public class Order {
 	/**
 	 * Order equals order if their Timestamp objects are equal
 	 * @param o Order to be compared with
-	 * @return
+	 * @return true if Orders are equal, false otherwise
 	 */
 	public boolean equals(Order o) {
 		if (o.getTime().equals(this.getTime())) {
@@ -341,7 +339,7 @@ public class Order {
 	/**
 	 * Orders are comparable through their Timestamps
 	 * @param o Order to be compared with
-	 * @return
+	 * @return Comparison of times
 	 */
 	public int compareTo(Order o) {
 		return time.compareTo(o.getTime());
@@ -371,7 +369,7 @@ public class Order {
 	}
 	/**
 	 * Check if order has been processed
-	 * @return
+	 * @return True if order is processed, false if not
 	 */
 	public boolean isProcessed() {
 		return processed;

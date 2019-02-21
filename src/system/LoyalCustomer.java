@@ -1,6 +1,6 @@
 package system;
 
-public class LoyalCustomer extends User {
+public class LoyalCustomer {
 
     private String membershipNo;
     private int points;

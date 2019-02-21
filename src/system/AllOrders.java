@@ -60,9 +60,10 @@ public class AllOrders {
 				 
 				 orderMap.put(timestamp, nOrder);
 			 }
-			 
+
+			 scanner.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 
@@ -84,7 +85,6 @@ public class AllOrders {
 				Order o = orderMap.get(m.getKey());
 				if (!orderMap.get(m.getKey()).isProcessed()) {
 					file.write(o.toString());
-					System.out.println(o.toString());
 				}
 			}
 
@@ -258,7 +258,7 @@ public class AllOrders {
 		Entry<Timestamp,Order> ent = orderMap.higherEntry(o.getTime());
 		next = ent.getValue();
 		
-		if(next.isProcessed()) {
+		if(next.isProcessed() && isNextOrder(next)) {
 			next = getNextOrder(next.getTime());
 		}
 		
