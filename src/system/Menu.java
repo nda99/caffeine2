@@ -107,11 +107,11 @@ public class Menu {
             String parts [] = line.split(",");
             String itemName = parts [1];
             itemNumber = parts [0];
-            System.out.println(parts[0]);
+            /*System.out.println(parts[0]);
             System.out.println(parts[1]);
             System.out.println(parts[2]);
             System.out.println(parts[3]);
-            System.out.println(parts[4]);
+            System.out.println(parts[4]);*/
 
 
 
