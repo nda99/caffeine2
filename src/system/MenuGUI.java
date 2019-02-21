@@ -247,6 +247,35 @@ private void setCenterPanel(){
 	}
 	
 	// remove all items in the basket
+	/*
+	public void actionPerformed(ListSelectionEvent e) {
+		int index = basket.getSelectedIndex();
+		if(index >= 0){ //Remove only if a particular item is selected
+			basketModel.removeElementAt(index);
+		}
+		System.out.println("TEST");
+	}*/
+	
+	
+	
+	
+	 /*blic void actionPerformed1(ActionEvent eb)
+	  {
+		int index = menuDisplay.getSelectedIndex();
+		MenuItem item = menuDisplay.getModel().getElementAt(index);
+	    if(eb.getSource() == b7) getBasket();
+	    else if(eb.getSource() == b7) basket.clearSelection();
+	    else basketModel.clear();
+	  }*/
+	
+	
+	/*public void emptyBasket(java.awt.event.ActionEvent eb) {
+		if(eb.getSource()== EmptyBasket){
+			DefaultListModel basketModel = (DefaultListModel)basket.getModel();
+			basketModel.removeAllElements();
+			
+		*/
+	
 	/*public void actionPerformed2(ActionEvent e) {
 	    int index = basket.getSelectedIndex();
 	    if(index >= 0){ //Remove only if a particular item is selected
@@ -254,12 +283,7 @@ private void setCenterPanel(){
 	    }
 	}*/
 	
-	/*public void actionPerformed(ListSelectionEvent e) {
-	    int index = basket.getSelectedIndex();
-	    if(index >= 0){ //Remove only if a particular item is selected
-	        basketModel.removeElementAt(index);
-	    }
-	}*/
+	
 	
 	
 	
@@ -293,6 +317,16 @@ private void setCenterPanel(){
 		{
 			//this.basketModel.removeElementAt(index);
 			//this.menuDisplay.setModel(this.coldModel);
+			int index = basket.getSelectedIndex();
+			System.out.print(index);
+			index ++;
+			ArrayList<MenuItem> basket = getBasket();
+			for (int i = index;i<basket.size();i++)
+			{
+				if(index >= 0){ //Remove only if a particular item is selected
+					basketModel.removeElementAt(index);
+				}
+			}
 		}
 		
 	}
