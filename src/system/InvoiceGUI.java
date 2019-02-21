@@ -99,10 +99,15 @@ public class InvoiceGUI {
 				else {
 					if (order != null) {
 						order.processOrder();
-						AllOrders.updateOrderFile("orders_update.csv");
 					}
-					displayMessage("Payment successful");
-					invoiceFrame.dispose();
+					if(order.isProcessed()) {
+						displayMessage("Payment successful");
+						AllOrders.updateOrderFile("orders_update.csv");
+						invoiceFrame.dispose();
+					}
+					else {
+						displayError("Processing error, items out of stock");
+					}
 				}
 			}
 		});

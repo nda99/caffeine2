@@ -111,8 +111,7 @@ public class AllOrders {
 			try {
 				parsedDate = dateFormat2.parse(time);
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.out.println("Wrong time format");
 			}
 		}
 		
