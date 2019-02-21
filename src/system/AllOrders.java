@@ -94,9 +94,10 @@ public class AllOrders {
 		}
 
 	}
-	
+
 	/**
-	 * Converts time in String to Timestamp 
+	 * Converts time in String to Timestamp
+	 * 
 	 * @param time
 	 * @return Timestamp object
 	 */
@@ -105,7 +106,7 @@ public class AllOrders {
 		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 		SimpleDateFormat dateFormat4 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-	    Date parsedDate = null;
+		Date parsedDate = null;
 		try {
 			parsedDate = dateFormat.parse(time);
 		} catch (ParseException e) {
@@ -122,9 +123,13 @@ public class AllOrders {
 					} catch (ParseException e3) {
 
 						try {
-							parsedDate = dateFormat.parse(String.format("%s-01-01 00:00:00.000",time));
+							parsedDate = dateFormat.parse(String.format("%s-01-01 00:00:00.000", time));
 						} catch (ParseException e4) {
-							System.out.println(String.format("The time %s is in the wrong format. Try dd/MM/yyyy hh:mm:ss", time));
+							try {
+								parsedDate = dateFormat.parse(String.format("%s 00:00:00.000", time));
+							} catch (ParseException e5) {
+								System.out.println(String.format("The time %s is in the wrong format. Try dd/MM/yyyy hh:mm:ss", time));
+							}
 						}
 					}
 				}
@@ -146,6 +151,7 @@ public class AllOrders {
 		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 		SimpleDateFormat dateFormat4 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		
 	    Date parsedDate = null;
 	    
 	    boolean format = false;
@@ -173,7 +179,12 @@ public class AllOrders {
 							parsedDate = dateFormat.parse(String.format("%s-01-01 00:00:00.000",time));
 							format = true;
 						} catch (ParseException e4) {
-							System.out.println(String.format("The time %s is in the wrong format. Try dd/MM/yyyy hh:mm:ss", time));
+
+							try {
+								parsedDate = dateFormat.parse(String.format("%s 00:00:00.000",time));
+							} catch (ParseException e5) {
+								System.out.println(String.format("The time %s is in the wrong format. Try dd/MM/yyyy hh:mm:ss", time));
+							}
 						}
 					}
 				}
