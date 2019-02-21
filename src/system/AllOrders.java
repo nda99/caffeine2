@@ -137,6 +137,53 @@ public class AllOrders {
 	}
 	
 	/**
+	 * Checks if String has the time formatting
+	 * @param time String
+	 * @return true if it complies with format, false otherwise
+	 */
+	public static boolean isTime(String time) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+		SimpleDateFormat dateFormat4 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+	    Date parsedDate = null;
+	    
+	    boolean format = false;
+	    
+		try {
+			parsedDate = dateFormat.parse(time);
+			format = true;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			try {
+				parsedDate = dateFormat2.parse(time);
+				format = true;
+			} catch (ParseException e1) {
+				try {
+					parsedDate = dateFormat3.parse(time);
+					format = true;
+				} catch (ParseException e2) {
+
+					try {
+						parsedDate = dateFormat4.parse(time);
+						format = true;
+					} catch (ParseException e3) {
+
+						try {
+							parsedDate = dateFormat.parse(String.format("%s-01-01 00:00:00.000",time));
+							format = true;
+						} catch (ParseException e4) {
+							System.out.println(String.format("The time %s is in the wrong format. Try dd/MM/yyyy hh:mm:ss", time));
+						}
+					}
+				}
+			}
+		}
+		
+		return format;
+	}
+	
+	/**
 	 * Get Order object from its time
 	 * @param t Time string to search for order
 	 * @return Order made at provided time
