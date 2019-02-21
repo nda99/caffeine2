@@ -103,6 +103,9 @@ public class AllOrders {
 	public static Timestamp toTimestamp(String time) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+		SimpleDateFormat dateFormat4 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		
 	    Date parsedDate = null;
 		try {
 			parsedDate = dateFormat.parse(time);
@@ -111,7 +114,16 @@ public class AllOrders {
 			try {
 				parsedDate = dateFormat2.parse(time);
 			} catch (ParseException e1) {
-				System.out.println("Wrong time format");
+				try {
+					parsedDate = dateFormat3.parse(time);
+				} catch (ParseException e2) {
+
+					try {
+						parsedDate = dateFormat4.parse(time);
+					} catch (ParseException e3) {
+						System.out.println(String.format("The time %s is in the wrong format. Try dd/MM/yyyy hh:mm:ss", time));
+					}
+				}
 			}
 		}
 		
