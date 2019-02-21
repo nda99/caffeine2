@@ -11,21 +11,32 @@ public class Menu {
 
 
 
-    //add item to hashset
+    /**
+     * add item to hashset
+     */
     public static void addItem(String name, MenuItem menuItem) {
         menuItems.put(name,menuItem);
     }
-    // delete item from hashset
+    /**
+     * delete item from hashset
+     * using name 
+     */
     public static void deleteItem(String name) {
         menuItems.remove(name);
     }
 
-
+/**
+ * find item using name
+ */
     public static MenuItem getItem(String name) {
         return menuItems.get(name);
     }
     
-
+/** 
+ * read file 
+ * @throws FileNotFoundException
+ * @throws IOException
+ */
 	static public void readFile(String filename) throws FileNotFoundException,IOException{
 		Menu.menuFile = filename;
 
@@ -49,7 +60,9 @@ public class Menu {
 		inputFromFile.close(); // close the file
 
 	}
-
+/** 
+ * translates category from emun
+ */
     static public Category translateCategory(String test) {
         if(test.equals("Hot drink")) {
             return Category.HOTDRINK;
@@ -83,7 +96,10 @@ public class Menu {
             return "Pastries";
         }
     }
-
+/** 
+ * shows how file that is read in is processed 
+ * @param line
+ */
     static public void processLine(String line) {
         String itemNumber = "";
         String itemPrice = "";
@@ -121,7 +137,10 @@ public class Menu {
     }
 
 
-
+/**
+ * how the program can write to a file or report
+ */
+		
     // write text to a file
     public void writeToFile(String filename, String report) {
         FileWriter fw;
@@ -140,6 +159,11 @@ public class Menu {
             System.exit(1);
         }
     }
+    
+    /**
+     * how the program prints to file 
+     * returns menu item
+     */
     //print to a file
     public void printToFile(String filename) throws IOException {
         PrintWriter pw;
