@@ -41,6 +41,7 @@ public class ViewOrdersGUI {
 		
 		title = createOneLabel("Order List:",15);
 		choice = createOneLabel("Order Number: ", 11);
+		orderView.setTitle("Caffeine App");
 		orderView.setSize(500,400);
 		orderView.setLayout(new BorderLayout(0,0));
 		southPanel.setLayout(new GridLayout(1,4));
