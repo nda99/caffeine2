@@ -182,6 +182,7 @@ public class AllOrders {
 
 							try {
 								parsedDate = dateFormat.parse(String.format("%s 00:00:00.000",time));
+								format = true;
 							} catch (ParseException e5) {
 								System.out.println(String.format("The time %s is in the wrong format. Try dd/MM/yyyy hh:mm:ss", time));
 							}
