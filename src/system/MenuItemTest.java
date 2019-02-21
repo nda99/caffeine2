@@ -30,12 +30,6 @@ public class MenuItemTest {
 		assertEquals("MenuItem getNumber() method failed", No, 1);
 		//assertEquals(message for when it goes wrong, things you're checking, what it should be);
 	}
-	@Test
-	public void menuItem_getNumber_usingFailedNumber_test() {
-		int No = testItem1.getNumber();
-		assertEquals("MenuItem getNumber() method failed", No, 57);
-		//assertEquals(message for when it goes wrong, things you're checking, what it should be);
-	}
 	
 	@Test
 	public void menuItem_getCategory_usingCorrectCategory_test() {
@@ -43,20 +37,6 @@ public class MenuItemTest {
 		assertEquals("MenuItem getNumber() method failed", category, Category.SANDWICH);
 		//assertEquals(message for when it goes wrong, things you're checking, what it should be);
 	}
-	
-	@Test
-	public void menuItem_getCategory_usingFailedCategory_test() {
-		Category category = testItem1.getCategory();
-		assertEquals("MenuItem getNumber() method failed", category, Category.COLDDRINK);
-		//assertEquals(message for when it goes wrong, things you're checking, what it should be);
-	}
-	@Test
-	public void menuItem_getQuantity_usingFailedQuantity_test() {
-		int quantity = testItem1.getQuantity();
-		assertEquals("MenuItem getNumber() method failed", quantity, 5);
-		//assertEquals(message for when it goes wrong, things you're checking, what it should be);
-	}
-	
 	
 	@Test
 	public void menuItem_getQuantity_usingCorrectQuantity_test() {
