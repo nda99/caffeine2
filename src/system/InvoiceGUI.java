@@ -102,7 +102,7 @@ public class InvoiceGUI {
 					}
 					if(order.isProcessed()) {
 						displayMessage("Payment successful");
-						AllOrders.updateOrderFile("orders_update.csv");
+						AllOrders.updateOrderFile("orders.csv");
 						invoiceFrame.dispose();
 					}
 					else {
@@ -114,7 +114,7 @@ public class InvoiceGUI {
 
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				AllOrders.updateOrderFile("orders.csv");
 				invoiceFrame.dispose();
 
 			}

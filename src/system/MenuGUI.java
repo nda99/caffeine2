@@ -218,6 +218,11 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 
 	public static void main(String[] args) {
 		MenuGUI gui = new MenuGUI();
+		try {
+			AllOrders.readOrderFile("orders.csv");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		Menu.updateFile();
 		System.out.println("Finished");
 	}
