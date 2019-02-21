@@ -116,7 +116,7 @@ public class StaffGUI extends JFrame implements ActionListener {
 	}
 
 	// Consider making in private method
-	public void addManagerOptions() {
+	private void addManagerOptions() {
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		label4.setFont(itemsFont);
 		label5.setFont(itemsFont);

@@ -13,10 +13,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class SummaryReport {
-	int ordersCounter = 0;
-	double totalIncome = 0.0;
+	private int ordersCounter = 0;
+	private double totalIncome = 0.0;
 	private Map<Timestamp, Order> ordersMap = AllOrders.getOrderMap();
-	AllOrders orders = new AllOrders();
+	private AllOrders orders = new AllOrders();
 
 /**
  * Constructor method
