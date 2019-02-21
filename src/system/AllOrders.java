@@ -31,6 +31,10 @@ public class AllOrders {
 		orderMap.put(time, order);
 	}
 	
+	/**
+	 * Adds an existing Order object to the TreeMap
+	 * @param o Existing Order Object
+	 */
 	public static void addOrder(Order o) {
 		orderMap.put(o.getTime(), o);
 	}
@@ -202,6 +206,10 @@ public class AllOrders {
 		}
 	}
 	
+	/**
+	 * Delete an order from the TreeMap
+	 * @param t time of the order (String)
+	 */
 	public static void deleteOrder(String t) {
 		try {
 		AllOrders.getOrder(t);

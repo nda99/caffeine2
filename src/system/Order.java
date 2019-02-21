@@ -9,10 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Order {
-	public Set<Integer> a;
-	private int orderID;
 	private Timestamp time; 
-	//private Customer customer;
 	private double total;
 	private double discounts;
 	private boolean processed = false;
@@ -20,10 +17,18 @@ public class Order {
 	private boolean redeemed = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
+	/**
+	 * Constructs Order object from a Timestamp
+	 * @param t
+	 */
 	public Order(Timestamp t) {
 		time = t;
 	}
 	
+	/**
+	 * Constructs order object from ArrayList of MenuItems
+	 * @param items ArrayList provided by MenuGUI
+	 */
 	public Order(ArrayList<MenuItem> items){
 		Date date= new Date();
 		long t = date. getTime();
@@ -313,7 +318,7 @@ public class Order {
 	}
 
 		if(validateDiscount(voucher)>0) {
-			item = item + String.format("\n Loyalty percentage: %f ", validateDiscount(voucher)*100);
+			item = item + String.format("\n Loyalty percentage: %2.2f percent ", validateDiscount(voucher)*100);
 		}
 		
 		item = item + String.format("\nTotal before discounts: %2.2f", calculateTotal(voucher) + discounts);
