@@ -378,7 +378,7 @@ public class Order {
 	}
 	
 	/**
-	 * Process order
+	 * Process order and update stock
 	 */
 	public void processOrder() {
 		processed = true;
@@ -388,8 +388,13 @@ public class Order {
 			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
 			}
 			catch(NotEnoughStockException e) {
-				
+				processed = false;
 			}
+
+		}
+		
+		if(processed) {
+			Menu.updateFile();
 		}
 	}
 }
