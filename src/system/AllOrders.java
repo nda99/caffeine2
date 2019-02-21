@@ -84,7 +84,6 @@ public class AllOrders {
 				Order o = orderMap.get(m.getKey());
 				if (!orderMap.get(m.getKey()).isProcessed()) {
 					file.write(o.toString());
-					System.out.println(o.toString());
 				}
 			}
 
