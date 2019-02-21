@@ -258,7 +258,7 @@ public class AllOrders {
 		Entry<Timestamp,Order> ent = orderMap.higherEntry(o.getTime());
 		next = ent.getValue();
 		
-		if(next.isProcessed()) {
+		if(next.isProcessed() && isNextOrder(next)) {
 			next = getNextOrder(next.getTime());
 		}
 		
