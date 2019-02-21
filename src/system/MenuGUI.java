@@ -44,13 +44,12 @@ JList<MenuItem> basket;
 DefaultListModel<MenuItem> pastriesModel, sandwichModel, hotModel, coldModel, basketModel;
 
 
-
-//set up panels that will be on the GUI 
+/**
+ * set up panels that will be on the GUI 
+ */
 
 public MenuGUI(){
 
-	
-	
 	setUpModels();
 	setNorthPanel();
 	setSouthPanel();
@@ -64,11 +63,12 @@ public MenuGUI(){
 	Menuframe.setVisible(true);
 	
 	
-	
 	Menuframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
 }
 
-//setting up the models that will be used in the lists displayed on the GUI
+/**
+ * setting up the models that will be used in the lists displayed on the GUI
+ */
 private void setUpModels() {
 	String filename = "menuItems.csv";
 	try {
@@ -82,7 +82,9 @@ private void setUpModels() {
 		System.exit(1);
 	}
 	
-	//adding the item elements to each category model
+	/**
+	 * adding the item elements to each category model
+	 */
 	this.sandwichModel = new DefaultListModel<MenuItem>();
 	ArrayList<MenuItem> listTemp = Menu.getAllFromCategory("Sandwich");
 	for (MenuItem item : listTemp) {
@@ -107,7 +109,9 @@ private void setUpModels() {
 	
 }
 
-//create the north JPanel that allows a staff member to login and also displays the Menu title
+/**
+ * create the north JPanel that allows a staff member to login and also displays the Menu title
+ */
 private void setNorthPanel(){
 	JPanel northPanel = new JPanel();
 	northPanel.setLayout(new GridLayout(1, 2, 5, 5));
@@ -118,16 +122,15 @@ private void setNorthPanel(){
 	b1 = new JButton("Staff Login");
 	b1.addActionListener(this);
 	northPanel.add(title);
-
 	northPanel.add(b1);
-	//northPanel.add(StaffLogin);
 	
 	Menuframe.add(northPanel, BorderLayout.NORTH);
 	pack();
 	}
 
-
-//create the west panel showing the category buttons
+/**
+ * create the west panel showing the category buttons
+ */
 private void setWestPanel(){
 	JPanel westPanel = new JPanel();
 	westPanel.setLayout(new GridLayout(4, 1, 5, 5));
@@ -138,31 +141,27 @@ private void setWestPanel(){
 	b5 = new JButton("Cold Drinks");
 	
 	b2.addActionListener(this);
-	//b3.addActionListener(this);
+	b3.addActionListener(this);
 	b4.addActionListener(this);
 	b5.addActionListener(this);
 	
-	b3.addActionListener(this); //{
-	    
 	
 	westPanel.add(b2);
-	//westPanel.add(Pastries);
 	
 	westPanel.add(b3);
-	//westPanel.add(Sandwiches);
 	
 	westPanel.add(b4);
-	//westPanel.add(HotDrinks);
 	
 	westPanel.add(b5);
-	//westPanel.add(ColdDrinks);
 	
 	Menuframe.add(westPanel, BorderLayout.WEST);
 	
 	pack();
 	}
 
-//create the south panel with empty basket and checkout buttons
+/**
+ * create the south panel with empty basket and checkout buttons
+ */
 private void setSouthPanel(){
 	JPanel southPanel = new JPanel();
 	southPanel.setLayout(new GridLayout(1, 2, 20, 5));
@@ -172,14 +171,15 @@ private void setSouthPanel(){
 	b6.addActionListener(this);
 	southPanel.add(b7);
 	southPanel.add(b6);
-	//southPanel.add(Checkout);
 	
 	Menuframe.add(southPanel, BorderLayout.SOUTH);
 	
 	pack();
 }
 
-//create east panel, it is empty though
+/**
+ * create east panel, it is empty though
+ */
 private void setEastPanel(){
 	JPanel eastPanel = new JPanel();
 	
@@ -188,7 +188,9 @@ private void setEastPanel(){
 	pack();
 }
 
-//create the centre panel, including lists of items in each category and list of selected items
+/**
+ * create the centre panel, including lists of items in each category and list of selected items
+ */
 private void setCenterPanel(){
 	centerPanel.setLayout(new GridLayout(1,2,5,5));
 	//JPanel centerPanel = new JPanel();
@@ -248,48 +250,7 @@ private void setCenterPanel(){
 		return basketList;
 	}
 	
-	// remove all items in the basket
-	/*
-	public void actionPerformed(ListSelectionEvent e) {
-		int index = basket.getSelectedIndex();
-		if(index >= 0){ //Remove only if a particular item is selected
-			basketModel.removeElementAt(index);
-		}
-		System.out.println("TEST");
-	}*/
 	
-	
-	
-	
-	 /*blic void actionPerformed1(ActionEvent eb)
-	  {
-		int index = menuDisplay.getSelectedIndex();
-		MenuItem item = menuDisplay.getModel().getElementAt(index);
-	    if(eb.getSource() == b7) getBasket();
-	    else if(eb.getSource() == b7) basket.clearSelection();
-	    else basketModel.clear();
-	  }*/
-	
-	
-	/*public void emptyBasket(java.awt.event.ActionEvent eb) {
-		if(eb.getSource()== EmptyBasket){
-			DefaultListModel basketModel = (DefaultListModel)basket.getModel();
-			basketModel.removeAllElements();
-			
-		*/
-	
-	/*public void actionPerformed2(ActionEvent e) {
-	    int index = basket.getSelectedIndex();
-	    if(index >= 0){ //Remove only if a particular item is selected
-	        basketModel.removeElementAt(index);
-	    }
-	}*/
-	
-	
-	
-	
-	
-    //public void removeALLElements(ListSelectionEvent e) {
     	
 	
 	@Override
@@ -327,8 +288,7 @@ private void setCenterPanel(){
 		}
 		if (e.getSource()==b7)
 		{
-			//this.basketModel.removeElementAt(index);
-			//this.menuDisplay.setModel(this.coldModel);
+			
 			int index = basket.getSelectedIndex();
 			System.out.print(index);
 			index ++;
@@ -362,34 +322,7 @@ private void setCenterPanel(){
 		
 		Map<String,MenuItem> items = Menu.getMenuMap();
 		centerPanel.setLayout(new GridLayout(10,2,5,5));
-		for (MenuItem mItem : listTemp)  
-	    {
-			
-			{			System.out.println("inside");
-
-				itemBlock.add(new JPanel())  ;
-				itemBlock.get(counter-1).setLayout(new GridLayout(1,2,5,5));
-				JLabel item = new JLabel(mItem.getName());
-				itemBlock.get(counter-1).add(item);
-				JButton add = new JButton("+");
-				JButton remove = new JButton("-");
-				JPanel qtyBlock = new JPanel();
-				qtyBlock.setLayout(new GridLayout(2,1,5,5));
-				qtyBlock.add(add);
-				qtyBlock.add(remove);
-				itemBlock.get(counter-1).add(qtyBlock);
-				centerPanel.add(itemBlock.get(counter-1));
-				//centerPanel.add(new JTextArea(20,20));
-				counter++;
-
-				
-				
-			}
-
-	    }
-
-		//centerPanel.add(new JTextArea(20,20));
-		Menuframe.add(centerPanel, BorderLayout.CENTER);
+		
 		
 	}
 

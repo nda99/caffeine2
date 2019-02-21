@@ -13,7 +13,9 @@ public class MenuItem  implements Comparable<MenuItem> {
 	private int quantity;
 
 
-	// constructor 
+	/**
+	 *  constructor 
+	 */
 	public MenuItem(int itemNumber, String itemName, Category itemCategory, double price, int quantity ) {
 		this.number = itemNumber;
 		this.name = itemName;
@@ -21,7 +23,9 @@ public class MenuItem  implements Comparable<MenuItem> {
 		this.price = price;
 		this.quantity = quantity;
 		}
-	 //compare item categories 
+	 /**
+	  * compare item categories 
+	  */
 	public int compareTo (MenuItem other) {
 		return name.compareTo(other.name);
 	}
@@ -48,32 +52,49 @@ public class MenuItem  implements Comparable<MenuItem> {
 	
 	
 	
-	// return item number 
+	/**
+	 *  return item number 
+	 * @return number
+	 */
 	public int getNumber() {
 		return number;
 	}
 	
-	// return item name 
+	/**
+	 *  return item name 
+	 * @return name
+	 */
 	public String getName() {
 		return name;
 	}
 	
-	// return price 
+	/**
+	 *  return price 
+	 * @return price
+	 */
 	public double getPrice() {
 		return price;
 	}
 	
-	// return category
+	/**
+	 *  return category
+	 * @return category
+	 */
 	public Category getCategory() {
 		return category;
 	}
 
-	//return quantity
+	/**
+	 * return quantity
+	 * @return quantity
+	 */
 	public int getQuantity() {
 		return quantity;
 	}
 
-	// get full details
+	/**
+	 *  get full details
+	 */
 	public String toString() {
 		return getName();
 		//return String.format("Item number " + getNumber() +", name " + getName() + " is a " + getCategory() + ".\n" + getName() + " costs " + getPrice() );
@@ -81,28 +102,43 @@ public class MenuItem  implements Comparable<MenuItem> {
 	}
 	
 	
-	//set item number
+	/**
+	 * set item number
+	 * @param number
+	 */
 	public void setNumber(int number) {
 		this.number = number;
 	}
 	
-	//set item name
+	/**
+	 * set item name
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	//set item price
+	/**
+	 * set item price
+	 * @param price
+	 */
 	public void setPrice(double price) {
 		this.price = price;
 	}
 	
-	//set item category
+	/**
+	 * set item category
+	 * @param category
+	 */
 	public void setCategory(Category category) {
 		this.category = category;
 		
 	}
 
-	//set quantity
+	/**
+	 * set quantity
+	 * @param quantity
+	 */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
