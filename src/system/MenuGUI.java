@@ -37,25 +37,18 @@ JPanel southPanel = new JPanel();
 JPanel westPanel = new JPanel();
 JPanel centerPanel = new JPanel();
 JLabel l1, l2, l3, l4, l5, l6;
-JButton b1, b2, b3, b4, b5, b6;
-JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout;
+JButton b1, b2, b3, b4, b5, b6, b7;
+JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout, EmptyBasket;
 JList<MenuItem> menuDisplay;
 JList<MenuItem> basket;
 DefaultListModel<MenuItem> pastriesModel, sandwichModel, hotModel, coldModel, basketModel;
 
-//need to add drop down boxes too
+
 
 //set up panels that will be on the GUI 
 
 public MenuGUI(){
 
-	
-	
-	//JMenuBar menuBar = new JMenuBar();
-    /*menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.PAGE_AXIS));
-    menuBar.add(createMenu("Menu 1"));
-    menuBar.add(createMenu("Menu 2"));
-    menuBar.add(createMenu("Menu 3")); */
 	
 	
 	setUpModels();
@@ -65,17 +58,17 @@ public MenuGUI(){
 	setWestPanel();
 	setCenterPanel();
 	
-	//setMenuBar();
 
 	Menuframe.setSize(800,800);
-	Menuframe.setLocation(300,500);
+	Menuframe.setLocation(100,150);
 	Menuframe.setVisible(true);
 	
-	//Menuframe.add(menuBar);
+	
 	
 	Menuframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
 }
 
+//setting up the models that will be used in the lists displayed on the GUI
 private void setUpModels() {
 	String filename = "menuItems.csv";
 	try {
@@ -89,6 +82,7 @@ private void setUpModels() {
 		System.exit(1);
 	}
 	
+	//adding the item elements to each category model
 	this.sandwichModel = new DefaultListModel<MenuItem>();
 	ArrayList<MenuItem> listTemp = Menu.getAllFromCategory("Sandwich");
 	for (MenuItem item : listTemp) {
@@ -113,7 +107,7 @@ private void setUpModels() {
 	
 }
 
-//create the north JPanel that allows a staff member to login
+//create the north JPanel that allows a staff member to login and also displays the Menu title
 private void setNorthPanel(){
 	JPanel northPanel = new JPanel();
 	northPanel.setLayout(new GridLayout(1, 2, 5, 5));
@@ -133,7 +127,7 @@ private void setNorthPanel(){
 	}
 
 
-
+//create the west panel showing the category buttons
 private void setWestPanel(){
 	JPanel westPanel = new JPanel();
 	westPanel.setLayout(new GridLayout(4, 1, 5, 5));
@@ -149,10 +143,7 @@ private void setWestPanel(){
 	b5.addActionListener(this);
 	
 	b3.addActionListener(this); //{
-	    //public void actionPerformed(ActionEvent e) {
-	    //	displayItems(b3.getText());
-	    //  }
-	    //});
+	    
 	
 	westPanel.add(b2);
 	//westPanel.add(Pastries);
@@ -171,12 +162,15 @@ private void setWestPanel(){
 	pack();
 	}
 
-
+//create the south panel with empty basket and checkout buttons
 private void setSouthPanel(){
 	JPanel southPanel = new JPanel();
+	southPanel.setLayout(new GridLayout(1, 2, 20, 5));
+	b7 = new JButton("Empty Basket");
+	b7.addActionListener(this);
 	b6 = new JButton("Checkout");
 	b6.addActionListener(this);
-	
+	southPanel.add(b7);
 	southPanel.add(b6);
 	//southPanel.add(Checkout);
 	
@@ -185,6 +179,7 @@ private void setSouthPanel(){
 	pack();
 }
 
+//create east panel, it is empty though
 private void setEastPanel(){
 	JPanel eastPanel = new JPanel();
 	
@@ -193,10 +188,19 @@ private void setEastPanel(){
 	pack();
 }
 
+//create the centre panel, including lists of items in each category and list of selected items
 private void setCenterPanel(){
 	centerPanel.setLayout(new GridLayout(1,2,5,5));
 	//JPanel centerPanel = new JPanel();
+	/**
+	 * create new list called menuDisplay that will display the items in the menu
+	 * @return JList
+	 */
 	menuDisplay = new JList<MenuItem>();
+	/**
+	 * create new list called basket that will display the items selected and added to the basket
+	 * @return JList
+	 */
 	basket = new JList<MenuItem>();
 	menuDisplay.setFont(new Font ("Arial",Font.BOLD,18));
 	basket.setFont(new Font ("Arial",Font.BOLD,18));
@@ -205,7 +209,7 @@ private void setCenterPanel(){
 	
 	Menuframe.add(centerPanel, BorderLayout.CENTER);
 	menuDisplay.addListSelectionListener(this);
-	//displayItems("Sandwich");
+	
 	
 	basketModel = new DefaultListModel<MenuItem>();
 	basket.setModel(basketModel);
@@ -230,8 +234,9 @@ private void setCenterPanel(){
 			basketModel.addElement(item);
 		}
 	}
+	
 	/**
-	 * method gets an array list of the selected menu items
+	 * method gets an array list of the selected menu items, used for checkout
 	 * @return ArrayList
 	 */
 	public ArrayList<MenuItem> getBasket(){
@@ -242,7 +247,50 @@ private void setCenterPanel(){
 		}
 		return basketList;
 	}
-	//basketModel.removeAllElements();
+	
+	// remove all items in the basket
+	/*
+	public void actionPerformed(ListSelectionEvent e) {
+		int index = basket.getSelectedIndex();
+		if(index >= 0){ //Remove only if a particular item is selected
+			basketModel.removeElementAt(index);
+		}
+		System.out.println("TEST");
+	}*/
+	
+	
+	
+	
+	 /*blic void actionPerformed1(ActionEvent eb)
+	  {
+		int index = menuDisplay.getSelectedIndex();
+		MenuItem item = menuDisplay.getModel().getElementAt(index);
+	    if(eb.getSource() == b7) getBasket();
+	    else if(eb.getSource() == b7) basket.clearSelection();
+	    else basketModel.clear();
+	  }*/
+	
+	
+	/*public void emptyBasket(java.awt.event.ActionEvent eb) {
+		if(eb.getSource()== EmptyBasket){
+			DefaultListModel basketModel = (DefaultListModel)basket.getModel();
+			basketModel.removeAllElements();
+			
+		*/
+	
+	/*public void actionPerformed2(ActionEvent e) {
+	    int index = basket.getSelectedIndex();
+	    if(index >= 0){ //Remove only if a particular item is selected
+	        basketModel.removeElementAt(index);
+	    }
+	}*/
+	
+	
+	
+	
+	
+    //public void removeALLElements(ListSelectionEvent e) {
+    	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -276,6 +324,21 @@ private void setCenterPanel(){
 			AllOrders.addOrder(o);
 			InvoiceGUI checkoutGUI = new InvoiceGUI(AllOrders.getOrder(o.getTime()));
 			checkoutGUI.displayGUI();
+		}
+		if (e.getSource()==b7)
+		{
+			//this.basketModel.removeElementAt(index);
+			//this.menuDisplay.setModel(this.coldModel);
+			int index = basket.getSelectedIndex();
+			System.out.print(index);
+			index ++;
+			ArrayList<MenuItem> basket = getBasket();
+			for (int i = index;i<basket.size();i++)
+			{
+				if(index >= 0){ //Remove only if a particular item is selected
+					basketModel.removeElementAt(index);
+				}
+			}
 		}
 		
 	}
