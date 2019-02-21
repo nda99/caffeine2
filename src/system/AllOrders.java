@@ -32,6 +32,14 @@ public class AllOrders {
 	}
 	
 	/**
+	 * Adds an existing Order object to the TreeMap
+	 * @param o Existing Order Object
+	 */
+	public static void addOrder(Order o) {
+		orderMap.put(o.getTime(), o);
+	}
+	
+	/**
 	 * Reads order file
 	 * @param orderFileName
 	 */
@@ -95,6 +103,8 @@ public class AllOrders {
 	public static Timestamp toTimestamp(String time) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 		SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+		SimpleDateFormat dateFormat4 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 	    Date parsedDate = null;
 		try {
 			parsedDate = dateFormat.parse(time);
@@ -103,8 +113,21 @@ public class AllOrders {
 			try {
 				parsedDate = dateFormat2.parse(time);
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				try {
+					parsedDate = dateFormat3.parse(time);
+				} catch (ParseException e2) {
+
+					try {
+						parsedDate = dateFormat4.parse(time);
+					} catch (ParseException e3) {
+
+						try {
+							parsedDate = dateFormat.parse(String.format("%s-01-01 00:00:00.000",time));
+						} catch (ParseException e4) {
+							System.out.println(String.format("The time %s is in the wrong format. Try dd/MM/yyyy hh:mm:ss", time));
+						}
+					}
+				}
 			}
 		}
 		
@@ -198,6 +221,10 @@ public class AllOrders {
 		}
 	}
 	
+	/**
+	 * Delete an order from the TreeMap
+	 * @param t time of the order (String)
+	 */
 	public static void deleteOrder(String t) {
 		try {
 		AllOrders.getOrder(t);
