@@ -62,7 +62,7 @@ class OrderTest {
 		double actual4 = order4.calculateTotal();
 		
 		String message5 = "The price is wrong for the Meal Deal (1 Brownie, 1 Water, 1 Sandwich)";
-		double expected5 = 5.99;
+		double expected5 = 6.3;
 		double actual5 = order5.calculateTotal();
 		
 

@@ -60,9 +60,10 @@ public class AllOrders {
 				 
 				 orderMap.put(timestamp, nOrder);
 			 }
-			 
+
+			 scanner.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 

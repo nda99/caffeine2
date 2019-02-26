@@ -33,7 +33,6 @@ public class LoginGUI extends JFrame implements ActionListener{
 	private JButton mlogin = new JButton("Manager Login");
 	private JLabel register = new JLabel("Register");
 	private JLabel error = new JLabel();
-	private String pass;
 
 	
 	
@@ -137,8 +136,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 		{
 			try {
 				Manager manager = new Manager(userField.getText(),staffFile);
-				pass = new String(passwordField.getPassword());
-				Boolean loggedIn = manager.login(pass);
+				Boolean loggedIn = manager.login(new String(passwordField.getPassword()));
 				if(loggedIn == true)
 				{
 					StaffGUI gusi = new StaffGUI(manager);

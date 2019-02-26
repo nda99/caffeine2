@@ -107,7 +107,7 @@ public class ViewOrdersGUI {
 		    	catch(NullPointerException e3) {
 		    		displayError("Please enter a valid order number");
 		    	}
-		    	//AllOrders.updateOrderFile("orders_update.csv");
+		    	AllOrders.updateOrderFile("orders.csv");
 		    	orderView.dispose();
 		    	ViewOrdersGUI newView = new ViewOrdersGUI();
 		    	newView.displayViewOrdersGUI();

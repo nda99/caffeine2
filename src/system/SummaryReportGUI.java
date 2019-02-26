@@ -31,7 +31,7 @@ public class SummaryReportGUI extends JFrame implements ActionListener {
 	private JPanel eastPanel = new JPanel();
 	private String from = "2018-01-01";
 	private String to = "2020-01-01";
-	SummaryReport report;
+	private SummaryReport report;
 
 /** @return void
  * Constructor that creates an object of SummaryReport
@@ -187,11 +187,7 @@ public class SummaryReportGUI extends JFrame implements ActionListener {
 			to = dateTo.getText();
 			//Check first if the from is before the to
 
-			/*if(AllOrders.toTimestamp(from).after(AllOrders.toTimestamp(to)))		
-			{
-				JOptionPane.showMessageDialog(frame, "Oops! You didn't set the interval correctly!");
-				
-			}*/
+		
 			
 				if(report.isCorrectRange(from, to))
 				{
