@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 
+import controller.InvoiceController;
 import model.AllOrders;
 import model.Order;
 import model.nullOrderException;
@@ -85,6 +86,8 @@ public class ViewOrdersGUI {
 		    		}
 		    		else{
 		    			InvoiceGUI iGUI = new InvoiceGUI(AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))));
+		    			InvoiceController ico = new InvoiceController(iGUI, 
+		    			AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))));
 						iGUI.displayGUI();
 		    		}
 				} catch (nullOrderException e1) {
