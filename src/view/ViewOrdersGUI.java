@@ -40,7 +40,26 @@ public class ViewOrdersGUI {
 		
 	}
 	
+	public HashMap<Integer,String> getCounter(){
+		return times;
+	}
 	
+	public JFrame getGUI() {
+		return orderView;
+	}
+	
+	public String getOrderNumber() {
+		return input.getText();
+	}
+	
+
+	public void addProcessListener(ActionListener p) {
+		process.addActionListener(p);
+	}
+	
+	public void addRemoveListener(ActionListener r) {
+		remove.addActionListener(r);
+	}
 	
 	public void displayViewOrdersGUI() {
 		
@@ -77,49 +96,7 @@ public class ViewOrdersGUI {
 			times.put(counter, o.getTime().toString());
 		}
 		
-		
-		process.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		    	try {
-		    		if(AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))).isProcessed()) {
-			    		displayError("This order has already been processed");
-		    		}
-		    		else{
-		    			InvoiceGUI iGUI = new InvoiceGUI(AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))));
-		    			InvoiceController ico = new InvoiceController(iGUI, 
-		    			AllOrders.getOrder(times.get(Integer.parseInt(input.getText()))));
-						iGUI.displayGUI();
-		    		}
-				} catch (nullOrderException e1) {
 
-		    		displayError("Please enter a valid order number");
-				}
-		    	catch(NumberFormatException e2) {
-		    		displayError("Please enter the order number");
-		    	}
-		    	catch(NullPointerException e3) {
-		    		displayError("Please enter a valid order number");
-		    	}
-		      }
-		    });
-		
-		remove.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		    	try {
-			    	AllOrders.deleteOrder(times.get(Integer.parseInt(input.getText())));
-		    	}		    	
-		    	catch(NumberFormatException e2) {
-		    		displayError("Please enter the order number");
-		    	}
-		    	catch(NullPointerException e3) {
-		    		displayError("Please enter a valid order number");
-		    	}
-		    	AllOrders.updateOrderFile("orders.csv");
-		    	orderView.dispose();
-		    	ViewOrdersGUI newView = new ViewOrdersGUI();
-		    	newView.displayViewOrdersGUI();
-		      }
-		    });
 	}
 	
 	/**

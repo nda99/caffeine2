@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controller.ViewOrdersController;
 import model.*;
 
 public class StaffGUI extends JFrame implements ActionListener {
@@ -193,6 +194,7 @@ public class StaffGUI extends JFrame implements ActionListener {
 					try {
 						ViewOrdersGUI view = new ViewOrdersGUI();
 						AllOrders.readOrderFile("orders.csv");
+						ViewOrdersController vco = new ViewOrdersController(view);
 						view.displayViewOrdersGUI();
 
 					} catch (FileNotFoundException f) {
