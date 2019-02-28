@@ -21,6 +21,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import controller.InvoiceController;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -280,6 +283,7 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 			Order o = new Order(getBasket());
 			AllOrders.addOrder(o);
 			InvoiceGUI checkoutGUI = new InvoiceGUI(AllOrders.getOrder(o.getTime()));
+			InvoiceController ico = new InvoiceController(checkoutGUI,AllOrders.getOrder(o.getTime()));
 			checkoutGUI.displayGUI();
 		}
 		if (e.getSource() == b7) {

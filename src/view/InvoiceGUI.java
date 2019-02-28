@@ -47,7 +47,35 @@ public class InvoiceGUI {
 	public InvoiceGUI() {
 
 	}
-
+	
+	public void addPayListener(ActionListener p) {
+		pay.addActionListener(p);
+	}
+	
+	public void addBackListener(ActionListener b) {
+		back.addActionListener(b);
+	}
+	
+	public void addValidateListener(ActionListener v) {
+		validate.addActionListener(v);
+	}
+	
+	public void setInvoiceText(String txt) {
+		invoiceText.setText(txt);
+	}
+	
+	public String getVoucher() {
+		return voucher.getText();
+	}
+	
+	public Order getOrder() {
+		return order;
+	}
+	
+	public JFrame getFrame() {
+		return invoiceFrame;
+	}
+	
 	public void displayGUI() {
 		title = createOneLabel("Invoice details:", 18);
 		titlePanel.add(title);
@@ -79,50 +107,7 @@ public class InvoiceGUI {
 		invoiceFrame.add(southPanel, BorderLayout.SOUTH);
 		invoiceFrame.setVisible(true);
 
-		validate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (order != null) {
-					String vouch = voucher.getText();
-					if (!vouch.equals("")) {
-						double total = order.calculateTotal(vouch);
-					}
-					invoiceText.setText(order.getInvoice(voucher.getText()));
-				}
-			}
-		});
 
-		pay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Random rand = new Random();
-				int chance = rand.nextInt(100);
-				// Randomness of the Payment: fails 20% of the time
-				if (chance > 80) {
-					displayError("Payment unsuccessful, please try again");
-				}
-
-				else {
-					if (order != null) {
-						order.processOrder();
-					}
-					if(order.isProcessed()) {
-						displayMessage("Payment successful");
-						AllOrders.updateOrderFile("orders.csv");
-						invoiceFrame.dispose();
-					}
-					else {
-						displayError("Processing error, items out of stock");
-					}
-				}
-			}
-		});
-
-		back.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AllOrders.updateOrderFile("orders.csv");
-				invoiceFrame.dispose();
-
-			}
-		});
 	}
 
 	/**
