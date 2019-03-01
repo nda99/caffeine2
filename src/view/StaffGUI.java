@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -21,7 +22,7 @@ import controller.SummaryController;
 import controller.ViewOrdersController;
 import model.*;
 
-public class StaffGUI extends JFrame implements ActionListener {
+public class StaffGUI extends JFrame{
 
 	// StaffGUI Components:
 	private JFrame frame = new JFrame();
@@ -43,20 +44,6 @@ public class StaffGUI extends JFrame implements ActionListener {
 		System.out.println("staff Logged in ");
 		user.setText("Weclome " + staff.getUserName());
 		northPanel.add(user);
-		logout.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				logout.setForeground(Color.blue);
-			}
-
-			public void mouseExited(MouseEvent e) {
-				logout.setForeground(Color.black);
-			}
-
-			public void mouseClicked(MouseEvent e) {
-				staff.logout();
-				frame.dispose();
-			}
-		});
 
 		northPanel.add(logout);
 		frame.add(northPanel, BorderLayout.EAST);
@@ -112,13 +99,29 @@ public class StaffGUI extends JFrame implements ActionListener {
 		frame.add(eastPanel, BorderLayout.EAST);
 		frame.add(westPanel, BorderLayout.WEST);
 		frame.add(centerPanel, BorderLayout.CENTER);
-		control(label1, 1);
-		control(label2, 2);
-		control(label3, 3);
-		control(label6, 7);
-		control(logout, 8);
+		//control(label1, 1);
+		//control(label2, 2);
+		//control(label3, 3);
+		//control(label6, 7);
+		//control(logout, 8);
 	}
 
+	public JLabel getLabel(int i) {
+		if (i==1) return label1;
+		else if (i==2) return label2;
+		else if (i==3) return label3;
+		else if (i==7) return label6;
+		else if (i==8) return logout;
+		
+		return null;
+	}
+	public void setLabel(JLabel l, int i) {
+		if (i==1) label1 = l;
+		else if (i==2) label2 = l;
+		else if (i==3) label3 = l;
+		else if (i==7) label6 = l;
+		else if (i==8) logout = l;
+	}
 	// Consider making in private method
 	private void addManagerOptions() {
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
@@ -127,125 +130,31 @@ public class StaffGUI extends JFrame implements ActionListener {
 		label6.setFont(itemsFont);
 		// control(label4,1);
 		// control(label5,2);
-		control(label6, 7);
+		//control(label6, 7);
 		centerPanel.add(label4);
 		centerPanel.add(label5);
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
+	public JFrame getFrame() {
+		return frame;
+	}
+	
+	public void addViewOrdersListener(MouseListener m) {
+		label3.addMouseListener(m);
+	}
+	public void addStockListener(MouseListener m) {
+		label2.addMouseListener(m);
+	}
+	public void addUpdateListener(MouseListener m) {
+		label1.addMouseListener(m);
+	}
+	public void addSummaryReportListener(MouseListener m) {
+		label6.addMouseListener(m);
+	}
+	public void addLogoutListener(MouseListener m) {
+		logout.addMouseListener(m);
 	}
 
-	public void control(JLabel label, int number) {
-		label.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				label.setForeground(Color.blue);
-			}
-
-			public void mouseExited(MouseEvent e) {
-				label.setForeground(Color.black);
-			}
-
-			public void mouseClicked(MouseEvent e) {
-				switch (number) {
-				case 1:					
-					JOptionPane.showMessageDialog(frame, "This feature will be available soon!");
-
-					break;
-				case 2:
-					new StockGUI();
-					break;
-				case 3:
-					try {
-						Menu.readFile("menuItems.csv");
-
-					} catch (FileNotFoundException f) {
-						f.getMessage();
-
-						/////////////////////////////////////////
-						JFileChooser chooser = new JFileChooser();
-						chooser.setCurrentDirectory(new java.io.File("."));
-						chooser.setDialogTitle("Choose an input file to process:");
-						chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						chooser.setAcceptAllFileFilterUsed(false);
-
-						if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-							System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-							System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
-
-							try {
-								Menu.readFile(chooser.getSelectedFile().toString());
-
-							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						} else {
-							System.out.println("No selection");
-						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					try {
-						ViewOrdersGUI view = new ViewOrdersGUI();
-						AllOrders.readOrderFile("orders.csv");
-						ViewOrdersController vco = new ViewOrdersController(view);
-						view.displayViewOrdersGUI();
-
-					} catch (FileNotFoundException f) {
-						f.getMessage();
-						/////////////////////////////////////////
-						JFileChooser chooser = new JFileChooser();
-						chooser.setCurrentDirectory(new java.io.File("."));
-						chooser.setDialogTitle("Choose an input file to process:");
-						chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						chooser.setAcceptAllFileFilterUsed(false);
-
-						if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-							System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-							System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
-
-							try {
-								AllOrders.readOrderFile(chooser.getSelectedFile().toString());
-
-							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						} else {
-							System.out.println("No selection");
-						}
-					}
-
-					////////////////////////////////////////
-					catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					break;
-				case 4:
-					break;
-				case 7:
-					SummaryReport rep = new SummaryReport();
-					SummaryReportGUI report = new SummaryReportGUI(rep);
-					SummaryController sc = new SummaryController(report, rep);
-					report.buildGUI();
-					break;
-				case 8:
-
-				}
-			}
-		});
-
-	}
 
 }

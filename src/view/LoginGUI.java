@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import controller.StaffController;
 import model.*;
 
 public class LoginGUI extends JFrame implements ActionListener{
@@ -118,6 +120,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 						frame.dispose();
 
 						StaffGUI gui = new StaffGUI(staff);
+						StaffController sco = new StaffController(gui,staff);
 					}
 					else
 					{
