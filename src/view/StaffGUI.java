@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controller.SummaryController;
 import controller.ViewOrdersController;
 import model.*;
 
@@ -234,7 +235,9 @@ public class StaffGUI extends JFrame implements ActionListener {
 				case 4:
 					break;
 				case 7:
-					SummaryReportGUI report = new SummaryReportGUI();
+					SummaryReport rep = new SummaryReport();
+					SummaryReportGUI report = new SummaryReportGUI(rep);
+					SummaryController sc = new SummaryController(report, rep);
 					report.buildGUI();
 					break;
 				case 8:

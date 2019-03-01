@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import model.Menu;
 import model.SummaryReport;
 
-public class SummaryReportGUI extends JFrame implements ActionListener {
+public class SummaryReportGUI extends JFrame  {
 
 	private JFrame frame = new JFrame();
 	private JButton print = new JButton("Print");
@@ -41,9 +41,43 @@ public class SummaryReportGUI extends JFrame implements ActionListener {
  * */
 	public SummaryReportGUI() {
 		report = new SummaryReport();
-
 	}
 
+	public SummaryReportGUI(SummaryReport r) {
+		//report = new SummaryReport();
+		report = r;
+
+	}
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+	public String getFrom() {
+		return from;
+	}
+	
+	public String getTo() {
+		return to;
+	}
+	public JTextField getDateTo() {
+		return dateTo;
+	}
+	public JTextField getDateFrom() {
+		return dateFrom;
+	}
+	public void setFrom(String f) {
+		this.from = f;
+	}
+	public void setTo(String t) {
+		this.to = t;
+	}
+	public void addPrintListener(ActionListener p) {
+		print.addActionListener(p);
+	}
+	
+	public void addViewListener(ActionListener p) {
+		view.addActionListener(p);
+	}
 	
 	public void viewSummaryReport(String from, String to) {
 		
@@ -119,8 +153,8 @@ public class SummaryReportGUI extends JFrame implements ActionListener {
 		a.add(title, BorderLayout.CENTER);
 		// Setting up B panel
 		b.setLayout(new GridLayout(1, 6, 5, 5));
-		print.addActionListener(this);
-		view.addActionListener(this);
+		//print.addActionListener(this);
+		//view.addActionListener(this);
 		b.add(new JLabel("From: "));
 		b.add(dateFrom);
 		b.add(new JLabel("To: "));
@@ -166,45 +200,6 @@ public class SummaryReportGUI extends JFrame implements ActionListener {
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		// Action taken once 'Print' button is clicked
-		if (event.getSource() == print) {
-			System.out.print("creating csv file");
-			//Call print method, if succeeds or not show a popup window
-			if(report.printSummaryReport(from,to)) {
-			JOptionPane.showMessageDialog(frame, "CSV file of the summary report is successfully created!");
-			}
-			else
-			{
-			JOptionPane.showMessageDialog(frame, "Oops! Something went wrong, couldn't create CSV of the report!");
 
-			}
-
-		}
-		// Action taken once 'View' button is clicked
-
-		if (event.getSource() == view) {
-			//Set the values of from and to, because both are needed to call other methods
-			from = dateFrom.getText();
-			to = dateTo.getText();
-			//Check first if the from is before the to
-
-		
-			
-				if(report.isCorrectRange(from, to))
-				{
-					viewSummaryReport(from, to);
-
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(frame, "Oops! You didn't set the interval correctly!");
-
-				}
-			
-		}
-
-	}
 
 }
