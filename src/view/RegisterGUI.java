@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 
 import model.*;
 
-public class RegisterGUI extends JFrame implements ActionListener {
+public class RegisterGUI extends JFrame{
 	private JFrame frame = new JFrame();
 	private JPanel centerPanel = new JPanel();
 	private JPanel northPanel = new JPanel();
@@ -95,9 +95,9 @@ public class RegisterGUI extends JFrame implements ActionListener {
 		centerPanel.add(staff);
 		centerPanel.add(manager);
 		centerPanel.add(register);
-		register.addActionListener(this);
-		staff.addActionListener(this);
-		manager.addActionListener(this);
+		//register.addActionListener(this);
+		//staff.addActionListener(this);
+		//manager.addActionListener(this);
 		error.setVisible(false);
 		centerPanel.add(error);
 
@@ -124,111 +124,70 @@ public class RegisterGUI extends JFrame implements ActionListener {
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == register) {
-			checkRegisterationForm();
-		}
-		if (e.getSource() == staff) {
-			System.out.println("clicked");
-
-			positionValue = "Staff";
-		}
-		if (e.getSource() == manager) {
-			positionValue = "Manager";
-		}
-
+	public void setErrorForeground() {
+		error.setForeground(Color.red);
+	}
+	public void setErrorVisible(boolean v) {
+		error.setVisible(v);
+	}
+	public void setErrorText(String t) {
+		error.setText(t);
+	}
+	
+	public void setUserHint(String t) {
+		userhint.setText(t);
+	}
+	public String getStaffFile() {
+		return staffFile;
+	}
+	
+	public String getUser() {
+		return userField.getText();
+	}
+	
+	public String getName() {
+		return nameField.getText();
+	}
+	
+	public String getEmail() {
+		return emailField.getText();
+	}
+	
+	public char[] getPassword() {
+		return passwordField.getPassword();
+	}
+	
+	public void addStaffListener(ActionListener s) {
+		staff.addActionListener(s);
+	}
+	
+	public void addManagerListener(ActionListener m) {
+		manager.addActionListener(m);
+	}
+	
+	public void addRegisterListener(ActionListener r) {
+		register.addActionListener(r);
+	}
+	
+	public void setHint(String text, String field) {
+		if(field.equals("user")) userhint.setText(text);
+		if(field.equals("email")) emailhint.setText(text);
+		if(field.equals("name")) namehint.setText(text);
+		if(field.equals("pass")) passhint.setText(text);
+		
 	}
 
-	private void checkRegisterationForm() {
-		userhint.setText("");
-		passhint.setText("");
-		emailhint.setText("");
-		namehint.setText("");
-		error.setText("");
-		userhint.setForeground(Color.RED);
-		namehint.setForeground(Color.RED);
-		emailhint.setForeground(Color.RED);
-		passhint.setForeground(Color.RED);
-		error.setForeground(Color.RED);
 
-		String passText = new String(passwordField.getPassword());
-
-		System.out.println(login);
-		// First check if user already exist
-		if (userField.getText().equals("") || nameField.getText().equals("") || passText.equals("")
-				|| emailField.getText().equals("")) {
-			if (userField.getText().equals("")) {
-				userhint.setText("*Required Field");
-			}
-			if (nameField.getText().equals("")) {
-				namehint.setText("*Required Field");
-			}
-			if (passText.equals("")) {
-				passhint.setText("*Required Field");
-			}
-			if (emailField.getText().equals("")) {
-				emailhint.setText("*Required Field");
-			}
-		}
-
-		else if (!login.staffExist(userField.getText())) {
-
-			try {
-				if (!login.register(userField.getText(), passText, positionValue, nameField.getText(),
-						emailField.getText())) {
-					error.setText("Oops something went wrong!");
-				} else {
-					switch (positionValue) {
-					case "Staff":
-						try {
-							Staff staff = new Staff(userField.getText(), staffFile);
-							Boolean loggedIn = staff.login(passText);
-							if (loggedIn == true) {
-								error.setText("");
-								error.setVisible(false);
-								StaffGUI gui = new StaffGUI(staff);
-							}
-						} catch (StaffNonExistantException e) {
-							// TODO Auto-generated catch block
-							error.setText(e.getMessage());
-						}
-
-						break;
-					case "Manager":
-						try {
-							Manager manager = new Manager(userField.getText(), staffFile);
-							Boolean loggedIn = manager.login(passText);
-							if (loggedIn == true) {
-								StaffGUI gusi = new StaffGUI(manager);
-								error.setVisible(false);
-							}
-
-						} catch (StaffNonExistantException e1) {
-							// TODO Auto-generated catch block
-							error.setForeground(Color.red);
-							error.setText("Oops! User does not exist. ");
-							e1.printStackTrace();
-						} catch (NotAManagerException e1) {
-							// TODO Auto-generated catch block
-							error.setForeground(Color.red);
-							error.setVisible(true);
-							error.setText("Oops! You don't have manager privilege. ");
-						}
-
-					}
-				}
-			} catch (InvalidRegistration e) {
-				// TODO Auto-generated catch block
-				error.setText(e.getMessage());
-			}
-
-			// LoginGUI loginGui = new LoginGUI();
-
-		} else {
-			userhint.setText("User already exists!");
-
-		}
-
-	}
+	public void setComponents() {
+	userhint.setText("");
+	passhint.setText("");
+	emailhint.setText("");
+	namehint.setText("");
+	error.setText("");
+	userhint.setForeground(Color.RED);
+	namehint.setForeground(Color.RED);
+	emailhint.setForeground(Color.RED);
+	passhint.setForeground(Color.RED);
+	error.setForeground(Color.RED);}
+	
 }

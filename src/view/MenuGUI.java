@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import controller.InvoiceController;
+import controller.LoginController;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -262,6 +263,7 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 
 		if (e.getSource() == b1) {
 			LoginGUI loginGUI = new LoginGUI();
+			LoginController lco = new LoginController(loginGUI);
 		}
 
 		if (e.getSource() == b2) {

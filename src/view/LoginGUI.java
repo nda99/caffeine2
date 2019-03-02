@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +20,7 @@ import javax.swing.JTextField;
 import controller.StaffController;
 import model.*;
 
-public class LoginGUI extends JFrame implements ActionListener{
+public class LoginGUI extends JFrame {
 	private JFrame frame = new JFrame();
 	private JPanel centerPanel = new JPanel();
 	private JPanel northPanel = new JPanel();
@@ -58,28 +59,12 @@ public class LoginGUI extends JFrame implements ActionListener{
 		centerPanel.add(userField);
 		centerPanel.add(password);
 		centerPanel.add(passwordField);
-		slogin.addActionListener(this);
+		//slogin.addActionListener(this);
 		centerPanel.add(slogin);
-		mlogin.addActionListener(this);
+		//mlogin.addActionListener(this);
 		centerPanel.add(mlogin);
 		centerPanel.add(register);
 		centerPanel.add(error);
-		register.addMouseListener(new MouseAdapter()  
-		{  
-			public void mouseEntered(MouseEvent e)
-			{
-				register.setForeground(Color.blue);
-			}
-			public void mouseExited(MouseEvent e)
-			{
-				register.setForeground(Color.black);
-			}
-		    public void mouseClicked(MouseEvent e)  
-		    {  
-		    	RegisterGUI rGUI = new RegisterGUI();
-		    }  
-		
-		});
 		frame.add(centerPanel,BorderLayout.CENTER);
 
 	}
@@ -103,65 +88,50 @@ public class LoginGUI extends JFrame implements ActionListener{
 	frame.add(southPanel,BorderLayout.SOUTH);
 			
 	}
-	@Override
-	public void actionPerformed(ActionEvent e) 
-{
-		// TODO Auto-generated method stub
-		if(e.getSource() == slogin)
-		{
-				try {
-					Staff staff = new Staff(userField.getText(),staffFile);
-					String passText = new String(passwordField.getPassword());
-					Boolean loggedIn = staff.login(passText);
-					if(loggedIn == true)
-					{
-						error.setText("");
-						error.setVisible(false);
-						frame.dispose();
-
-						StaffGUI gui = new StaffGUI(staff);
-						StaffController sco = new StaffController(gui,staff);
-					}
-					else
-					{
-						error.setText("Invalid Password");
-					}
-					
-				} catch (StaffNonExistantException e1) {
-					// TODO Auto-generated catch block
-					error.setForeground(Color.red);
-					error.setText("Oops! User does not exist. ");
-					//e1.printStackTrace();
-				}
-			
-			
-		}
-		if(e.getSource() == mlogin)
-		{
-			try {
-				Manager manager = new Manager(userField.getText(),staffFile);
-				Boolean loggedIn = manager.login(new String(passwordField.getPassword()));
-				if(loggedIn == true)
-				{
-					StaffGUI gusi = new StaffGUI(manager);
-					error.setVisible(false);
-					frame.dispose();
-
-				}	
-				
-			} catch (StaffNonExistantException e1) {
-				// TODO Auto-generated catch block
-				error.setForeground(Color.red);
-				error.setText("Oops! User does not exist. ");
-				e1.printStackTrace();
-			} catch (NotAManagerException e1) {
-				// TODO Auto-generated catch block
-				error.setForeground(Color.red);
-				error.setVisible(true);
-				error.setText("Oops! You don't have manager privilege. ");
-			//	e1.printStackTrace();
-			}
-		}	
-
+	
+	public void setRegisterForeground(String colour) {
+		if(colour.equals("black")) register.setForeground(Color.black);
+		else if (colour.equals("blue")) register.setForeground(Color.blue);
 	}
+	
+	public void addStaffLoginListener(ActionListener s) {
+		slogin.addActionListener(s);
+	}
+	
+	public void addManagerLoginListener(ActionListener m) {
+		mlogin.addActionListener(m);
+	}
+	
+	public void addRegisterListener(MouseListener m) {
+		register.addMouseListener(m);
+	}
+	
+	public String getUser() {
+		return userField.getText();
+	}
+	
+	public char[] getPassword() {
+		return passwordField.getPassword();
+	}
+	
+	public void setErrorText(String text) {
+		error.setText(text);
+	}
+	
+	public void setErrorRed() {
+		error.setForeground(Color.red);
+	}
+	
+	public void setErrorVisible(boolean vis) {
+		error.setVisible(vis);
+	}
+	
+	public String getStaffFile() {
+		return staffFile;
+	}
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+
 }
