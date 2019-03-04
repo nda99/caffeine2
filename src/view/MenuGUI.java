@@ -3,39 +3,23 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.BoxLayout;
+import java.util.ArrayList;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controller.InvoiceController;
-import controller.LoginController;
-
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
-import model.*;
-import model.Menu;
 import model.MenuItem;
 
 public class MenuGUI extends JFrame implements ActionListener, ListSelectionListener {
 	JFrame Menuframe = new JFrame("Caffeine App");
-	private Menu menu = new Menu();
+	//private Menu menu = new Menu();
 
 	JPanel northPanel = new JPanel();
 	JPanel eastPanel = new JPanel();
@@ -55,7 +39,6 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 
 	public MenuGUI() {
 
-		setUpModels();
 		setNorthPanel();
 		setSouthPanel();
 		setEastPanel();
@@ -69,48 +52,14 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		Menuframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	/**
-	 * setting up the models that will be used in the lists displayed on the GUI
-	 */
-	private void setUpModels() {
-		String filename = "menuItems.csv";
-		try {
-			Menu.readFile(filename);
-		} catch (FileNotFoundException fnf) {
-			// file not there
-			System.out.println("File not found");
-		} catch (IOException e) {
-			// having problems reading and writing to file
-			System.out.println("Problems accessing the file");
-			System.exit(1);
-		}
-
-		/**
-		 * adding the item elements to each category model
-		 */
-		this.sandwichModel = new DefaultListModel<MenuItem>();
-		ArrayList<MenuItem> listTemp = Menu.getAllFromCategory("Sandwich");
-		for (MenuItem item : listTemp) {
-			this.sandwichModel.addElement(item);
-		}
-		this.pastriesModel = new DefaultListModel<MenuItem>();
-		ArrayList<MenuItem> listTemp1 = Menu.getAllFromCategory("Pastries");
-		for (MenuItem item : listTemp1) {
-			this.pastriesModel.addElement(item);
-		}
-		this.hotModel = new DefaultListModel<MenuItem>();
-		ArrayList<MenuItem> listTemp2 = Menu.getAllFromCategory("Hot drink");
-		for (MenuItem item : listTemp2) {
-			this.hotModel.addElement(item);
-		}
-		this.coldModel = new DefaultListModel<MenuItem>();
-		ArrayList<MenuItem> listTemp3 = Menu.getAllFromCategory("Cold drink");
-		for (MenuItem item : listTemp3) {
-			this.coldModel.addElement(item);
-		}
-
+	
+	public void getListModel(DefaultListModel<MenuItem> mList, String category){
+		
+		if(category.equals("Sandwich")) this.sandwichModel = mList;
+		if(category.equals("Pastries")) this.pastriesModel = mList;
+		if(category.equals("Hot drink")) this.hotModel = mList;
+		if(category.equals("Cold drink")) this.coldModel = mList;
 	}
-
 	/**
 	 * create the north JPanel that allows a staff member to login and also displays
 	 * the Menu title
@@ -224,16 +173,7 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		pack();
 	}
 
-	public static void main(String[] args) {
-		MenuGUI gui = new MenuGUI();
-		try {
-			AllOrders.readOrderFile("orders.csv");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		Menu.updateFile();
-		System.out.println("Finished");
-	}
+
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
@@ -261,11 +201,6 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == b1) {
-			LoginGUI loginGUI = new LoginGUI();
-			LoginController lco = new LoginController(loginGUI);
-		}
-
 		if (e.getSource() == b2) {
 			// displayItems(b2.getText());
 
@@ -281,13 +216,7 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		if (e.getSource() == b5) {
 			this.menuDisplay.setModel(this.coldModel);
 		}
-		if (e.getSource() == b6) {
-			Order o = new Order(getBasket());
-			AllOrders.addOrder(o);
-			InvoiceGUI checkoutGUI = new InvoiceGUI(AllOrders.getOrder(o.getTime()));
-			InvoiceController ico = new InvoiceController(checkoutGUI,AllOrders.getOrder(o.getTime()));
-			checkoutGUI.displayGUI();
-		}
+
 		if (e.getSource() == b7) {
 
 			int index = basket.getSelectedIndex();
@@ -301,27 +230,14 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		}
 
 	}
-
-	public void displayItems(String category) {
-		String filename = "menuItems.csv";
-		try {
-			Menu.readFile(filename);
-		} catch (FileNotFoundException fnf) {
-			// file not there
-			System.out.println("File not found");
-		} catch (IOException e) {
-			// having problems reading and writing to file
-			System.out.println("Problems accessing the file");
-			System.exit(1);
-		}
-		int counter = 1;
-		ArrayList<JPanel> itemBlock = new ArrayList<JPanel>();
-
-		ArrayList<MenuItem> listTemp = Menu.getAllFromCategory(category);
-
-		Map<String, MenuItem> items = Menu.getMenuMap();
-		centerPanel.setLayout(new GridLayout(10, 2, 5, 5));
-
+	
+	public void addCheckoutListener(ActionListener ck) {
+		b6.addActionListener(ck);
 	}
+	
+	public void addLoginListener(ActionListener lg) {
+		b1.addActionListener(lg);
+	}
+
 
 }
