@@ -65,10 +65,23 @@ public class MenuController {
 			coldModel.addElement(item);
 		}
 		
+		DefaultListModel<MenuItem> allModel = new DefaultListModel<MenuItem>();
+		ArrayList<MenuItem> listAll = new ArrayList<MenuItem>();
+		listAll.addAll(listTemp);
+		listAll.addAll(listTemp1);
+		listAll.addAll(listTemp2);
+		listAll.addAll(listTemp3);
+
+		
+		for (MenuItem item : listAll) {
+			allModel.addElement(item);
+		}
+		
 		mGUI.getListModel(sandwichModel,"Sandwich");
 		mGUI.getListModel(pastriesModel,"Pastries");
 		mGUI.getListModel(hotModel,"Hot drink");
 		mGUI.getListModel(coldModel,"Cold drink");
+		mGUI.getListModel(allModel, "View All");
 	}
 	
 	public class Checkout implements ActionListener{
