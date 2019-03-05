@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Order {
-	private Timestamp time; 
+	public static Timestamp time; 
 	private double total;
 	private double discounts;
 	private boolean processed = false;
@@ -129,7 +129,7 @@ public class Order {
 		double offer = 0.0;
 		
 		
-		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
+		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = ï¿½5.99
 		boolean cold=false, sand=false, pastry=false;
 		double cPrice=0.0, sPrice=0.0, pPrice=0.0;
 		for (Map.Entry m: this.orderItems.entrySet()) {
@@ -187,7 +187,7 @@ public class Order {
 		double offer = 0.0;
 		
 		
-		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = £5.99
+		//MEAL DEAL: COLD DRINK + SANDWICH + PASTRY = ï¿½5.99
 		boolean cold=false, sand=false, pastry=false;
 		double cPrice=0.0, sPrice=0.0, pPrice=0.0;
 		
