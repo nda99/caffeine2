@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -27,11 +28,11 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 	JPanel westPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
 	JLabel l1, l2, l3, l4, l5, l6;
-	JButton b1, b2, b3, b4, b5, b6, b7;
+	JButton b1, b2, b3, b4, b5, b6, b7,b8,b9;
 	JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout, EmptyBasket;
 	JList<MenuItem> menuDisplay;
 	JList<MenuItem> basket;
-	DefaultListModel<MenuItem> pastriesModel, sandwichModel, hotModel, coldModel, basketModel;
+	DefaultListModel<MenuItem> pastriesModel, sandwichModel, hotModel, coldModel,allModel, basketModel;
 
 	/**
 	 * set up panels that will be on the GUI
@@ -45,7 +46,7 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		setWestPanel();
 		setCenterPanel();
 
-		Menuframe.setSize(800, 800);
+		Menuframe.setSize(800, 900);
 		Menuframe.setLocation(100, 150);
 		Menuframe.setVisible(true);
 
@@ -59,6 +60,10 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		if(category.equals("Pastries")) this.pastriesModel = mList;
 		if(category.equals("Hot drink")) this.hotModel = mList;
 		if(category.equals("Cold drink")) this.coldModel = mList;
+		if(category.equals("View All")) this.allModel = mList;
+
+
+		
 	}
 	/**
 	 * create the north JPanel that allows a staff member to login and also displays
@@ -75,6 +80,15 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		b1.addActionListener(this);
 		northPanel.add(title);
 		northPanel.add(b1);
+	/*	JLabel cat = new JLabel("Categories");
+		JLabel menuItems = new JLabel("Items List");
+		JLabel basketContent = new JLabel("Basket");
+		basketContent.setFont(new Font("Arial", Font.BOLD, 20));
+		menuItems.setFont(new Font("Arial", Font.BOLD, 20));
+		cat.setFont(new Font("Arial", Font.BOLD, 20));
+		northPanel.add(cat);
+		northPanel.add(menuItems);
+		northPanel.add(basketContent);*/
 
 		Menuframe.add(northPanel, BorderLayout.NORTH);
 		pack();
@@ -85,25 +99,26 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 	 */
 	private void setWestPanel() {
 		JPanel westPanel = new JPanel();
-		westPanel.setLayout(new GridLayout(4, 1, 5, 5));
+		westPanel.setLayout(new GridLayout(5, 1, 5, 5));
 
 		b2 = new JButton("Pastries");
 		b3 = new JButton("Sandwich");
 		b4 = new JButton("Hot Drinks");
 		b5 = new JButton("Cold Drinks");
+		b9 = new JButton("View All");
 
 		b2.addActionListener(this);
 		b3.addActionListener(this);
 		b4.addActionListener(this);
 		b5.addActionListener(this);
+		b9.addActionListener(this);
 
 		westPanel.add(b2);
-
 		westPanel.add(b3);
-
 		westPanel.add(b4);
-
 		westPanel.add(b5);
+		westPanel.add(b9);
+		
 
 		Menuframe.add(westPanel, BorderLayout.WEST);
 
@@ -115,12 +130,15 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 	 */
 	private void setSouthPanel() {
 		JPanel southPanel = new JPanel();
-		southPanel.setLayout(new GridLayout(1, 2, 20, 5));
+		southPanel.setLayout(new GridLayout(1, 3, 20, 5));
 		b7 = new JButton("Empty Basket");
 		b7.addActionListener(this);
 		b6 = new JButton("Checkout");
 		b6.addActionListener(this);
+		b8 = new JButton("Remove Item");
+		b8.addActionListener(this);
 		southPanel.add(b7);
+		southPanel.add(b8);
 		southPanel.add(b6);
 
 		Menuframe.add(southPanel, BorderLayout.SOUTH);
@@ -161,6 +179,7 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		basket = new JList<MenuItem>();
 		menuDisplay.setFont(new Font("Arial", Font.BOLD, 18));
 		basket.setFont(new Font("Arial", Font.BOLD, 18));
+	
 		centerPanel.add(menuDisplay);
 		centerPanel.add(basket);
 
@@ -219,14 +238,34 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 
 		if (e.getSource() == b7) {
 
-			int index = basket.getSelectedIndex();
-			index++;
+			int index = 0 ;
 			ArrayList<MenuItem> basket = getBasket();
 			for (int i = index; i < basket.size(); i++) {
 				if (index >= 0) { // Remove only if a particular item is selected
 					basketModel.removeElementAt(index);
 				}
 			}
+		}
+		if(e.getSource() == b8)
+		{
+			int index = basket.getSelectedIndex();
+			if(index == -1)
+			{
+				JOptionPane.showMessageDialog(this, "No item selected","Oops ..",  JOptionPane.ERROR_MESSAGE);
+				
+			}
+			else
+			{
+				basketModel.removeElementAt(index);
+
+			}
+
+		}
+		if(e.getSource() == b9)
+		{
+			this.menuDisplay.setModel(this.allModel);
+			
+
 		}
 
 	}
