@@ -25,6 +25,4 @@ public int compare(Order o1, Order o2) {
 		return second_order.time.compareTo(first_order.time);
 	}
 
-
-
 }
