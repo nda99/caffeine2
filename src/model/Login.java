@@ -13,16 +13,16 @@ import java.util.logging.*;
 public class Login {
     private HashMap<String, String[]> userMap;
     private String staffFile;
-
-    private static final Logger logger = Logger.getLogger(Login.class.getName());
-
+    private ActivityLog log = ActivityLog.getInstance();
+    //private static final Logger logger = Logger.getLogger(Login.class.getName());
+    
     /**
      * Create a "Login" object, it reads a given csv file, parses it and build a hashmap of users with the content
      * @param csvFile csv file to be read
      * @throws InvalidUsersFileException print the line where something is wrong
      */
     public Login(String csvFile) throws InvalidUsersFileException{
-        logger.addHandler(new ConsoleHandler());
+    	
         staffFile = csvFile;
         userMap = new HashMap<>();
         String line;
@@ -90,7 +90,7 @@ public class Login {
             e.printStackTrace();
             return false;
         }
-        logger.info("Successful registration of  " + fullName);
+        log.logInfo("Successful registration of  " + fullName);
         return true;
     }
 
