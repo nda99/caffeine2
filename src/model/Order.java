@@ -55,9 +55,9 @@ public class Order {
 		return time;
 	}
 
-	//public void setTime(Timestamp time) {
-		//this.time = time;
-	//}
+	public void setTime(Timestamp time) {
+		this.time = time;
+	}
 
 	public double getTotal() {
 		return total=0.0;
