@@ -22,7 +22,7 @@ public class Order {
 	 * @param t Timestamp from Order
 	 */
 	public Order(Timestamp t) {
-		time = t;
+		this.time = t;
 	}
 	
 	/**
@@ -55,9 +55,9 @@ public class Order {
 		return time;
 	}
 
-	public void setTime(Timestamp time) {
-		this.time = time;
-	}
+	//public void setTime(Timestamp time) {
+		//this.time = time;
+	//}
 
 	public double getTotal() {
 		return total=0.0;
