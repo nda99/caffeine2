@@ -37,10 +37,10 @@ public class MainClass {
 
 		}
 
-		StaffThread john = new StaffThread("John");
+	/*	StaffThread john = new StaffThread("John");
 		StaffThread lila = new StaffThread("Lila", (long) 6000.0);
 		john.start();
-		lila.start();
+		lila.start();*/
 
 
 		Menu.updateFile();
