@@ -1,7 +1,6 @@
 package model;
 
 import main.MainClass;
-import weka.gui.Main;
 
 public class StaffThread extends Thread{
     public String name;
