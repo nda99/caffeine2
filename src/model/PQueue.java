@@ -8,8 +8,7 @@ import java.util.PriorityQueue;
 import controller.MenuController;
 import view.MenuGUI;
 
-public class PriorityQueue {
-	PriorityQueue orderQueue = new PriorityQueue();
+public class PQueue {
 
 	public static PriorityQueue<Order> orderQueue = new PriorityQueue<Order>(new OrderComparator());
 

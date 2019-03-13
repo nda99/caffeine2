@@ -1,7 +1,7 @@
 package model;
 
-import main.MainClass;
-import weka.gui.Main;
+
+
 
 public class StaffThread extends Thread{
     public String name;
@@ -18,8 +18,8 @@ public class StaffThread extends Thread{
 
     public void run(){
         while(true){
-            if(!MainClass.orderQueue.isEmpty()){
-                Order tempOrder = MainClass.orderQueue.remove();
+            if(!PQueue.orderQueue.isEmpty()){
+                Order tempOrder = PQueue.orderQueue.remove();
                 System.out.println("Staff " + this.name +" Processing: " + tempOrder.toString());
                 try {
                     sleep(eta);
