@@ -5,10 +5,12 @@ import java.util.PriorityQueue;
 import main.MainClass;
 
 public class OrdersQueue implements Observer{
-	private PriorityQueue OrdersQueue;
+	private PQueue OrdersQueue;
 	
-	public OrdersQueue (PriorityQueue orders) {
+	public OrdersQueue (PQueue orders) {
 		this.OrdersQueue = orders ;
+		orders.registerObserver(this);
+		update();
 		
 	}
 	

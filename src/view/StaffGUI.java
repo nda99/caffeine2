@@ -38,6 +38,8 @@ public class StaffGUI extends JFrame{
 	private JLabel label4 = new JLabel("Edit Loyal Customers", JLabel.LEFT);
 	private JLabel label5 = new JLabel("Confirm Stock Orders", JLabel.LEFT);
 	private JLabel label6 = new JLabel("Summary Report", JLabel.LEFT);
+	private JLabel label7 = new JLabel("Current Orders", JLabel.LEFT);
+
 
 	// Constructor Method don't forget to add user object as parameter
 	public StaffGUI(Staff staff) {
@@ -92,10 +94,12 @@ public class StaffGUI extends JFrame{
 		label2.setFont(itemsFont);
 		label3.setFont(itemsFont);
 		label6.setFont(itemsFont);
+		label7.setFont(itemsFont);
 		centerPanel.add(label2);
 		centerPanel.add(label3);
 		centerPanel.add(label6);
 		centerPanel.add(label1);
+		centerPanel.add(label7);
 		frame.add(eastPanel, BorderLayout.EAST);
 		frame.add(westPanel, BorderLayout.WEST);
 		frame.add(centerPanel, BorderLayout.CENTER);
@@ -111,6 +115,7 @@ public class StaffGUI extends JFrame{
 		else if (i==2) return label2;
 		else if (i==3) return label3;
 		else if (i==7) return label6;
+		else if (i==9) return label7;
 		else if (i==8) return logout;
 		
 		return null;
@@ -121,9 +126,12 @@ public class StaffGUI extends JFrame{
 		else if (i==3) label3 = l;
 		else if (i==7) label6 = l;
 		else if (i==8) logout = l;
+		else if (i==9) label7 = l;
+
 	}
 	// Consider making in private method
 	private void addManagerOptions() {
+		System.out.println("working");
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		label4.setFont(itemsFont);
 		label5.setFont(itemsFont);
@@ -151,6 +159,9 @@ public class StaffGUI extends JFrame{
 	}
 	public void addSummaryReportListener(MouseListener m) {
 		label6.addMouseListener(m);
+	}
+	public void addOrdersListener(MouseListener m) {
+		label7.addMouseListener(m);
 	}
 	public void addLogoutListener(MouseListener m) {
 		logout.addMouseListener(m);

@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -28,6 +29,10 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 	JPanel westPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
 	JLabel l1, l2, l3, l4, l5, l6;
+	JLabel customerName = new JLabel("Customer Name:");
+	JTextField name = new JTextField(10);
+	JLabel basketContent = new JLabel("Your basket contains: 0 Items");
+
 	JButton b1, b2, b3, b4, b5, b6, b7,b8,b9;
 	JButton StaffLogin, Pastries, Sandwiches, HotDrinks, ColdDrinks, Checkout, EmptyBasket;
 	JList<MenuItem> menuDisplay;
@@ -71,7 +76,9 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 	 */
 	private void setNorthPanel() {
 		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new GridLayout(1, 2, 5, 5));
+		JPanel namePanel = new JPanel();
+		namePanel.setLayout(new BorderLayout());
+		northPanel.setLayout(new GridLayout(3, 1, 5, 5));
 		JLabel title;
 		title = new JLabel(" ** Menu ** ", JLabel.CENTER);
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
@@ -80,17 +87,15 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		b1.addActionListener(this);
 		northPanel.add(title);
 		northPanel.add(b1);
-	/*	JLabel cat = new JLabel("Categories");
-		JLabel menuItems = new JLabel("Items List");
-		JLabel basketContent = new JLabel("Basket");
-		basketContent.setFont(new Font("Arial", Font.BOLD, 20));
-		menuItems.setFont(new Font("Arial", Font.BOLD, 20));
-		cat.setFont(new Font("Arial", Font.BOLD, 20));
-		northPanel.add(cat);
-		northPanel.add(menuItems);
-		northPanel.add(basketContent);*/
+		
+		customerName.setFont(new Font("Arial", Font.BOLD, 20));
+		namePanel.add(customerName,BorderLayout.WEST);
+		namePanel.add(name,BorderLayout.CENTER);
+		namePanel.add(basketContent,BorderLayout.EAST);
 
+		northPanel.add(namePanel);
 		Menuframe.add(northPanel, BorderLayout.NORTH);
+	//	Menuframe.add(namePanel,BorderLayout.NORTH);
 		pack();
 	}
 

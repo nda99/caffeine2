@@ -65,6 +65,7 @@ public class LoginController {
 				if(loggedIn == true)
 				{
 					StaffGUI gusi = new StaffGUI(manager);
+					StaffController sco = new StaffController(gusi,manager);
 					loginGUI.setErrorVisible(false);
 					loginGUI.getFrame().dispose();
 
