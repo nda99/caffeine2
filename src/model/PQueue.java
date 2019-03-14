@@ -1,12 +1,8 @@
 package model;
 
-import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.PriorityQueue;
-
-import controller.MenuController;
-import view.MenuGUI;
 
 public class PQueue {
 
