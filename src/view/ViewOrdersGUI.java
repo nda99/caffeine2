@@ -83,7 +83,7 @@ public class ViewOrdersGUI {
 		orderView.setVisible(true);
 		Order o = AllOrders.getNextOrder();
 		int counter = 1;
-		orders.append("Order# |                    Time                    | Items\n--------------------------------"
+		orders.append("Order# |                    Time                    |  Customer  | Items\n--------------------------------"
 				+ "-----------------------------------------------------------------------------------------\n");
 		orders.append(String.format("     %d     |   %s", counter, o.getDetails()));
 		times.put(counter, o.getTime().toString());

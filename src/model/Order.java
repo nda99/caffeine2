@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class Order {
 	private Timestamp time;
+	private String customer;
 	private double total;
 	private double discounts;
 	private boolean processed = false;
@@ -82,6 +83,13 @@ public class Order {
 		return orderItems.get(Menu.getItem(i));
 	}
 	
+	public String getCustomer() {
+		return customer;
+	}
+	
+	public void setCustomer(String c) {
+		customer = c;
+	}
 	/**
 	 * Add items order hashmap memory and computes their total price (given a MenuItem)
 	 * @param item containing MenuItem object
@@ -356,7 +364,7 @@ public class Order {
 			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
 		}
 
-		return (String.format("%s   |  %s\n", time.toString(), items));
+		return (String.format("%s   | %-10s |  %s\n", time.toString(), customer, items));
 	}
 	
 	public String toString() {
