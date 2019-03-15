@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Order {
-	public static Timestamp time; 
+	private Timestamp time;
 	private double total;
 	private double discounts;
 	private boolean processed = false;
@@ -22,7 +22,7 @@ public class Order {
 	 * @param t Timestamp from Order
 	 */
 	public Order(Timestamp t) {
-		time = t;
+		this.time = t;
 	}
 	
 	/**

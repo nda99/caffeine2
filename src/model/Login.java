@@ -8,10 +8,13 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.logging.*;
 
 public class Login {
     private HashMap<String, String[]> userMap;
     private String staffFile;
+
+    private static final Logger logger = Logger.getLogger(Login.class.getName());
 
     /**
      * Create a "Login" object, it reads a given csv file, parses it and build a hashmap of users with the content
@@ -19,6 +22,7 @@ public class Login {
      * @throws InvalidUsersFileException print the line where something is wrong
      */
     public Login(String csvFile) throws InvalidUsersFileException{
+        logger.addHandler(new ConsoleHandler());
         staffFile = csvFile;
         userMap = new HashMap<>();
         String line;
@@ -62,7 +66,7 @@ public class Login {
      * @param userName username
      * @param password password only a SHA 256 of the password is stored, not the password itself
      * @param position staff or manager
-     * @throws UserNameAlreadyTakenException
+     * @throws InvalidRegistration
      * @return true if successful, false if not
      */
     public boolean register(String userName, String password, String position, String fullName, String emailAddress) throws InvalidRegistration{
@@ -86,6 +90,7 @@ public class Login {
             e.printStackTrace();
             return false;
         }
+        logger.info("Successful registration of  " + fullName);
         return true;
     }
 

@@ -3,7 +3,6 @@ package model;
 import java.util.List;
 
 import main.MainClass;
-import weka.gui.Main;
 
 public class StaffThread extends Thread implements Subject{
     public String name;
