@@ -376,7 +376,7 @@ public class Order {
 			//items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
 			items = items + String.format(",%s,%d", m.getKey().toString(),m.getValue());
 		}
-		return (String.format("%s,%s %s\n", customer, time.toString(), items));
+		return (String.format("%s,%s %s\n", time.toString(), customer, items));
 	}
 	/**
 	 * Check if order has been processed
