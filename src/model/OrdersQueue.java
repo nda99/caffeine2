@@ -2,10 +2,12 @@ package model;
 
 import java.util.PriorityQueue;
 
+import javax.swing.JPanel;
+
 import main.MainClass;
 
-public class OrdersQueue implements Observer{
-	private PQueue OrdersQueue;
+public class OrdersQueue extends JPanel implements Observer{
+	private PriorityQueue OrdersQueue;
 	
 	public OrdersQueue (PQueue orders) {
 		this.OrdersQueue = orders ;
