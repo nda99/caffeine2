@@ -17,6 +17,7 @@ import model.AllOrders;
 import model.Manager;
 import model.Menu;
 import model.Staff;
+import model.StaffThread;
 import model.SummaryReport;
 import view.StaffGUI;
 import view.StockGUI;
@@ -34,6 +35,7 @@ public class StaffController {
 		staffGUI.addStockListener(new StockListener());
 		staffGUI.addUpdateListener(new UpdateListener());
 		staffGUI.addSummaryReportListener(new SummaryReportListener());
+		staffGUI.addOrdersListener(new ordersListener());
 		staffGUI.addLogoutListener(new LogoutListener());
 	}
 	
@@ -279,6 +281,38 @@ public class StaffController {
 		
 	}
 	
+	
+	public class ordersListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+		//	SummaryReport rep = new SummaryReport();
+		//	SummaryReportGUI report = new SummaryReportGUI(rep);
+		//	SummaryController sc = new SummaryController(report, rep);
+		//	report.buildGUI();
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			JLabel label = staffGUI.getLabel(7);
+			label.setForeground(Color.blue);
+			staffGUI.setLabel(label,7);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			JLabel label = staffGUI.getLabel(7);
+			label.setForeground(Color.black);
+			staffGUI.setLabel(label,7);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
 		
+	}
+	
 	}
 //}

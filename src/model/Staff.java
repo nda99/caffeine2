@@ -109,6 +109,9 @@ public class Staff {
      */
     public boolean login(String password){
 	    this.loggedIn = loginData.login(this.userName, password);
+	    StaffThread currentStaff = new StaffThread(this.userName, (long) 6000.0);
+		currentStaff.start();
+	//	Menu.updateFile();
 	    return this.loggedIn;
     }
 
