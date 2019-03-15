@@ -14,12 +14,15 @@ public class PQueue implements Subject{
 	{this.orderQueue = new PriorityQueue<Order>(new OrderComparator());
 }
 	
-	public void returnQueue() {
+	public PriorityQueue<Order> getQueue() {
 
 		for(Map.Entry<Timestamp, Order> entry:AllOrders.getOrderMap().entrySet()) {
 			orderQueue.add(entry.getValue());
+			//orderQueue.setText(entry.getValue().getDetails());
+			
 			System.out.print("Orders being processed: " + entry.getValue().getDetails());
 		}
+		return orderQueue;
 	}
 
 	
