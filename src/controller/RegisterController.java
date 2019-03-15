@@ -74,6 +74,7 @@ public class RegisterController {
 								rGUI.setErrorText("");
 								rGUI.setErrorVisible(false);
 								StaffGUI gui = new StaffGUI(staff);
+								StaffController sco = new StaffController(gui,staff);
 							}
 						} catch (StaffNonExistantException e) {
 							// TODO Auto-generated catch block
@@ -87,6 +88,7 @@ public class RegisterController {
 							Boolean loggedIn = manager.login(passText);
 							if (loggedIn == true) {
 								StaffGUI gusi = new StaffGUI(manager);
+								StaffController sco = new StaffController(gusi,manager);
 								rGUI.setErrorVisible(false);
 							}
 

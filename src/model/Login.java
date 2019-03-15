@@ -87,10 +87,10 @@ public class Login {
             userStream.flush();
             userStream.close();
         }catch (IOException e){
-            e.printStackTrace();
+        	log.logWarning("Registration of  " + fullName + " as " + position + " could not be made");
             return false;
         }
-        log.logInfo("Successful registration of  " + fullName);
+        log.logInfo("Successful registration of  " + fullName + " as " + position);
         return true;
     }
 
@@ -130,6 +130,7 @@ public class Login {
         }
         else{
             System.out.println("login successful !");
+            log.logInfo(userName + " logged in successfully.");
             return true;
         }
     }

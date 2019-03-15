@@ -10,13 +10,15 @@ import java.util.Set;
 
 public class Order {
 	private Timestamp time;
-	private String customer;
+	private String customer = "Anonymous";
 	private double total;
 	private double discounts;
 	private boolean processed = false;
 	private boolean validated = false;
 	private boolean redeemed = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
+	
+	private ActivityLog log = ActivityLog.getInstance();
 	
 	/**
 	 * Constructs Order object from a Timestamp
@@ -45,6 +47,7 @@ public class Order {
 				this.total = total + item.getPrice();
 			}
 		}
+		log.logInfo("Order " + time  + " has been placed");
 	}
 	
 	public Order() {
@@ -373,7 +376,7 @@ public class Order {
 			//items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
 			items = items + String.format(",%s,%d", m.getKey().toString(),m.getValue());
 		}
-		return (String.format("%s %s\n", time.toString(), items));
+		return (String.format("%s,%s %s\n", customer, time.toString(), items));
 	}
 	/**
 	 * Check if order has been processed
@@ -395,12 +398,15 @@ public class Order {
 			}
 			catch(NotEnoughStockException e) {
 				processed = false;
+
+				log.logWarning("Order " + time.toString() + " from " + customer + " could NOT be processed");
 			}
 
 		}
 		
 		if(processed) {
 			Menu.updateFile();
+			log.logInfo("Order " + time.toString() + " from " + customer + " has been processed");
 		}
 	}
 }
