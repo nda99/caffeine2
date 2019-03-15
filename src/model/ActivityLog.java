@@ -16,7 +16,6 @@ public class ActivityLog {
     
 	private static ActivityLog log = new ActivityLog();
 	private Logger logger = Logger.getLogger(ActivityLog.class.getName());
-	Logger logger2 = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	/**
 	 * Constructor to initialise the logger and output file
@@ -31,7 +30,6 @@ public class ActivityLog {
 	 * Creates text file to output logs and adds its format as a handler to Logger object.
 	 */
 	public void setup() {
-		logger2.setLevel(Level.INFO);
         try {
 			fileTxt = new FileHandler("Logs.txt");
 		} catch (SecurityException e) {
@@ -45,7 +43,6 @@ public class ActivityLog {
         formatterTxt = new SimpleFormatter();
         fileTxt.setFormatter(formatterTxt);
         logger.addHandler(fileTxt);
-        logger2.addHandler(fileTxt);
 
 	}
 	/**
