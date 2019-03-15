@@ -1,5 +1,6 @@
 package model;
 
+
 import java.util.List;
 
 import main.MainClass;
@@ -20,8 +21,8 @@ public class StaffThread extends Thread implements Subject{
 
     public void run(){
         while(true){
-            if(!MainClass.orderQueue.isEmpty()){
-                Order tempOrder = MainClass.orderQueue.remove();
+            if(!PQueue.orderQueue.isEmpty()){
+                Order tempOrder = PQueue.orderQueue.remove();
                 System.out.println("Staff " + this.name +" Processing: " + tempOrder.toString());
                 try {
                     sleep(eta);
