@@ -7,6 +7,7 @@ import main.MainClass;
 
 public class StaffThread extends Thread implements Subject{
     public String name;
+    private Order currentOrder;
     private long eta = (long) 5000.0;
     private List<Observer> observers;
 
@@ -27,9 +28,10 @@ public class StaffThread extends Thread implements Subject{
     public void run(){
         while(true){
             if(!MainClass.orderQueue.isEmpty()){
+                currentOrder= getOrderToProcess();
+                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString() );
             	notifyObserver();
-                Order tempOrder = MainClass.orderQueue.remove();
-                System.out.println("Staff " + this.name +" Processing: " + tempOrder.toString());
+
                 try {
                     sleep(eta);
                 } catch (InterruptedException e) {
@@ -37,6 +39,23 @@ public class StaffThread extends Thread implements Subject{
                 }
             }
         }
+    }
+    
+    //This method will return the current order served by the staff
+    public Order getCurrentOrder()
+    {
+    	return currentOrder;
+    }
+    
+    public String getCurrentServer()
+    {
+    	return name;
+    }
+    //this method will pop an order from the order queue to be served
+    public Order getOrderToProcess()
+    {
+    	Order tempOrder = MainClass.orderQueue.remove();
+    	return tempOrder;
     }
 
 	@Override
