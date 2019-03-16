@@ -77,7 +77,10 @@ public class Order {
 		return orderItems;
 	}
 
-
+	public double getDiscount() {
+		return discounts;
+	}
+	
 	public int getItemQuantity(MenuItem i) {
 		return orderItems.get(i);
 	}
@@ -105,6 +108,7 @@ public class Order {
 		}
 
 	}
+	
 	
 	/**
 	 *  Add items order hashmap memory and computes their total price (given the item name)
