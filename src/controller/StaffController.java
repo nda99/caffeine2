@@ -17,12 +17,14 @@ import model.AllOrders;
 import model.Manager;
 import model.Menu;
 import model.Staff;
+import model.StaffServing;
 import model.StaffThread;
 import model.SummaryReport;
 import view.StaffGUI;
 import view.StockGUI;
 import view.SummaryReportGUI;
 import view.ViewOrdersGUI;
+import view.OrdersGUI;
 
 public class StaffController {
 	StaffGUI staffGUI;
@@ -31,6 +33,7 @@ public class StaffController {
 	public StaffController(StaffGUI sg, Staff st) {
 		this.staffGUI = sg;
 		this.staff = st;
+		staffGUI.addStartListener(new startListener());
 		staffGUI.addViewOrdersListener(new ViewOrdersListener());
 		staffGUI.addStockListener(new StockListener());
 		staffGUI.addUpdateListener(new UpdateListener());
@@ -46,6 +49,7 @@ public class StaffController {
 		staffGUI.addStockListener(new StockListener());
 		staffGUI.addUpdateListener(new UpdateListener());
 		staffGUI.addSummaryReportListener(new SummaryReportListener());
+		staffGUI.addOrdersListener(new ordersListener());
 		staffGUI.addLogoutListener(new LogoutListener());
 	}
 	
@@ -286,24 +290,25 @@ public class StaffController {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-		//	SummaryReport rep = new SummaryReport();
-		//	SummaryReportGUI report = new SummaryReportGUI(rep);
-		//	SummaryController sc = new SummaryController(report, rep);
+			OrdersGUI og = new OrdersGUI();
+			
+		//SummaryReportGUI report = new SummaryReportGUI(rep);
+		ServerController sc = new ServerController(og);
 		//	report.buildGUI();
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			JLabel label = staffGUI.getLabel(7);
+			JLabel label = staffGUI.getLabel(9);
 			label.setForeground(Color.blue);
-			staffGUI.setLabel(label,7);
+			staffGUI.setLabel(label,9);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			JLabel label = staffGUI.getLabel(7);
+			JLabel label = staffGUI.getLabel(9);
 			label.setForeground(Color.black);
-			staffGUI.setLabel(label,7);
+			staffGUI.setLabel(label,9);
 		}
 
 		@Override
@@ -314,5 +319,33 @@ public class StaffController {
 		
 	}
 	
+	public class startListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			//On mouse click, start the thread.
+			StaffThread currentStaff = new StaffThread(staff.getUserName(), (long) 6000.0);
+			currentStaff.start();
+			StaffServing server = new StaffServing(currentStaff);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+		
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+		
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
+		
 	}
-//}
+	
+} //End of the class
+

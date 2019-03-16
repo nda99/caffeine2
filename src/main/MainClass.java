@@ -39,6 +39,7 @@ public class MainClass {
 
 
 
+
 		Menu.updateFile();
 		System.out.println("Finished");
 		
