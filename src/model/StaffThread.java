@@ -1,5 +1,6 @@
 package model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import main.MainClass;
@@ -11,16 +12,22 @@ public class StaffThread extends Thread implements Subject{
 
     public StaffThread(String staffName){
         this.name = staffName;
+        observers = new LinkedList<Observer>();
     }
 
     public StaffThread(String staffName, long eta){
         this.name = staffName;
         this.eta = eta;
+        observers = new LinkedList<Observer>();
+
     }
+    
+  
 
     public void run(){
         while(true){
             if(!MainClass.orderQueue.isEmpty()){
+            	notifyObserver();
                 Order tempOrder = MainClass.orderQueue.remove();
                 System.out.println("Staff " + this.name +" Processing: " + tempOrder.toString());
                 try {

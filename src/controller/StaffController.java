@@ -23,6 +23,7 @@ import view.StaffGUI;
 import view.StockGUI;
 import view.SummaryReportGUI;
 import view.ViewOrdersGUI;
+import view.ordersGUI;
 
 public class StaffController {
 	StaffGUI staffGUI;
@@ -46,6 +47,7 @@ public class StaffController {
 		staffGUI.addStockListener(new StockListener());
 		staffGUI.addUpdateListener(new UpdateListener());
 		staffGUI.addSummaryReportListener(new SummaryReportListener());
+		staffGUI.addOrdersListener(new ordersListener());
 		staffGUI.addLogoutListener(new LogoutListener());
 	}
 	
@@ -286,8 +288,9 @@ public class StaffController {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-		//	SummaryReport rep = new SummaryReport();
-		//	SummaryReportGUI report = new SummaryReportGUI(rep);
+			ordersGUI og = new ordersGUI();
+			
+			//	SummaryReportGUI report = new SummaryReportGUI(rep);
 		//	SummaryController sc = new SummaryController(report, rep);
 		//	report.buildGUI();
 		}
