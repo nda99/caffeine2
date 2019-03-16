@@ -11,7 +11,7 @@ public class Staff {
 	protected boolean loggedIn;
 	protected Login loginData;
     protected String staffFile;
-
+    private ActivityLog log = ActivityLog.getInstance();
 	/**
 	 * Staff Constructor, create and register a new staff member
 	 * **/
@@ -116,6 +116,7 @@ public class Staff {
 
     public void logout(){
         this.loggedIn = false;
+        log.logInfo("User " + userName + " has logged out." );
     }
 
 

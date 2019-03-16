@@ -10,12 +10,15 @@ import java.util.Set;
 
 public class Order {
 	private Timestamp time;
+	private String customer = "Anonymous";
 	private double total;
 	private double discounts;
 	private boolean processed = false;
 	private boolean validated = false;
 	private boolean redeemed = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
+	
+	private ActivityLog log = ActivityLog.getInstance();
 	
 	/**
 	 * Constructs Order object from a Timestamp
@@ -44,6 +47,7 @@ public class Order {
 				this.total = total + item.getPrice();
 			}
 		}
+		log.logInfo("Order " + time  + " has been placed");
 	}
 	
 	public Order() {
@@ -73,7 +77,10 @@ public class Order {
 		return orderItems;
 	}
 
-
+	public double getDiscount() {
+		return discounts;
+	}
+	
 	public int getItemQuantity(MenuItem i) {
 		return orderItems.get(i);
 	}
@@ -82,6 +89,13 @@ public class Order {
 		return orderItems.get(Menu.getItem(i));
 	}
 	
+	public String getCustomer() {
+		return customer;
+	}
+	
+	public void setCustomer(String c) {
+		customer = c;
+	}
 	/**
 	 * Add items order hashmap memory and computes their total price (given a MenuItem)
 	 * @param item containing MenuItem object
@@ -94,6 +108,7 @@ public class Order {
 		}
 
 	}
+	
 	
 	/**
 	 *  Add items order hashmap memory and computes their total price (given the item name)
@@ -356,7 +371,7 @@ public class Order {
 			items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
 		}
 
-		return (String.format("%s   |  %s\n", time.toString(), items));
+		return (String.format("%s   | %-10s |  %s\n", time.toString(), customer, items));
 	}
 	
 	public String toString() {
@@ -365,7 +380,7 @@ public class Order {
 			//items = items + String.format(" %s(x%d) ", m.getKey().toString(),m.getValue());
 			items = items + String.format(",%s,%d", m.getKey().toString(),m.getValue());
 		}
-		return (String.format("%s %s\n", time.toString(), items));
+		return (String.format("%s,%s %s\n", time.toString(), customer, items));
 	}
 	/**
 	 * Check if order has been processed
@@ -387,12 +402,15 @@ public class Order {
 			}
 			catch(NotEnoughStockException e) {
 				processed = false;
+
+				log.logWarning("Order " + time.toString() + " from " + customer + " could NOT be processed");
 			}
 
 		}
 		
 		if(processed) {
 			Menu.updateFile();
+			log.logInfo("Order " + time.toString() + " from " + customer + " has been processed");
 		}
 	}
 }

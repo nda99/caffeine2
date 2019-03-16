@@ -18,7 +18,6 @@ import view.MenuGUI;
 
 public class MenuController {
 	MenuGUI mGUI;
-	private Menu menu = new Menu();
 	
 	public MenuController(MenuGUI mg) {
 		String filename = "menuItems.csv";
@@ -43,6 +42,9 @@ public class MenuController {
 		mGUI.addLoginListener(new MakeLogin());
 	}
 	
+	/**
+	 * Set category lists to be displayed in GUI 
+	 */
 	public void setListsGUI() {
 		DefaultListModel<MenuItem> sandwichModel = new DefaultListModel<MenuItem>();
 		ArrayList<MenuItem> listTemp = Menu.getAllFromCategory("Sandwich");
