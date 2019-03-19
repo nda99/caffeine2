@@ -327,6 +327,7 @@ public class StaffController {
 			StaffThread currentStaff = new StaffThread(staff.getUserName(), (long) 6000.0);
 			currentStaff.start();
 			StaffServing server = new StaffServing(currentStaff);
+			staffGUI.getButton("start").disable();
 		}
 
 		@Override

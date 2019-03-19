@@ -155,6 +155,15 @@ public class StaffGUI extends JFrame{
 		centerPanel.add(label5);
 
 	}
+	
+	public JButton getButton(String btn)
+	{
+		switch(btn){
+			case "start": return start;
+			case "finish" : return finish;
+			default: return null;
+		}
+	}
 
 	public JFrame getFrame() {
 		return frame;

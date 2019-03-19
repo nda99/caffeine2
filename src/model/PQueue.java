@@ -7,8 +7,9 @@ import java.util.PriorityQueue;
 
 public class PQueue implements Subject{
 
-	public static PriorityQueue<Order> orderQueue ;
+	public PriorityQueue<Order> orderQueue ;
 	private List<Observer> observers;
+	private static PQueue pQueue = new PQueue();
 	
 	public PQueue()
 	{this.orderQueue = new PriorityQueue<Order>(new OrderComparator());
@@ -25,6 +26,9 @@ public class PQueue implements Subject{
 		return orderQueue;
 	}
 
+	public static PQueue getInstance() {
+		return pQueue;
+	}
 	
 	public void registerObserver(Observer o) {
 		observers.add(o);

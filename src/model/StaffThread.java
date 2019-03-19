@@ -1,10 +1,7 @@
 package model;
 
-<<<<<<< HEAD
 
-=======
 import java.util.LinkedList;
->>>>>>> f8a4d2b6f36945c4989b4086479a655db94780b4
 import java.util.List;
 
 import main.MainClass;
@@ -31,16 +28,16 @@ public class StaffThread extends Thread implements Subject{
 
     public void run(){
         while(true){
-            if(!PQueue.orderQueue.isEmpty()){
-                Order tempOrder = PQueue.orderQueue.remove();
-                System.out.println("Staff " + this.name +" Processing: " + tempOrder.toString());
-
+          //  if(!PQueue.orderQueue.isEmpty()){
+                currentOrder = getOrderToProcess();
+                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
+                notifyObserver();
                 try {
                     sleep(eta);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+           // }
         }
     }
     
@@ -57,7 +54,10 @@ public class StaffThread extends Thread implements Subject{
     //this method will pop an order from the order queue to be served
     public Order getOrderToProcess()
     {
-    	Order tempOrder = MainClass.orderQueue.remove();
+    	PQueue ordersQueue = PQueue.getInstance();
+    	Order tempOrder = ordersQueue.getQueue().element();
+
+    	
     	return tempOrder;
     }
 
