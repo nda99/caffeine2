@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import exceptions.*;
 
 public class AllCustomers {
     private HashMap<String, LoyalCustomer> customers;

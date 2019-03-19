@@ -1,4 +1,5 @@
 package model;
+import exceptions.*;
 
 /**
  * Staff class, doesn't have the stock methods yet
@@ -11,12 +12,12 @@ public class Staff {
 	protected boolean loggedIn;
 	protected Login loginData;
     protected String staffFile;
-
+    private ActivityLog log = ActivityLog.getInstance();
 	/**
 	 * Staff Constructor, create and register a new staff member
 	 * **/
 	public Staff(String fullName, String emailAddress, String userName, String password, String staffFile)
-            throws InvalidRegistration{
+            throws InvalidRegistrationException {
 		this.fullName = fullName;
 		this.emailAddress = emailAddress;
 		this.userName = userName;
@@ -109,11 +110,14 @@ public class Staff {
      */
     public boolean login(String password){
 	    this.loggedIn = loginData.login(this.userName, password);
+	   
+	//	Menu.updateFile();
 	    return this.loggedIn;
     }
 
     public void logout(){
         this.loggedIn = false;
+        log.logInfo("User " + userName + " has logged out." );
     }
 
 

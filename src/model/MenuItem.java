@@ -1,6 +1,6 @@
 package model;
 import java.math.BigDecimal;
-
+import exceptions.*;
 
 
 public class MenuItem  implements Comparable<MenuItem> {

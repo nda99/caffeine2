@@ -91,6 +91,7 @@ public class MenuController {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Order o = new Order(mGUI.getBasket());
+			o.setCustomer(mGUI.getName());
 			AllOrders.addOrder(o);
 			InvoiceGUI checkoutGUI = new InvoiceGUI(AllOrders.getOrder(o.getTime()));
 			InvoiceController ico = new InvoiceController(checkoutGUI,AllOrders.getOrder(o.getTime()));

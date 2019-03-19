@@ -1,4 +1,4 @@
-package model;
+package exceptions;
 
 public class UserNotLoggedInException extends Exception {
     public UserNotLoggedInException(String userName, String method){

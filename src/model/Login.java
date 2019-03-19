@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.logging.*;
+import exceptions.*;
 
 public class Login {
     private HashMap<String, String[]> userMap;
@@ -69,7 +70,7 @@ public class Login {
      * @throws InvalidRegistration
      * @return true if successful, false if not
      */
-    public boolean register(String userName, String password, String position, String fullName, String emailAddress) throws InvalidRegistration{
+    public boolean register(String userName, String password, String position, String fullName, String emailAddress) throws InvalidRegistrationException{
         checkEmail(emailAddress);
         checkPosition(position);
         checkUserName(userName);
@@ -87,10 +88,10 @@ public class Login {
             userStream.flush();
             userStream.close();
         }catch (IOException e){
-            e.printStackTrace();
+        	log.logWarning("Registration of  " + fullName + " as " + position + " could not be made");
             return false;
         }
-        log.logInfo("Successful registration of  " + fullName);
+        log.logInfo("Successful registration of  " + fullName + " as " + position);
         return true;
     }
 
@@ -130,6 +131,7 @@ public class Login {
         }
         else{
             System.out.println("login successful !");
+            log.logInfo(userName + " logged in successfully.");
             return true;
         }
     }
@@ -157,12 +159,12 @@ public class Login {
      * @param un username
      * @throws InvalidRegistration
      */
-    private void checkUserName(String un) throws InvalidRegistration{
+    private void checkUserName(String un) throws InvalidRegistrationException{
         if(un == null) {
-            throw new InvalidRegistration("Invalid userName");
+            throw new InvalidRegistrationException("Invalid userName");
         }
         if(userMap.get(un)!=null) {
-            throw new InvalidRegistration("The user name " + un + " is already taken");
+            throw new InvalidRegistrationException("The user name " + un + " is already taken");
         }
     }
 
@@ -171,10 +173,10 @@ public class Login {
      * @param pos position
      * @throws InvalidRegistration
      */
-    private void checkPosition(String pos) throws InvalidRegistration{
+    private void checkPosition(String pos) throws InvalidRegistrationException{
     	System.out.println("pos ="+pos);
         if (!(pos.equals("Staff") || pos.equals("Manager"))){
-            throw new InvalidRegistration("Invalid position, should be Staff or Manager");
+            throw new InvalidRegistrationException("Invalid position, should be Staff or Manager");
         }
 
     }
@@ -184,9 +186,9 @@ public class Login {
      * @param email email address
      * @throws InvalidRegistration
      */
-    private void checkEmail(String email) throws InvalidRegistration{
+    private void checkEmail(String email) throws InvalidRegistrationException{
         if (!email.contains("@")){
-            throw new InvalidRegistration("Invalid email");
+            throw new InvalidRegistrationException("Invalid email");
         }
     }
 }

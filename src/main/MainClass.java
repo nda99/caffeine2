@@ -11,8 +11,7 @@ import view.MenuGUI;
 public class MainClass {
 
 	//Queue generator
-	public static PriorityQueue<Order> orderQueue = new PriorityQueue <Order> (new OrderComparator());
-
+	
 	public static void main(String[] args) {
 		
 
@@ -31,16 +30,14 @@ public class MainClass {
 //		catch (FileNotFoundException e) {
 //			System.out.print("File not found");
 //		}
-		for(Map.Entry<Timestamp, Order> entry: AllOrders.getOrderMap().entrySet()) {
-			orderQueue.add(entry.getValue());
-			System.out.print("Orders being processed: " + entry.getValue().getDetails());
+		
 
-		}
-
-		StaffThread john = new StaffThread("John");
+	/*	StaffThread john = new StaffThread("John");
 		StaffThread lila = new StaffThread("Lila", (long) 6000.0);
-		//john.start();
-		//lila.start();
+		john.start();
+		lila.start();*/
+
+
 
 
 		Menu.updateFile();

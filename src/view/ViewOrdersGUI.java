@@ -22,7 +22,7 @@ import javax.swing.WindowConstants;
 import controller.InvoiceController;
 import model.AllOrders;
 import model.Order;
-import model.nullOrderException;
+import exceptions.*;
 
 public class ViewOrdersGUI {
 	private JTextArea orders = new JTextArea(40,20);
@@ -83,7 +83,7 @@ public class ViewOrdersGUI {
 		orderView.setVisible(true);
 		Order o = AllOrders.getNextOrder();
 		int counter = 1;
-		orders.append("Order# |                    Time                    | Items\n--------------------------------"
+		orders.append("Order# |                    Time                    |  Customer  | Items\n--------------------------------"
 				+ "-----------------------------------------------------------------------------------------\n");
 		orders.append(String.format("     %d     |   %s", counter, o.getDetails()));
 		times.put(counter, o.getTime().toString());

@@ -1,7 +1,10 @@
-package model;
+package test;
 
 import static org.junit.Assert.*;
 
+import model.Category;
+import model.Menu;
+import model.MenuItem;
 import org.junit.Before;
 import org.junit.Test;
 

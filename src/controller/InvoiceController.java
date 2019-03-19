@@ -6,7 +6,7 @@ import java.util.Random;
 
 import model.AllOrders;
 import model.Order;
-import model.nullOrderException;
+import exceptions.*;
 import view.InvoiceGUI;
 
 public class InvoiceController {

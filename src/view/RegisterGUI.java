@@ -18,6 +18,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import exceptions.*;
+
 import model.*;
 
 public class RegisterGUI extends JFrame{

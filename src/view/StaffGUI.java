@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +32,7 @@ public class StaffGUI extends JFrame{
 	private JPanel centerPanel = new JPanel();
 	private JPanel eastPanel = new JPanel();
 	private JPanel westPanel = new JPanel();
+	private JPanel service = new JPanel();
 	private JLabel user = new JLabel("Welcome");
 	private JLabel logout = new JLabel("Logout");
 	private JLabel label1 = new JLabel("Update Stock", JLabel.LEFT);
@@ -38,6 +41,11 @@ public class StaffGUI extends JFrame{
 	private JLabel label4 = new JLabel("Edit Loyal Customers", JLabel.LEFT);
 	private JLabel label5 = new JLabel("Confirm Stock Orders", JLabel.LEFT);
 	private JLabel label6 = new JLabel("Summary Report", JLabel.LEFT);
+	private JLabel label7 = new JLabel("Current Orders", JLabel.LEFT);
+	private JButton start = new JButton("Start Serving");
+	private JButton finish = new JButton("End Serving");
+	
+
 
 	// Constructor Method don't forget to add user object as parameter
 	public StaffGUI(Staff staff) {
@@ -86,16 +94,24 @@ public class StaffGUI extends JFrame{
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 		title.setFont(titleFont);
 		frame.add(title, BorderLayout.NORTH);
-		centerPanel.setLayout(new GridLayout(7, 1, 10, 10));
+		centerPanel.setLayout(new GridLayout(7, 1, 5, 10));
+		service.setLayout(new GridLayout(1,2,5,5));
+		service.add(start);
+		service.add(finish);
+		
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		label1.setFont(itemsFont);
 		label2.setFont(itemsFont);
 		label3.setFont(itemsFont);
 		label6.setFont(itemsFont);
+		label7.setFont(itemsFont);
+		
+		centerPanel.add(service);
 		centerPanel.add(label2);
 		centerPanel.add(label3);
 		centerPanel.add(label6);
 		centerPanel.add(label1);
+		centerPanel.add(label7);
 		frame.add(eastPanel, BorderLayout.EAST);
 		frame.add(westPanel, BorderLayout.WEST);
 		frame.add(centerPanel, BorderLayout.CENTER);
@@ -111,6 +127,7 @@ public class StaffGUI extends JFrame{
 		else if (i==2) return label2;
 		else if (i==3) return label3;
 		else if (i==7) return label6;
+		else if (i==9) return label7;
 		else if (i==8) return logout;
 		
 		return null;
@@ -121,9 +138,12 @@ public class StaffGUI extends JFrame{
 		else if (i==3) label3 = l;
 		else if (i==7) label6 = l;
 		else if (i==8) logout = l;
+		else if (i==9) label7 = l;
+
 	}
 	// Consider making in private method
 	private void addManagerOptions() {
+		System.out.println("working");
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		label4.setFont(itemsFont);
 		label5.setFont(itemsFont);
@@ -135,11 +155,26 @@ public class StaffGUI extends JFrame{
 		centerPanel.add(label5);
 
 	}
+	
+	public JButton getButton(String btn)
+	{
+		switch(btn){
+			case "start": return start;
+			case "finish" : return finish;
+			default: return null;
+		}
+	}
 
 	public JFrame getFrame() {
 		return frame;
 	}
 	
+	public void addStartListener(MouseListener m) {
+		start.addMouseListener(m);
+	}
+	public void addFinishListener(MouseListener m) {
+		finish.addMouseListener(m);
+	}
 	public void addViewOrdersListener(MouseListener m) {
 		label3.addMouseListener(m);
 	}
@@ -152,9 +187,13 @@ public class StaffGUI extends JFrame{
 	public void addSummaryReportListener(MouseListener m) {
 		label6.addMouseListener(m);
 	}
+	public void addOrdersListener(MouseListener m) {
+		label7.addMouseListener(m);
+	}
 	public void addLogoutListener(MouseListener m) {
 		logout.addMouseListener(m);
 	}
+	
 
 
 }
