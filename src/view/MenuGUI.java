@@ -282,6 +282,11 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 	public void addLoginListener(ActionListener lg) {
 		b1.addActionListener(lg);
 	}
+	
+	public String getName()
+	{
+		return name.getText();
+	}
 
 
 }

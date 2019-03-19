@@ -326,8 +326,8 @@ public class StaffController {
 			//On mouse click, start the thread.
 			StaffThread currentStaff = new StaffThread(staff.getUserName(), (long) 6000.0);
 			currentStaff.start();
+			staffGUI.getButton("start").setEnabled(false);
 			StaffServing server = new StaffServing(currentStaff);
-			staffGUI.getButton("start").disable();
 		}
 
 		@Override

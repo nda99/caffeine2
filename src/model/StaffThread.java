@@ -3,6 +3,9 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
+
+import com.sun.org.apache.xerces.internal.parsers.CachingParserPool.SynchronizedGrammarPool;
 
 import main.MainClass;
 
@@ -15,13 +18,14 @@ public class StaffThread extends Thread implements Subject{
     public StaffThread(String staffName){
         this.name = staffName;
         observers = new LinkedList<Observer>();
+        
+
     }
 
     public StaffThread(String staffName, long eta){
         this.name = staffName;
         this.eta = eta;
         observers = new LinkedList<Observer>();
-
     }
     
   
@@ -34,6 +38,7 @@ public class StaffThread extends Thread implements Subject{
                 notifyObserver();
                 try {
                     sleep(eta);
+                    currentOrder.processOrder();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -52,15 +57,16 @@ public class StaffThread extends Thread implements Subject{
     	return name;
     }
     //this method will pop an order from the order queue to be served
-    public Order getOrderToProcess()
+    public synchronized Order getOrderToProcess()
     {
     	PQueue ordersQueue = PQueue.getInstance();
-    	Order tempOrder = ordersQueue.getQueue().element();
-
+    	ordersQueue.getQueue();
+    	Order tempOrder = ordersQueue.getNextOrder();
+    	System.out.print("CURRENTLY WORKING ON :" +tempOrder);
     	
     	return tempOrder;
     }
-
+ 
 	@Override
 	public void registerObserver(Observer o) {
 
