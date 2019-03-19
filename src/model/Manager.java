@@ -1,11 +1,13 @@
 package model;
 
+import exceptions.*;
+
 /**
  * Class Manager, a manager has to login before being able to do anything
  */
 public class Manager extends Staff {
     public Manager(String fullName, String emailAddress, String userName,String password, String staffFile)
-            throws InvalidRegistration{
+            throws InvalidRegistrationException {
         super(fullName, emailAddress, userName,password, staffFile);
     }
 

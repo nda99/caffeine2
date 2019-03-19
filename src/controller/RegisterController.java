@@ -4,15 +4,12 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import model.InvalidRegistration;
-import model.InvalidUsersFileException;
 import model.Login;
 import model.Manager;
-import model.NotAManagerException;
 import model.Staff;
-import model.StaffNonExistantException;
 import view.RegisterGUI;
 import view.StaffGUI;
+import exceptions.*;
 
 public class RegisterController {
 	RegisterGUI rGUI;
@@ -105,7 +102,7 @@ public class RegisterController {
 
 					}
 				}
-			} catch (InvalidRegistration e) {
+			} catch (InvalidRegistrationException e) {
 				// TODO Auto-generated catch block
 				rGUI.setErrorText(e.getMessage());
 			}

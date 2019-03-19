@@ -23,7 +23,7 @@ public class OrdersQueue extends JPanel implements Observer{
 	@Override 
 	public void update() {
 		PriorityQueue<Order> order = QueueData.getQueue();
-		orderText.setText(text); // needed to implent update dont know how to make it work 
+		//orderText.setText(text); // needed to implent update dont know how to make it work
 	}
 
 }

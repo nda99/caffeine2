@@ -1,6 +1,10 @@
-package model;
+package test;
 
 import static org.junit.Assert.*;
+
+import model.AllCustomers;
+import exceptions.InvalidCustomerFileException;
+import exceptions.UserNameAlreadyTakenException;
 import org.junit.Test;
 
 import java.io.*;
