@@ -118,6 +118,20 @@ public class Staff {
         this.loggedIn = false;
         log.logInfo("User " + userName + " has logged out." );
     }
+    
+    public void startServing()
+    {
+    	StaffThread currentStaff = new StaffThread(this.getFullName(), (long) 6000.0);
+		currentStaff.start();
+		StaffServing server = new StaffServing(currentStaff);
+
+    }
+    
+    public void stopServing()
+    {
+    	//something going to stop it
+    }
+    
 
 
 }

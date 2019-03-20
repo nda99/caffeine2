@@ -322,12 +322,10 @@ public class StaffController {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			//On mouse click, start the thread.
-			StaffThread currentStaff = new StaffThread(staff.getUserName(), (long) 6000.0);
-			currentStaff.start();
+			staff.startServing();
 			staffGUI.getButton("start").setEnabled(false);
 			staffGUI.getButton("finish").setEnabled(true);
 
-			StaffServing server = new StaffServing(currentStaff);
 		}
 
 		@Override
@@ -353,6 +351,7 @@ public class StaffController {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			//On mouse click, kill the thread.
+			staff.stopServing();
 			staffGUI.getButton("start").setEnabled(true);
 			staffGUI.getButton("finish").setEnabled(false);
 			JOptionPane.showMessageDialog(staffGUI, "Thank you for your service!");
