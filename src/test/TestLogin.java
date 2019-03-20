@@ -1,6 +1,10 @@
-package model;
+package test;
 
 import static org.junit.Assert.*;
+
+import exceptions.InvalidUsersFileException;
+import exceptions.InvalidRegistrationException;
+import model.Login;
 import org.junit.Test;
 
 import java.io.*;
@@ -24,7 +28,7 @@ public class TestLogin {
         catch (InvalidUsersFileException e){
             System.out.println(e.getMessage());
         }
-        catch (InvalidRegistration e){
+        catch (InvalidRegistrationException e){
             System.out.println(e.getMessage());
         }
 
@@ -52,7 +56,7 @@ public class TestLogin {
         catch (InvalidUsersFileException e){
             System.out.println(e.getMessage());
         }
-        catch (InvalidRegistration e){
+        catch (InvalidRegistrationException e){
             System.out.println(e.getMessage());
             result = false;
         }

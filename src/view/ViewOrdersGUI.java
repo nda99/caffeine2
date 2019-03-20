@@ -22,7 +22,7 @@ import javax.swing.WindowConstants;
 import controller.InvoiceController;
 import model.AllOrders;
 import model.Order;
-import model.nullOrderException;
+import exceptions.*;
 
 public class ViewOrdersGUI {
 	private JTextArea orders = new JTextArea(40,20);

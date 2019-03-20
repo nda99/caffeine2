@@ -46,11 +46,12 @@ public class OrdersQueue implements Subject{
 	{
 		return this.orders.poll();
 	}
-	
+
+
 	@Override
 	public void registerObserver(Observer o) {
 		observers.add(o);
-		
+
 	}
 
 	@Override

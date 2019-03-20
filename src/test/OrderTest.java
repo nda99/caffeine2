@@ -1,5 +1,9 @@
-package model;
+package test;
 
+import model.Category;
+import model.Menu;
+import model.MenuItem;
+import model.Order;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +20,7 @@ class OrderTest {
 		Order order4 = new Order();
 		Order order5 = new Order();
 		
-		Menu.addItem("Cookie", new MenuItem(1,"Cookie",Category.PASTRIES, 1.20, 9));
+		Menu.addItem("Cookie", new MenuItem(1,"Cookie", Category.PASTRIES, 1.20, 9));
 		Menu.addItem("Espresso", new MenuItem(2,"Espresso",Category.HOTDRINK, 1.30,10));
 		Menu.addItem("Mocha", new MenuItem(3,"Mocha",Category.HOTDRINK, 1.50,15));
 		Menu.addItem("Latte", new MenuItem(4,"Latte",Category.HOTDRINK, 1.40,89));

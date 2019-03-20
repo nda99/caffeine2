@@ -7,12 +7,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import model.Manager;
-import model.NotAManagerException;
 import model.Staff;
-import model.StaffNonExistantException;
 import view.LoginGUI;
 import view.RegisterGUI;
 import view.StaffGUI;
+import exceptions.*;
 
 public class LoginController {
 	LoginGUI loginGUI;

@@ -1,10 +1,10 @@
-package model;
+package exceptions;
 
-public class InvalidRegistration extends Exception {
+public class InvalidRegistrationException extends Exception {
 
     private String message;
 
-    public InvalidRegistration(String mes){
+    public InvalidRegistrationException(String mes){
         this.message = mes;
     }
 
