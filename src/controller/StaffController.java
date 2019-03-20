@@ -1,9 +1,6 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -34,6 +31,7 @@ public class StaffController {
 		this.staffGUI = sg;
 		this.staff = st;
 		staffGUI.addStartListener(new startListener());
+		staffGUI.addFinishListener(new finishListener());
 		staffGUI.addViewOrdersListener(new ViewOrdersListener());
 		staffGUI.addStockListener(new StockListener());
 		staffGUI.addUpdateListener(new UpdateListener());
@@ -327,6 +325,8 @@ public class StaffController {
 			StaffThread currentStaff = new StaffThread(staff.getUserName(), (long) 6000.0);
 			currentStaff.start();
 			staffGUI.getButton("start").setEnabled(false);
+			staffGUI.getButton("finish").setEnabled(true);
+
 			StaffServing server = new StaffServing(currentStaff);
 		}
 
@@ -338,6 +338,32 @@ public class StaffController {
 		@Override
 		public void mouseExited(MouseEvent arg0) {
 		
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
+		
+	}
+	
+	public class finishListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			//On mouse click, kill the thread.
+			staffGUI.getButton("start").setEnabled(true);
+			staffGUI.getButton("finish").setEnabled(false);
+			JOptionPane.showMessageDialog(staffGUI, "Thank you for your service!");
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
 		}
 
 		@Override

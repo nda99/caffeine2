@@ -25,6 +25,7 @@ public class PQueue implements Subject{
 			System.out.print("Orders being processed: " + entry.getValue().getDetails());
 			}
 		}
+        notifyObserver();
 		return orderQueue;
 	}
 
