@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.OrdersQueueObserver;
 import model.StaffServing;
 
 public class OrdersGUI extends JFrame{
@@ -25,6 +26,7 @@ public class OrdersGUI extends JFrame{
 	
 	public static void updateView()
 	{
+		 orders = OrdersQueueObserver.get();
 		 servers = StaffServing.get();
 		
 	}
@@ -42,9 +44,8 @@ public class OrdersGUI extends JFrame{
 		frame.add(title, BorderLayout.NORTH);
 		// TODO Auto-generated method stub
 		frame.setLayout(new GridLayout(3,1,5,5));
-		JLabel fakeLabel = new JLabel("**********CURRENT ORDERS SHOWING HERE**********");
 		//JPanel ordersObserver = new JPanel();
-		frame.add(fakeLabel);
+		frame.add(orders);
 		frame.add(servers);
 		//frame.add(staffObserver);
 	}

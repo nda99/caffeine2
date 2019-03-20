@@ -3,11 +3,6 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
-
-import com.sun.org.apache.xerces.internal.parsers.CachingParserPool.SynchronizedGrammarPool;
-
-import main.MainClass;
 
 public class StaffThread extends Thread implements Subject{
     public String name;
@@ -59,7 +54,7 @@ public class StaffThread extends Thread implements Subject{
     //this method will pop an order from the order queue to be served
     public synchronized Order getOrderToProcess()
     {
-    	PQueue ordersQueue = PQueue.getInstance();
+    	OrdersQueue ordersQueue = OrdersQueue.getInstance();
     	ordersQueue.getQueue();
     	Order tempOrder = ordersQueue.getNextOrder();
     	System.out.print("CURRENTLY WORKING ON :" +tempOrder);
