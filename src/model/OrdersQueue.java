@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 
 public class OrdersQueue implements Subject{
 
-	public PriorityQueue<Order> orders ;
+	private static PriorityQueue<Order> orders ;
 	private List<Observer> observers;
 	private static OrdersQueue pQueue = new OrdersQueue();
 	
@@ -22,8 +22,9 @@ public class OrdersQueue implements Subject{
 	public synchronized PriorityQueue<Order> getQueue() {
 
 		for(Map.Entry<Timestamp, Order> entry:AllOrders.getOrderMap().entrySet()) {
-			if(!entry.getValue().isProcessed())
+			if(!entry.getValue().isProcessed() && !entry.getValue().isQueued())
 			{
+				entry.getValue().setAsQueued();
 				addOrder(entry.getValue());
 			//orderQueue.setText(entry.getValue().getDetails());
 			System.out.print("Orders being processed: " + entry.getValue().getDetails());
