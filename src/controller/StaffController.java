@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import model.AllOrders;
 import model.Manager;
 import model.Menu;
+import model.OrdersQueue;
 import model.Staff;
 import model.StaffServing;
 import model.StaffThread;
@@ -290,9 +291,6 @@ public class StaffController {
 		public void mouseClicked(MouseEvent arg0) {
 			OrdersGUI og = new OrdersGUI();
 			
-		//SummaryReportGUI report = new SummaryReportGUI(rep);
-		ServerController sc = new ServerController(og);
-		//	report.buildGUI();
 		}
 
 		@Override
@@ -316,12 +314,13 @@ public class StaffController {
 		public void mouseReleased(MouseEvent arg0) {}
 		
 	}
-	
 	public class startListener implements MouseListener{
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			//On mouse click, start the thread.
+			OrdersQueue orders = new OrdersQueue();
+			orders.getQueue();
 			staff.startServing();
 			staffGUI.getButton("start").setEnabled(false);
 			staffGUI.getButton("finish").setEnabled(true);
@@ -372,6 +371,7 @@ public class StaffController {
 		public void mouseReleased(MouseEvent arg0) {}
 		
 	}
+	
 	
 } //End of the class
 
