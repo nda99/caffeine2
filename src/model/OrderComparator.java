@@ -21,7 +21,9 @@ public class OrderComparator implements Comparator<Order> {
 		Order second_order;
 		first_order=o1;
 		second_order=o2;
-			return second_order.time.compareTo(first_order.time);
+
+
+		return second_order.getTime().compareTo(first_order.getTime());
 		}
 
 }

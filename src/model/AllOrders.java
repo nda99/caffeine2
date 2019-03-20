@@ -16,9 +16,14 @@ import java.util.TreeMap;
 public class AllOrders {
 
 	private static TreeMap<Timestamp, Order> orderMap = new TreeMap<Timestamp,Order>();
-
-	public AllOrders() {
+	private static AllOrders orders= new AllOrders();
+	
+	private AllOrders() {
 		
+	}
+	
+	public static AllOrders getInstance() {
+		return orders;
 	}
 	
 	/**
@@ -40,7 +45,7 @@ public class AllOrders {
 	}
 	
 	/**
-	 * Reads order file
+	 * Reads order file, creating several orders.
 	 * @param orderFileName
 	 */
 	public static void readOrderFile(String orderFileName) throws FileNotFoundException {
@@ -53,8 +58,8 @@ public class AllOrders {
 				 
 				 Timestamp timestamp = toTimestamp(details[0]);
 				 Order nOrder = new Order(timestamp);
-				 
-				 for (int i=1; i<details.length; i = i+2) {
+				 nOrder.setCustomer(details[1]);
+				 for (int i=2; i<details.length; i = i+2) {
 					 nOrder.addItem(Menu.getItem(details[i]), Integer.parseInt(details[i+1]));
 				 }
 				 

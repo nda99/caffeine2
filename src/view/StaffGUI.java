@@ -1,25 +1,14 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.swing.JFileChooser;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import controller.SummaryController;
-import controller.ViewOrdersController;
 import model.*;
 
 public class StaffGUI extends JFrame{
@@ -30,6 +19,7 @@ public class StaffGUI extends JFrame{
 	private JPanel centerPanel = new JPanel();
 	private JPanel eastPanel = new JPanel();
 	private JPanel westPanel = new JPanel();
+	private JPanel service = new JPanel();
 	private JLabel user = new JLabel("Welcome");
 	private JLabel logout = new JLabel("Logout");
 	private JLabel label1 = new JLabel("Update Stock", JLabel.LEFT);
@@ -39,6 +29,9 @@ public class StaffGUI extends JFrame{
 	private JLabel label5 = new JLabel("Confirm Stock Orders", JLabel.LEFT);
 	private JLabel label6 = new JLabel("Summary Report", JLabel.LEFT);
 	private JLabel label7 = new JLabel("Current Orders", JLabel.LEFT);
+	private JButton start = new JButton("Start Serving");
+	private JButton finish = new JButton("End Serving");
+	
 
 
 	// Constructor Method don't forget to add user object as parameter
@@ -46,9 +39,8 @@ public class StaffGUI extends JFrame{
 		System.out.println("staff Logged in ");
 		user.setText("Weclome " + staff.getUserName());
 		northPanel.add(user);
-
 		northPanel.add(logout);
-		frame.add(northPanel, BorderLayout.EAST);
+		frame.add(northPanel,BorderLayout.EAST);
 		buildGUI();
 	}
 
@@ -57,20 +49,6 @@ public class StaffGUI extends JFrame{
 		user.setText("Weclome " + mngr.getUserName());
 		northPanel.add(user);
 		northPanel.add(logout);
-		logout.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				logout.setForeground(Color.blue);
-			}
-
-			public void mouseExited(MouseEvent e) {
-				logout.setForeground(Color.black);
-			}
-
-			public void mouseClicked(MouseEvent e) {
-				mngr.logout();
-				frame.dispose();
-			}
-		});
 		frame.add(northPanel, BorderLayout.EAST);
 		buildGUI();
 		addManagerOptions();
@@ -88,13 +66,19 @@ public class StaffGUI extends JFrame{
 		Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
 		title.setFont(titleFont);
 		frame.add(title, BorderLayout.NORTH);
-		centerPanel.setLayout(new GridLayout(7, 1, 10, 10));
+		centerPanel.setLayout(new GridLayout(8, 1, 5, 10));
+		service.setLayout(new GridLayout(1,2,5,5));
+		service.add(start);
+		service.add(finish);
+		
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		label1.setFont(itemsFont);
 		label2.setFont(itemsFont);
 		label3.setFont(itemsFont);
 		label6.setFont(itemsFont);
 		label7.setFont(itemsFont);
+		
+		centerPanel.add(service);
 		centerPanel.add(label2);
 		centerPanel.add(label3);
 		centerPanel.add(label6);
@@ -103,11 +87,7 @@ public class StaffGUI extends JFrame{
 		frame.add(eastPanel, BorderLayout.EAST);
 		frame.add(westPanel, BorderLayout.WEST);
 		frame.add(centerPanel, BorderLayout.CENTER);
-		//control(label1, 1);
-		//control(label2, 2);
-		//control(label3, 3);
-		//control(label6, 7);
-		//control(logout, 8);
+		
 	}
 
 	public JLabel getLabel(int i) {
@@ -131,23 +111,39 @@ public class StaffGUI extends JFrame{
 	}
 	// Consider making in private method
 	private void addManagerOptions() {
-		System.out.println("working");
+		
 		Font itemsFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		label4.setFont(itemsFont);
 		label5.setFont(itemsFont);
 		label6.setFont(itemsFont);
-		// control(label4,1);
-		// control(label5,2);
-		//control(label6, 7);
 		centerPanel.add(label4);
 		centerPanel.add(label5);
+		//disable the service buttons for the manager
+		start.setEnabled(false);
+		finish.setEnabled(false);
 
+	}
+	
+	//this method return the service buttons to allow controller to enable and disable them
+	public JButton getButton(String btn)
+	{
+		switch(btn){
+			case "start": return start;
+			case "finish" : return finish;
+			default: return null;
+		}
 	}
 
 	public JFrame getFrame() {
 		return frame;
 	}
 	
+	public void addStartListener(MouseListener m) {
+		start.addMouseListener(m);
+	}
+	public void addFinishListener(MouseListener m) {
+		finish.addMouseListener(m);
+	}
 	public void addViewOrdersListener(MouseListener m) {
 		label3.addMouseListener(m);
 	}
@@ -166,6 +162,7 @@ public class StaffGUI extends JFrame{
 	public void addLogoutListener(MouseListener m) {
 		logout.addMouseListener(m);
 	}
+	
 
 
 }

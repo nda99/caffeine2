@@ -1,9 +1,6 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -17,12 +14,14 @@ import model.AllOrders;
 import model.Manager;
 import model.Menu;
 import model.Staff;
+import model.StaffServing;
 import model.StaffThread;
 import model.SummaryReport;
 import view.StaffGUI;
 import view.StockGUI;
 import view.SummaryReportGUI;
 import view.ViewOrdersGUI;
+import view.OrdersGUI;
 
 public class StaffController {
 	StaffGUI staffGUI;
@@ -31,6 +30,8 @@ public class StaffController {
 	public StaffController(StaffGUI sg, Staff st) {
 		this.staffGUI = sg;
 		this.staff = st;
+		staffGUI.addStartListener(new startListener());
+		staffGUI.addFinishListener(new finishListener());
 		staffGUI.addViewOrdersListener(new ViewOrdersListener());
 		staffGUI.addStockListener(new StockListener());
 		staffGUI.addUpdateListener(new UpdateListener());
@@ -46,6 +47,7 @@ public class StaffController {
 		staffGUI.addStockListener(new StockListener());
 		staffGUI.addUpdateListener(new UpdateListener());
 		staffGUI.addSummaryReportListener(new SummaryReportListener());
+		staffGUI.addOrdersListener(new ordersListener());
 		staffGUI.addLogoutListener(new LogoutListener());
 	}
 	
@@ -286,24 +288,25 @@ public class StaffController {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-		//	SummaryReport rep = new SummaryReport();
-		//	SummaryReportGUI report = new SummaryReportGUI(rep);
-		//	SummaryController sc = new SummaryController(report, rep);
+			OrdersGUI og = new OrdersGUI();
+			
+		//SummaryReportGUI report = new SummaryReportGUI(rep);
+		ServerController sc = new ServerController(og);
 		//	report.buildGUI();
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			JLabel label = staffGUI.getLabel(7);
+			JLabel label = staffGUI.getLabel(9);
 			label.setForeground(Color.blue);
-			staffGUI.setLabel(label,7);
+			staffGUI.setLabel(label,9);
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			JLabel label = staffGUI.getLabel(7);
+			JLabel label = staffGUI.getLabel(9);
 			label.setForeground(Color.black);
-			staffGUI.setLabel(label,7);
+			staffGUI.setLabel(label,9);
 		}
 
 		@Override
@@ -314,5 +317,61 @@ public class StaffController {
 		
 	}
 	
+	public class startListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			//On mouse click, start the thread.
+			staff.startServing();
+			staffGUI.getButton("start").setEnabled(false);
+			staffGUI.getButton("finish").setEnabled(true);
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+		
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+		
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
+		
 	}
-//}
+	
+	public class finishListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			//On mouse click, kill the thread.
+			staff.stopServing();
+			staffGUI.getButton("start").setEnabled(true);
+			staffGUI.getButton("finish").setEnabled(false);
+			JOptionPane.showMessageDialog(staffGUI, "Thank you for your service!");
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
+		
+	}
+	
+} //End of the class
+

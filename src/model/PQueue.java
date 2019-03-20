@@ -7,29 +7,39 @@ import java.util.PriorityQueue;
 
 public class PQueue implements Subject{
 
-	public static PriorityQueue<Order> orderQueue ;
+	public PriorityQueue<Order> orderQueue ;
 	private List<Observer> observers;
+	private static PQueue pQueue = new PQueue();
 	
 	public PQueue()
 	{this.orderQueue = new PriorityQueue<Order>(new OrderComparator());
 }
 	
-	public PriorityQueue<Order> getQueue() {
+	public synchronized PriorityQueue<Order> getQueue() {
 
 		for(Map.Entry<Timestamp, Order> entry:AllOrders.getOrderMap().entrySet()) {
-			orderQueue.add(entry.getValue());
+			if(!entry.getValue().isProcessed())
+			{
+				orderQueue.add(entry.getValue());
 			//orderQueue.setText(entry.getValue().getDetails());
-			
 			System.out.print("Orders being processed: " + entry.getValue().getDetails());
+			}
 		}
+        notifyObserver();
 		return orderQueue;
 	}
 
+	public static synchronized PQueue getInstance() {
+		return pQueue;
+	}
+	
+	public synchronized Order getNextOrder()
+	{
+		return this.orderQueue.poll();
+	}
 	
 	public void registerObserver(Observer o) {
 		observers.add(o);
-	
-		
 		
 	}
 

@@ -8,17 +8,21 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.logging.*;
 
 public class Login {
     private HashMap<String, String[]> userMap;
     private String staffFile;
-
+    private ActivityLog log = ActivityLog.getInstance();
+    //private static final Logger logger = Logger.getLogger(Login.class.getName());
+    
     /**
      * Create a "Login" object, it reads a given csv file, parses it and build a hashmap of users with the content
      * @param csvFile csv file to be read
      * @throws InvalidUsersFileException print the line where something is wrong
      */
     public Login(String csvFile) throws InvalidUsersFileException{
+    	
         staffFile = csvFile;
         userMap = new HashMap<>();
         String line;
@@ -62,7 +66,7 @@ public class Login {
      * @param userName username
      * @param password password only a SHA 256 of the password is stored, not the password itself
      * @param position staff or manager
-     * @throws UserNameAlreadyTakenException
+     * @throws InvalidRegistration
      * @return true if successful, false if not
      */
     public boolean register(String userName, String password, String position, String fullName, String emailAddress) throws InvalidRegistration{
@@ -83,9 +87,10 @@ public class Login {
             userStream.flush();
             userStream.close();
         }catch (IOException e){
-            e.printStackTrace();
+        	log.logWarning("Registration of  " + fullName + " as " + position + " could not be made");
             return false;
         }
+        log.logInfo("Successful registration of  " + fullName + " as " + position);
         return true;
     }
 
@@ -125,6 +130,7 @@ public class Login {
         }
         else{
             System.out.println("login successful !");
+            log.logInfo(userName + " logged in successfully.");
             return true;
         }
     }

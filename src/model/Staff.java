@@ -11,7 +11,7 @@ public class Staff {
 	protected boolean loggedIn;
 	protected Login loginData;
     protected String staffFile;
-
+    private ActivityLog log = ActivityLog.getInstance();
 	/**
 	 * Staff Constructor, create and register a new staff member
 	 * **/
@@ -109,15 +109,29 @@ public class Staff {
      */
     public boolean login(String password){
 	    this.loggedIn = loginData.login(this.userName, password);
-	    StaffThread currentStaff = new StaffThread(this.userName, (long) 6000.0);
-		currentStaff.start();
+	   
 	//	Menu.updateFile();
 	    return this.loggedIn;
     }
 
     public void logout(){
         this.loggedIn = false;
+        log.logInfo("User " + userName + " has logged out." );
     }
+    
+    public void startServing()
+    {
+    	StaffThread currentStaff = new StaffThread(this.getFullName(), (long) 6000.0);
+		currentStaff.start();
+		StaffServing server = new StaffServing(currentStaff);
+
+    }
+    
+    public void stopServing()
+    {
+    	//something going to stop it
+    }
+    
 
 
 }

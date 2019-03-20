@@ -1,40 +1,72 @@
 package model;
 
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
+
+import com.sun.org.apache.xerces.internal.parsers.CachingParserPool.SynchronizedGrammarPool;
 
 import main.MainClass;
 
-
-
 public class StaffThread extends Thread implements Subject{
     public String name;
+    private Order currentOrder;
     private long eta = (long) 5000.0;
     private List<Observer> observers;
 
     public StaffThread(String staffName){
         this.name = staffName;
+        observers = new LinkedList<Observer>();
+        
+
     }
 
     public StaffThread(String staffName, long eta){
         this.name = staffName;
         this.eta = eta;
+        observers = new LinkedList<Observer>();
     }
+    
+  
 
     public void run(){
         while(true){
-            if(!PQueue.orderQueue.isEmpty()){
-                Order tempOrder = PQueue.orderQueue.remove();
-                System.out.println("Staff " + this.name +" Processing: " + tempOrder.toString());
+          //  if(!PQueue.orderQueue.isEmpty()){
+                currentOrder = getOrderToProcess();
+                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
+                notifyObserver();
                 try {
                     sleep(eta);
+                    currentOrder.processOrder();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+           // }
         }
     }
-
+    
+    //This method will return the current order served by the staff
+    public Order getCurrentOrder()
+    {
+    	return currentOrder;
+    }
+    
+    public String getCurrentServer()
+    {
+    	return name;
+    }
+    //this method will pop an order from the order queue to be served
+    public synchronized Order getOrderToProcess()
+    {
+    	PQueue ordersQueue = PQueue.getInstance();
+    	ordersQueue.getQueue();
+    	Order tempOrder = ordersQueue.getNextOrder();
+    	System.out.print("CURRENTLY WORKING ON :" +tempOrder);
+    	
+    	return tempOrder;
+    }
+ 
 	@Override
 	public void registerObserver(Observer o) {
 

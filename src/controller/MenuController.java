@@ -18,7 +18,6 @@ import view.MenuGUI;
 
 public class MenuController {
 	MenuGUI mGUI;
-	private Menu menu = new Menu();
 	
 	public MenuController(MenuGUI mg) {
 		String filename = "menuItems.csv";
@@ -43,6 +42,9 @@ public class MenuController {
 		mGUI.addLoginListener(new MakeLogin());
 	}
 	
+	/**
+	 * Set category lists to be displayed in GUI 
+	 */
 	public void setListsGUI() {
 		DefaultListModel<MenuItem> sandwichModel = new DefaultListModel<MenuItem>();
 		ArrayList<MenuItem> listTemp = Menu.getAllFromCategory("Sandwich");
@@ -89,6 +91,7 @@ public class MenuController {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			Order o = new Order(mGUI.getBasket());
+			o.setCustomer(mGUI.getName());
 			AllOrders.addOrder(o);
 			InvoiceGUI checkoutGUI = new InvoiceGUI(AllOrders.getOrder(o.getTime()));
 			InvoiceController ico = new InvoiceController(checkoutGUI,AllOrders.getOrder(o.getTime()));
