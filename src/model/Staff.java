@@ -131,6 +131,7 @@ public class Staff implements Subject{
     {
     	StaffThread currentStaff = new StaffThread(this, (long) 6000.0);
 		currentStaff.start();
+		log.logInfo("Staff " + currentStaff.name + " started working");
         observers = new LinkedList<Observer>();
 		StaffServing server = new StaffServing(this);
 		OrdersQueueObserver observer = new OrdersQueueObserver(OrdersQueue.getInstance());

@@ -25,18 +25,18 @@ public class Menu {
         menuItems.remove(name);
     }
 
-/**
- * find item using name
- */
+    /**
+     * find item using name
+     */
     public static MenuItem getItem(String name) {
         return menuItems.get(name);
     }
     
-/** 
- * read file 
- * @throws FileNotFoundException
- * @throws IOException
- */
+    /**
+     * read file
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
 	static public void readFile(String filename) throws FileNotFoundException,IOException{
 		Menu.menuFile = filename;
 
@@ -61,7 +61,7 @@ public class Menu {
 
 	}
 /** 
- * translates category from emun
+ * translates category from enum
  */
     static public Category translateCategory(String test) {
         if(test.equals("Hot drink")) {
@@ -96,10 +96,11 @@ public class Menu {
             return "Pastries";
         }
     }
-/** 
- * shows how file that is read in is processed 
- * @param line
- */
+
+    /**
+     * shows how file that is read in is processed
+     * @param line
+     */
     static public void processLine(String line) {
         String itemNumber = "";
         String itemPrice = "";
@@ -107,16 +108,6 @@ public class Menu {
             String parts [] = line.split(",");
             String itemName = parts [1];
             itemNumber = parts [0];
-            /*System.out.println(parts[0]);
-            System.out.println(parts[1]);
-            System.out.println(parts[2]);
-            System.out.println(parts[3]);
-            System.out.println(parts[4]);*/
-
-
-
-
-            //Integer itemNo = Integer.parseInt(itemNumber);
 
             Category category = translateCategory(parts[2]);
 
@@ -137,11 +128,9 @@ public class Menu {
     }
 
 
-/**
- * how the program can write to a file or report
- */
-		
-    // write text to a file
+    /**
+     * how the program can write to a file or report
+     */
     public void writeToFile(String filename, String report) {
         FileWriter fw;
         try {
@@ -164,7 +153,6 @@ public class Menu {
      * how the program prints to file 
      * returns menu item
      */
-    //print to a file
     public void printToFile(String filename) throws IOException {
         PrintWriter pw;
         try {

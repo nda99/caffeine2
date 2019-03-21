@@ -9,6 +9,7 @@ public class StaffThread extends Thread{
     public String name;
     private Order currentOrder;
     private long eta = (long) 5000.0;
+    private ActivityLog log = ActivityLog.getInstance();
 
     public StaffThread(Staff staff){
         this.name = staff.getFullName();
@@ -28,7 +29,8 @@ public class StaffThread extends Thread{
         while(true){
             if(!OrdersQueue.getInstance().orders.isEmpty()){
                 currentOrder = getOrderToProcess();
-                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
+//                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
+                log.logInfo("Staff " + this.name +" Processing: " + currentOrder.toString());
                 staff.processingOrder(currentOrder);
                 try {
                     sleep(eta);
@@ -53,7 +55,12 @@ public class StaffThread extends Thread{
     {
     	return name;
     }
-    //this method will pop an order from the order queue to be served
+
+    /**
+     * Gets the order to process from the queue, it calls {@link OrdersQueue#getNextOrder() OrdersQueue.getNextOrder()}
+     * so the order is removed from the queue
+     * @return order to process
+     */
     public Order getOrderToProcess()
     {
     	OrdersQueue ordersQueue = OrdersQueue.getInstance();

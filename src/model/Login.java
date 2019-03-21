@@ -15,8 +15,7 @@ public class Login {
     private HashMap<String, String[]> userMap;
     private String staffFile;
     private ActivityLog log = ActivityLog.getInstance();
-    //private static final Logger logger = Logger.getLogger(Login.class.getName());
-    
+
     /**
      * Create a "Login" object, it reads a given csv file, parses it and build a hashmap of users with the content
      * @param csvFile csv file to be read
@@ -67,7 +66,7 @@ public class Login {
      * @param userName username
      * @param password password only a SHA 256 of the password is stored, not the password itself
      * @param position staff or manager
-     * @throws InvalidRegistration
+     * @throws InvalidRegistrationException
      * @return true if successful, false if not
      */
     public boolean register(String userName, String password, String position, String fullName, String emailAddress) throws InvalidRegistrationException{
@@ -130,7 +129,7 @@ public class Login {
             return false;
         }
         else{
-            System.out.println("login successful !");
+            //System.out.println("login successful !");
             log.logInfo(userName + " logged in successfully.");
             return true;
         }
@@ -157,7 +156,7 @@ public class Login {
     /**
      * Check the username, it should just not be null or already existing
      * @param un username
-     * @throws InvalidRegistration
+     * @throws InvalidRegistrationException
      */
     private void checkUserName(String un) throws InvalidRegistrationException{
         if(un == null) {
@@ -171,7 +170,7 @@ public class Login {
     /**
      * Check position, it should either be Staff or Manager
      * @param pos position
-     * @throws InvalidRegistration
+     * @throws InvalidRegistrationException
      */
     private void checkPosition(String pos) throws InvalidRegistrationException{
     	System.out.println("pos ="+pos);
@@ -184,7 +183,7 @@ public class Login {
     /**
      * Check the email address just by making sur it contains "@"
      * @param email email address
-     * @throws InvalidRegistration
+     * @throws InvalidRegistrationException
      */
     private void checkEmail(String email) throws InvalidRegistrationException{
         if (!email.contains("@")){
