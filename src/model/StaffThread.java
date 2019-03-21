@@ -1,9 +1,5 @@
 package model;
 
-
-import java.util.LinkedList;
-import java.util.List;
-
 public class StaffThread extends Thread{
 	private Staff staff;
     public String name;

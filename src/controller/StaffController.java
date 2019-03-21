@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -87,12 +88,19 @@ public class StaffController {
 
 	public class LogoutListener implements MouseListener{
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			if(manager==null) {
 				staff.logout();
+				//Core-Functional Requirement #3, report is generated
 				SummaryReport report = new SummaryReport();
-				report.printSummaryReport(null, null)
+				Date today = new Date();
+				if(report.getOrderCounter() != 0)
+					{
+					report.printSummaryReport(today.getDate()+"", today.getDate()+"");
+					JOptionPane.showMessageDialog(staffGUI, "Thank you report is generated");
+					}
 			}
 			else {
 				manager.logout();

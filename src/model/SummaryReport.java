@@ -5,12 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 public class SummaryReport {
 	private int ordersCounter = 0;

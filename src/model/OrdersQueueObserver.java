@@ -17,6 +17,7 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 	private JTextArea orderText = new JTextArea();
 	private static JPanel ordersBlock = new JPanel();
 	
+	
 	public OrdersQueueObserver (OrdersQueue pqueue) {
 		this.queueData = pqueue ;
 		pqueue.registerObserver(this);
@@ -29,16 +30,18 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 	@Override 
 	public void update() {
 		System.out.println("OrdersQueue observer called");
-		
-		String orders = "";
+		String orders = "There are currently " +queueData.getQueue().size() + " people waiting in the queue:\n";
+
 		for(Order order :queueData.getQueue()) {
-				if(!order.isProcessed())
-				{
-					orders += order.getCustomer() + "         "+order.getOrderItems().size() +"\n";
-				}
+				
+			orders += order.getCustomer() + "         "+order.getOrderItems().size() +" items\n";
+				
 			
 			}
-		orderText.append(orders);
+		orderText.enableInputMethods(false);
+		orderText.setLineWrap(true);
+		orderText.setWrapStyleWord(true);
+		orderText.setText(orders);
 		OrdersGUI.updateView();
 
 	}
@@ -46,7 +49,7 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 	public void buildBlock()
 	{
 		ordersBlock.setLayout(new GridLayout(4,1,5,5));
-		String process = "There are currently" +queueData.getQueue().size() + "people waiting in the queue:";
+		String process = "There are currently " +queueData.getQueue().size() + " people waiting in the queue:\n";
 		orderText.enableInputMethods(false);
 		orderText.setLineWrap(true);
 		orderText.setWrapStyleWord(true);
