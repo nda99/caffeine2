@@ -50,7 +50,7 @@ public class StaffThread extends Thread{
     	return name;
     }
     //this method will pop an order from the order queue to be served
-    public Order getOrderToProcess()
+    public synchronized Order getOrderToProcess()
     {
     	OrdersQueue ordersQueue = OrdersQueue.getInstance();
     	ordersQueue.getQueue();

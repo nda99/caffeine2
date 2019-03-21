@@ -133,7 +133,6 @@ public class Staff implements Subject{
 		currentStaff.start();
         observers = new LinkedList<Observer>();
 		StaffServing server = new StaffServing(this);
-		OrdersQueueObserver observer = new OrdersQueueObserver(OrdersQueue.getInstance());
 
     }
     // this method is called once the staff will click on stop serving 
