@@ -33,7 +33,7 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 	public void update() {
 		String speed = "NORMAL";
 		if (StaffThread.getEta() > 8000) speed = "SLOW";
-		if (StaffThread.getEta() < 8000) speed = "FAST";
+		if (StaffThread.getEta() == 4000) speed = "FAST";
 		String orders = "Speed: " + speed + "\n" + "There are currently " +queueData.getQueue().size() + " people waiting in the queue:\n";
 		
 
@@ -54,7 +54,7 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 		ordersBlock.setLayout(new GridLayout(1,1,5,5));
 		String speed = "NORMAL";
 		if (StaffThread.getEta() > 8000) speed = "SLOW";
-		if (StaffThread.getEta() < 8000) speed = "FAST";
+		if (StaffThread.getEta() == 4000) speed = "FAST";
 		
 		String process = "Speed: " + speed + "\n" + "There are currently " +queueData.getQueue().size() + " people waiting in the queue:\n";
 		orderText.enableInputMethods(false);
