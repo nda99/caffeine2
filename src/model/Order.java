@@ -1,22 +1,21 @@
 package model;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import exceptions.*;
 
 public class Order {
 	private Timestamp time;
 	private String customer = "Anonymous";
 	private double total;
-	private double discounts;
+	private double discounts = 0.0;
 	private boolean processed = false;
 	private boolean validated = false;
 	private boolean redeemed = false;
+	private boolean queued = false;
+	private Staff staff = null;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	private ActivityLog log = ActivityLog.getInstance();
@@ -390,28 +389,60 @@ public class Order {
 	public boolean isProcessed() {
 		return processed;
 	}
-	
+
+	/**
+	 * Check if the order is in the queue to be processed
+	 * @return True if order is in the queue, false else
+	 */
+	public boolean isQueued(){
+		return queued;
+	}
+
 	/**
 	 * Process order and update stock
 	 */
 	public void processOrder() {
 		processed = true;
 
-		for (Map.Entry m: orderItems.entrySet()) {
-			try {
-			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
-			}
-			catch(NotEnoughStockException e) {
-				processed = false;
-
-				log.logWarning("Order " + time.toString() + " from " + customer + " could NOT be processed");
-			}
-
-		}
-		
+//		for (Map.Entry m: orderItems.entrySet()) {
+//			try {
+//			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
+//			}
+//			catch(NotEnoughStockException e) {
+//				processed = false;
+//
+//				log.logWarning("Order " + time.toString() + " from " + customer + " could NOT be processed. Item(s) out of stock.");
+//			}
+//
+//		}
+//		
 		if(processed) {
 			Menu.updateFile();
 			log.logInfo("Order " + time.toString() + " from " + customer + " has been processed");
 		}
 	}
+
+	public void setAsQueued(){
+		
+		queued = true;
+		
+		for (Map.Entry m: orderItems.entrySet()) {
+			try {
+			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
+			}
+			catch(NotEnoughStockException e) {
+				queued = false;
+
+				log.logWarning("Order " + time.toString() + " from " + customer + " could NOT be placed. Item(s) out of stock.");
+			}
+
+		}
+		
+	}
+	public void setServer(Staff staff)
+	{
+		this.staff = staff;
+	}
+	
+	
 }

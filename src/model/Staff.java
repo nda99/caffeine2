@@ -1,10 +1,13 @@
 package model;
+import java.util.LinkedList;
+import java.util.List;
+
 import exceptions.*;
 
 /**
  * Staff class, doesn't have the stock methods yet
  */
-public class Staff {
+public class Staff implements Subject{
 	
 	protected String fullName;
 	protected String emailAddress;
@@ -13,6 +16,12 @@ public class Staff {
 	protected Login loginData;
     protected String staffFile;
     private ActivityLog log = ActivityLog.getInstance();
+    private Order currentOrder;
+    private List<Observer> observers;
+    //private StaffThread currentStaff;
+	private StaffThread currentStaff = new StaffThread(this, (long) 6000.0);
+
+
 	/**
 	 * Staff Constructor, create and register a new staff member
 	 * **/
@@ -119,6 +128,67 @@ public class Staff {
         this.loggedIn = false;
         log.logInfo("User " + userName + " has logged out." );
     }
+    
+    // this method is called once the staff will click on start serving 
+    public void startServing()
+    {
+    	if(currentStaff.getState().equals(Thread.State.NEW)) {
+			currentStaff.start();
+			observers = new LinkedList<Observer>();
+			StaffServing server = new StaffServing(this);
+		}else{
+    		currentStaff.resumeService();
+		}
+		log.logInfo("Staff " + currentStaff.name + " started working");
+
+    }
+    // this method is called once the staff will click on stop serving 
+
+    public void stopServing()
+    {
+    	currentStaff.pause();
+		log.logInfo("Staff " + currentStaff.name + " stopped working");
+    }
+    
+    //this method is called by thread once an order is fetched and assigned to the staff
+    public void processingOrder(Order order)
+    {
+    	order.setServer(this);
+    	currentOrder = order;
+    	notifyObserver();
+    }
+    
+    //this method returns the order this staff is working on
+    public Order getOrderWorkingOn()
+    {
+    	return currentOrder ;
+    }
+    
+   
+    
+
+	@Override
+	public void registerObserver(Observer o) {
+		observers.add(o);
+
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);	
+		
+	}
+
+	@Override
+	public void notifyObserver() {
+		for(Observer o : observers)
+		{
+			o.update();
+			System.out.println("NOTIFIED");
+
+		}
+	}
+    
 
 
 }

@@ -17,6 +17,8 @@ public class MainClass {
 
 		MenuGUI gui = new MenuGUI();
 		MenuController mco = new MenuController(gui);
+		OrdersQueueObserver observer = new OrdersQueueObserver(OrdersQueue.getInstance());
+
 		try {
 			AllOrders.readOrderFile("orders.csv");
 		} catch (FileNotFoundException e) {

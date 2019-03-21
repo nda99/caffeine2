@@ -5,12 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 public class SummaryReport {
 	private int ordersCounter = 0;
@@ -125,9 +123,25 @@ public class SummaryReport {
 				sb.append(',');
 				sb.append(Menu.getItem(item).getPrice() * itemsIncome.get(item)).toString();
 				sb.append('\n');
+			
+
 
 			}
+			sb.append('\n');
+			sb.append('\n');
+			sb.append("Number of Orders");
+			sb.append(',');
+			sb.append("Total Income");
+			sb.append('\n');
+			sb.append(getOrderCounter());
+			sb.append(',');
+			sb.append(getTotalIncome());
+			sb.append('\n');
+
 			writer.write(sb.toString());
+
+
+			
 			return true;
 
 		} catch (FileNotFoundException e) {

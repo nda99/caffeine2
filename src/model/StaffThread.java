@@ -1,48 +1,53 @@
 package model;
 
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.SynchronousQueue;
-
-import com.sun.org.apache.xerces.internal.parsers.CachingParserPool.SynchronizedGrammarPool;
-
-import main.MainClass;
-
-public class StaffThread extends Thread implements Subject{
+public class StaffThread extends Thread{
+	private Staff staff;
     public String name;
+    private volatile boolean paused = false;
     private Order currentOrder;
-    private long eta = (long) 5000.0;
-    private List<Observer> observers;
+    private ActivityLog log = ActivityLog.getInstance();
+    private static long eta = (long) 8000.0;
 
-    public StaffThread(String staffName){
-        this.name = staffName;
-        observers = new LinkedList<Observer>();
-        
+    public static long getEta() {
+		return eta;
+	}
+
+	public static void setEta(long eta) {
+		StaffThread.eta = eta;
+	}
+
+	public StaffThread(Staff staff){
+        this.name = staff.getFullName();
+        this.staff = staff;
 
     }
 
-    public StaffThread(String staffName, long eta){
-        this.name = staffName;
+    public StaffThread(Staff staff, long eta){
+        this.name = staff.getFullName();
+        this.staff = staff;
         this.eta = eta;
-        observers = new LinkedList<Observer>();
     }
     
   
 
     public void run(){
         while(true){
-          //  if(!PQueue.orderQueue.isEmpty()){
-                currentOrder = getOrderToProcess();
-                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
-                notifyObserver();
-                try {
-                    sleep(eta);
-                    currentOrder.processOrder();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(!paused) {
+                if (!OrdersQueue.getInstance().orders.isEmpty()) {
+                    currentOrder = getOrderToProcess();
+                    //                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
+                    log.logInfo("Staff " + this.name + " Processing: " + currentOrder.toString());
+                    staff.processingOrder(currentOrder);
+                    try {
+                        sleep(eta);
+                        staff.processingOrder(currentOrder);
+                        System.out.println(staff.getFullName() + " is asleep!");
+                        currentOrder.processOrder();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-           // }
+            }
         }
     }
     
@@ -52,37 +57,33 @@ public class StaffThread extends Thread implements Subject{
     	return currentOrder;
     }
     
+    //this method returns the current staff name
     public String getCurrentServer()
     {
     	return name;
     }
-    //this method will pop an order from the order queue to be served
+
+    /**
+     * Gets the order to process from the queue, it calls {@link OrdersQueue#getNextOrder() OrdersQueue.getNextOrder()}
+     * so the order is removed from the queue
+     * @return order to process
+     */
     public synchronized Order getOrderToProcess()
     {
-    	PQueue ordersQueue = PQueue.getInstance();
+    	OrdersQueue ordersQueue = OrdersQueue.getInstance();
     	ordersQueue.getQueue();
     	Order tempOrder = ordersQueue.getNextOrder();
-    	System.out.print("CURRENTLY WORKING ON :" +tempOrder);
+    	ordersQueue.notifyObserver();
     	
     	return tempOrder;
     }
- 
-	@Override
-	public void registerObserver(Observer o) {
 
-		observers.add(o);
-	}
+    public void pause(){
+        this.paused = true;
+    }
 
-	@Override
-	public void removeObserver(Observer o) {
-		observers.remove(o);
-	}
+    public void resumeService(){
+        this.paused = false;
+    }
 
-	@Override
-	public void notifyObserver() {
-		for(Observer o : observers)
-		{
-			o.update();
-		}
-	}
 }

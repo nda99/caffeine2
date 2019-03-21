@@ -89,6 +89,9 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 		northPanel.add(b1);
 		
 		customerName.setFont(new Font("Arial", Font.BOLD, 20));
+		basketContent.setFont(new Font("Arial", Font.BOLD, 20));
+		basketContent.setForeground(Color.blue);
+
 		namePanel.add(customerName,BorderLayout.WEST);
 		namePanel.add(name,BorderLayout.CENTER);
 		namePanel.add(basketContent,BorderLayout.EAST);
@@ -205,7 +208,9 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 			int index = menuDisplay.getSelectedIndex();
 			MenuItem item = menuDisplay.getModel().getElementAt(index);
 			basketModel.addElement(item);
+			basketContent.setText("Your basket contains: "+basketModel.size()+" Items");
 		}
+		
 	}
 
 	/**
@@ -248,6 +253,8 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 			for (int i = index; i < basket.size(); i++) {
 				if (index >= 0) { // Remove only if a particular item is selected
 					basketModel.removeElementAt(index);
+					basketContent.setText("Your basket contains: "+basketModel.size()+" Items");
+
 				}
 			}
 		}
@@ -262,6 +269,8 @@ public class MenuGUI extends JFrame implements ActionListener, ListSelectionList
 			else
 			{
 				basketModel.removeElementAt(index);
+				basketContent.setText("Your basket contains: "+basketModel.size()+" Items");
+
 
 			}
 
