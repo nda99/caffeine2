@@ -300,6 +300,7 @@ public class StaffController {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			OrdersGUI og = new OrdersGUI();
+			OrdersController oco = new OrdersController(og);
 			
 		}
 
