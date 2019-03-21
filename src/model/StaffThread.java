@@ -57,7 +57,7 @@ public class StaffThread extends Thread{
      * so the order is removed from the queue
      * @return order to process
      */
-    public Order getOrderToProcess()
+    public synchronized Order getOrderToProcess()
     {
     	OrdersQueue ordersQueue = OrdersQueue.getInstance();
     	ordersQueue.getQueue();

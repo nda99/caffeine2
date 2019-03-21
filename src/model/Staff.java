@@ -18,6 +18,7 @@ public class Staff implements Subject{
     private ActivityLog log = ActivityLog.getInstance();
     private Order currentOrder;
     private List<Observer> observers;
+    private StaffThread currentStaff;
 
 	/**
 	 * Staff Constructor, create and register a new staff member
@@ -129,12 +130,11 @@ public class Staff implements Subject{
     // this method is called once the staff will click on start serving 
     public void startServing()
     {
-    	StaffThread currentStaff = new StaffThread(this, (long) 6000.0);
+    	currentStaff = new StaffThread(this, (long) 6000.0);
 		currentStaff.start();
 		log.logInfo("Staff " + currentStaff.name + " started working");
         observers = new LinkedList<Observer>();
 		StaffServing server = new StaffServing(this);
-		OrdersQueueObserver observer = new OrdersQueueObserver(OrdersQueue.getInstance());
 
     }
     // this method is called once the staff will click on stop serving 
