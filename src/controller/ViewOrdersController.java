@@ -24,13 +24,13 @@ public class ViewOrdersController {
 		public void actionPerformed(ActionEvent arg0) {
 
 	    	try {
-	    		if(AllOrders.getOrder(vGUI.getCounter().get(Integer.parseInt(vGUI.getOrderNumber()))).isProcessed()) {
+	    		if(AllOrders.getInstance().getOrder(vGUI.getCounter().get(Integer.parseInt(vGUI.getOrderNumber()))).isProcessed()) {
 		    		vGUI.displayError("This order has already been processed");
 	    		}
 	    		else{
-	    			InvoiceGUI iGUI = new InvoiceGUI(AllOrders.getOrder(vGUI.getCounter().get(Integer.parseInt(vGUI.getOrderNumber()))));
+	    			InvoiceGUI iGUI = new InvoiceGUI(AllOrders.getInstance().getOrder(vGUI.getCounter().get(Integer.parseInt(vGUI.getOrderNumber()))));
 	    			InvoiceController ico = new InvoiceController(iGUI, 
-	    			AllOrders.getOrder(vGUI.getCounter().get(Integer.parseInt(vGUI.getOrderNumber()))));
+	    			AllOrders.getInstance().getOrder(vGUI.getCounter().get(Integer.parseInt(vGUI.getOrderNumber()))));
 					iGUI.displayGUI();
 	    		}
 			} catch (nullOrderException e1) {
@@ -51,7 +51,7 @@ public class ViewOrdersController {
 		public void actionPerformed(ActionEvent arg0) {
 
 	    	try {
-		    	AllOrders.deleteOrder(vGUI.getCounter().get(Integer.parseInt(vGUI.getOrderNumber())));
+		    	AllOrders.getInstance().deleteOrder(vGUI.getCounter().get(Integer.parseInt(vGUI.getOrderNumber())));
 	    	}		    	
 	    	catch(NumberFormatException e2) {
 	    		vGUI.displayError("Please enter the order number");
@@ -59,7 +59,7 @@ public class ViewOrdersController {
 	    	catch(NullPointerException e3) {
 	    		vGUI.displayError("Please enter a valid order number");
 	    	}
-	    	AllOrders.updateOrderFile("orders.csv");
+	    	AllOrders.getInstance().updateOrderFile("orders.csv");
 	    	vGUI.getGUI().dispose();
 	    	ViewOrdersGUI newView = new ViewOrdersGUI();
 	    	ViewOrdersController vco = new ViewOrdersController(newView);

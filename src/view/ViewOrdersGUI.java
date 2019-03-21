@@ -81,15 +81,15 @@ public class ViewOrdersGUI {
 		orderView.add(title, BorderLayout.NORTH);
 		orderView.add(southPanel, BorderLayout.SOUTH);
 		orderView.setVisible(true);
-		Order o = AllOrders.getNextOrder();
+		Order o = AllOrders.getInstance().getNextOrder();
 		int counter = 1;
 		orders.append("Order# |                    Time                    |  Customer  | Items\n--------------------------------"
 				+ "-----------------------------------------------------------------------------------------\n");
 		orders.append(String.format("     %d     |   %s", counter, o.getDetails()));
 		times.put(counter, o.getTime().toString());
-		while(AllOrders.isNextOrder(o)) {
+		while(AllOrders.getInstance().isNextOrder(o)) {
 			counter++;
-			o = AllOrders.getNextOrder(o);
+			o = AllOrders.getInstance().getNextOrder(o);
 			if(!o.isProcessed()) {
 				orders.append(String.format("     %d     |   %s", counter, o.getDetails()));
 			}

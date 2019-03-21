@@ -7,15 +7,14 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JFileChooser;
 
 public class SummaryReport {
 	private int ordersCounter = 0;
 	private double totalIncome = 0.0;
-	private Map<Timestamp, Order> ordersMap = AllOrders.getOrderMap();
-	private AllOrders orders = AllOrders.getInstance();
-
+	private Map<Timestamp, Order> ordersMap = AllOrders.getInstance().getOrderMap();
 /**
  * Constructor method
  	It reads the menuItems.csv and Orders.csv**/
@@ -50,11 +49,11 @@ public class SummaryReport {
 			e.printStackTrace();
 		}
 
-		try {
-			AllOrders.readOrderFile("orders.csv");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			AllOrders.readOrderFile("orders.csv");
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	
@@ -71,16 +70,14 @@ public class SummaryReport {
 		
 		
 		// Calculate frequency analysis for items only for the time range
-		for (Map.Entry<Timestamp, Order> entry : ordersMap.entrySet()) {
+		for (Map.Entry<Timestamp, Order> entry : AllOrders.getInstance().getOrderMap().entrySet()) {
 
 			if (entry.getKey().after(AllOrders.toTimestamp(from)) && entry.getKey().before(AllOrders.toTimestamp(to))) {
 
 				ordersCounter++;
 				totalIncome += entry.getValue().calculateTotal();
 				Map<MenuItem, Integer> items = entry.getValue().getOrderItems();
-				System.out.println("order ++");
 				for (MenuItem item : items.keySet()) {
-					System.out.println("item ++");
 					if (itemsIncome.containsKey(item.getName())) {
 
 						int temp = itemsIncome.get(item.getName());
@@ -171,9 +168,7 @@ public class SummaryReport {
 	
 	public boolean isCorrectRange(String from,String to)
 	{
-		
-		System.out.println(from);
-		System.out.println(to);
+
 		
 		if(checkTimeStamp(from) && checkTimeStamp(to))
 		{

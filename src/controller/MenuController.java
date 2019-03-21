@@ -92,9 +92,9 @@ public class MenuController {
 		public void actionPerformed(ActionEvent arg0) {
 			Order o = new Order(mGUI.getBasket());
 			if (!mGUI.getName().equals("")) o.setCustomer(mGUI.getName());
-			AllOrders.addOrder(o);
-			InvoiceGUI checkoutGUI = new InvoiceGUI(AllOrders.getOrder(o.getTime()));
-			InvoiceController ico = new InvoiceController(checkoutGUI,AllOrders.getOrder(o.getTime()));
+			AllOrders.getInstance().addOrder(o);
+			InvoiceGUI checkoutGUI = new InvoiceGUI(AllOrders.getInstance().getOrder(o.getTime()));
+			InvoiceController ico = new InvoiceController(checkoutGUI,AllOrders.getInstance().getOrder(o.getTime()));
 			checkoutGUI.displayGUI();
 		}
 		

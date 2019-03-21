@@ -104,7 +104,7 @@ public class StaffController {
 				//Core-Functional Requirement #3, report is generated
 				SummaryReport report = new SummaryReport();
 				Date today = new Date();
-				if(AllOrders.getOrdersCount() != 0)
+				if(AllOrders.getInstance().getOrdersCount() != 0)
 					{
 					report.printSummaryReport(today.getDate()+"", today.getDate()+"");
 					JOptionPane.showMessageDialog(staffGUI, "Thank you report is generated");
@@ -206,7 +206,7 @@ public class StaffController {
 
 					try {
 						ViewOrdersGUI view = new ViewOrdersGUI();
-						AllOrders.readOrderFile("orders.csv");
+						AllOrders.getInstance().readOrderFile("orders.csv");
 						ViewOrdersController vco = new ViewOrdersController(view);
 						view.displayViewOrdersGUI();
 
@@ -224,7 +224,7 @@ public class StaffController {
 							System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
 
 							try {
-								AllOrders.readOrderFile(chooser.getSelectedFile().toString());
+								AllOrders.getInstance().readOrderFile(chooser.getSelectedFile().toString());
 
 							} catch (FileNotFoundException e1) {
 								e1.printStackTrace();

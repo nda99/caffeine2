@@ -16,7 +16,7 @@ import exceptions.*;
 
 public class AllOrders {
 
-	private static TreeMap<Timestamp, Order> orderMap = new TreeMap<Timestamp,Order>();
+	private TreeMap<Timestamp, Order> orderMap = new TreeMap<Timestamp,Order>();
 	private static AllOrders orders= new AllOrders();
 	
 	private AllOrders() {
@@ -30,7 +30,7 @@ public class AllOrders {
 	/**
 	 * Adds new order to map
 	 */
-	public static void newOrder() {
+	public  void newOrder() {
 		Date date = new Date();
 		Timestamp time = new Timestamp(date.getTime());
 		Order order = new Order(time);
@@ -41,7 +41,7 @@ public class AllOrders {
 	 * Adds an existing Order object to the TreeMap
 	 * @param o Existing Order Object
 	 */
-	public static void addOrder(Order o) {
+	public void addOrder(Order o) {
 		orderMap.put(o.getTime(), o);
 	}
 	
@@ -49,7 +49,7 @@ public class AllOrders {
 	 * Reads order file, creating several orders.
 	 * @param orderFileName
 	 */
-	public static void readOrderFile(String orderFileName) throws FileNotFoundException {
+	public void readOrderFile(String orderFileName) throws FileNotFoundException {
 		File file = new File(orderFileName);
 		try {
 			Scanner scanner = new Scanner(file);
@@ -85,7 +85,7 @@ public class AllOrders {
 	 * 
 	 * @param orderFileName
 	 */
-	public static void updateOrderFile(String orderFileName) {
+	public void updateOrderFile(String orderFileName) {
 		FileWriter file = null;
 
 		try {
@@ -208,7 +208,7 @@ public class AllOrders {
 	 * @param t Time string to search for order
 	 * @return Order made at provided time
 	 */
-	public static Order getOrder(String t) throws nullOrderException{
+	public  Order getOrder(String t) throws nullOrderException{
 		Timestamp s = toTimestamp(t);
 		if (orderMap.get(s)==null) {throw new nullOrderException(t);}
 		return orderMap.get(s);
@@ -219,7 +219,7 @@ public class AllOrders {
 	 * @param t Time Timestamp object to get correspondent order
 	 * @return Order made at provided time
 	 */
-	public static Order getOrder(Timestamp t) {
+	public Order getOrder(Timestamp t) {
 		return orderMap.get(t);
 	}
 	
@@ -227,7 +227,7 @@ public class AllOrders {
 	 * Gets the next unprocessed order on the queue (by oldest) 
 	 * @return Next order to process
 	 */
-	public static Order getNextOrder() {
+	public Order getNextOrder() {
 		Order next;
 		Entry<Timestamp,Order> ent = orderMap.firstEntry();
 		next = ent.getValue();
@@ -244,7 +244,7 @@ public class AllOrders {
 	 * @param t Timestamp of current order
 	 * @return Next order to be processed
 	 */
-	public static Order getNextOrder(Timestamp t) {
+	public Order getNextOrder(Timestamp t) {
 		Order next;
 		Entry<Timestamp,Order> ent = orderMap.higherEntry(t);
 		next = ent.getValue();
@@ -261,7 +261,7 @@ public class AllOrders {
 	 * @param o Order which will be followed by Next Order
 	 * @return Next Order
 	 */
-	public static Order getNextOrder(Order o) {
+	public Order getNextOrder(Order o) {
 		Order next;
 		Entry<Timestamp,Order> ent = orderMap.higherEntry(o.getTime());
 		next = ent.getValue();
@@ -277,7 +277,7 @@ public class AllOrders {
 	 * @param o Order
 	 * @return false if there is no next order, true if there is 
 	 */
-	public static boolean isNextOrder(Order o) {
+	public boolean isNextOrder(Order o) {
 		try {
 			Entry<Timestamp,Order> ent = orderMap.higherEntry(o.getTime());
 			Order next = ent.getValue();
@@ -292,9 +292,9 @@ public class AllOrders {
 	 * Delete an order from the TreeMap
 	 * @param t time of the order (String)
 	 */
-	public static void deleteOrder(String t) {
+	public void deleteOrder(String t) {
 		try {
-		AllOrders.getOrder(t);
+		AllOrders.getInstance().getOrder(t);
 		orderMap.remove(toTimestamp(t));
 		}
 		catch(nullOrderException e){
@@ -306,11 +306,11 @@ public class AllOrders {
 	 * Getter for order TreeMap
 	 * @return
 	 */
-	public static TreeMap<Timestamp, Order> getOrderMap() {
+	public TreeMap<Timestamp, Order> getOrderMap() {
 		return orderMap;
 	}
 	
-	public static int getOrdersCount()
+	public int getOrdersCount()
 	{
 		return orderMap.size();
 	}

@@ -20,7 +20,7 @@ public class MainClass {
 		OrdersQueueObserver observer = new OrdersQueueObserver(OrdersQueue.getInstance());
 
 		try {
-			AllOrders.readOrderFile("orders.csv");
+			AllOrders.getInstance().readOrderFile("orders.csv");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

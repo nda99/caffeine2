@@ -39,7 +39,7 @@ public class InvoiceController {
 				}
 				if(order.isQueued()) {
 					iGUI.displayMessage("Payment successful. Your order has been added to the queue.");
-					AllOrders.updateOrderFile("orders.csv");
+					AllOrders.getInstance().updateOrderFile("orders.csv");
 					iGUI.getFrame().dispose();
 				}
 				else {
@@ -53,7 +53,7 @@ public class InvoiceController {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			AllOrders.updateOrderFile("orders.csv");
+			AllOrders.getInstance().updateOrderFile("orders.csv");
 			iGUI.getFrame().dispose();
 
 			

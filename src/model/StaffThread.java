@@ -1,5 +1,9 @@
 package model;
 
+import java.util.Date;
+
+import javax.swing.JOptionPane;
+
 public class StaffThread extends Thread{
 	private Staff staff;
     public String name;
@@ -47,6 +51,12 @@ public class StaffThread extends Thread{
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                }
+                else
+                {
+                	SummaryReport report = new SummaryReport();
+    				Date today = new Date();
+                	report.printSummaryReport(today.getDate()+"", today.getDate()+"");
                 }
             }
         }
