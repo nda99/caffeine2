@@ -35,7 +35,6 @@ public class StaffThread extends Thread{
             if(!paused) {
                 if (!OrdersQueue.getInstance().orders.isEmpty()) {
                     currentOrder = getOrderToProcess();
-                    //                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
                     log.logInfo("Staff " + this.name + " Processing: " + currentOrder.toString());
                     staff.processingOrder(currentOrder);
                     try {

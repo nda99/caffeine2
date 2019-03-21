@@ -185,17 +185,14 @@ public class StaffController {
 								Menu.readFile(chooser.getSelectedFile().toString());
 
 							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+							} catch (IOException e2) {
+								e2.printStackTrace();
 							}
 						} else {
 							System.out.println("No selection");
 						}
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
@@ -222,23 +219,12 @@ public class StaffController {
 								AllOrders.readOrderFile(chooser.getSelectedFile().toString());
 
 							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 						} else {
 							System.out.println("No selection");
 						}
 					}
-
-					////////////////////////////////////////
-					catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
 				}
 
 			@Override

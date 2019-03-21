@@ -39,24 +39,20 @@ public class SummaryReport {
 					Menu.readFile(chooser.getSelectedFile().toString());
 
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else {
 				System.out.println("No selection");
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		try {
 			AllOrders.readOrderFile("orders.csv");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
