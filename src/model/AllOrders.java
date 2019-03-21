@@ -311,4 +311,9 @@ public class AllOrders {
 	public static TreeMap<Timestamp, Order> getOrderMap() {
 		return orderMap;
 	}
+	
+	public static int getOrdersCount()
+	{
+		return orderMap.size();
+	}
 }
