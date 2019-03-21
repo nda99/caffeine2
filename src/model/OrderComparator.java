@@ -23,7 +23,7 @@ public class OrderComparator implements Comparator<Order> {
 		second_order=o2;
 
 
-		return second_order.getTime().compareTo(first_order.getTime());
+		return first_order.getTime().compareTo(second_order.getTime());
 		}
 
 }
