@@ -6,6 +6,7 @@ import java.util.Random;
 
 import model.AllOrders;
 import model.Order;
+import model.OrdersQueue;
 import exceptions.*;
 import view.InvoiceGUI;
 
@@ -33,19 +34,16 @@ public class InvoiceController {
 
 			else {
 				if (iGUI.getOrder() != null) {
-					try {
-						AllOrders.getOrder(order.getTime().toString()).processOrder();
-					} catch (nullOrderException e) {
-						System.out.println("Order does not exist");
-					}
+					OrdersQueue.getInstance().addOrder(iGUI.getOrder());
+					iGUI.getOrder().setAsQueued();
 				}
-				if(order.isProcessed()) {
-					iGUI.displayMessage("Payment successful");
+				if(order.isQueued()) {
+					iGUI.displayMessage("Payment successful. Your order has been added to the queue.");
 					AllOrders.updateOrderFile("orders.csv");
 					iGUI.getFrame().dispose();
 				}
 				else {
-					iGUI.displayError("Processing error, items out of stock");
+					iGUI.displayError("Processing error, item(s) out of stock");
 				}
 			}
 			
