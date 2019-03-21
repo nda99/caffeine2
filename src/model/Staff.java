@@ -3,6 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import exceptions.*;
+import view.StaffServing;
 
 /**
  * Staff class, doesn't have the stock methods yet
@@ -120,8 +121,7 @@ public class Staff implements Subject{
      */
     public boolean login(String password){
 	    this.loggedIn = loginData.login(this.userName, password);
-	   
-	//	Menu.updateFile();
+
 	    return this.loggedIn;
     }
 
@@ -130,7 +130,9 @@ public class Staff implements Subject{
         log.logInfo("User " + userName + " has logged out." );
     }
     
-    // this method is called once the staff will click on start serving 
+    /**
+     *  This method is called once the staff will click on start serving 
+     */
     public void startServing()
     {
     	if(currentStaff.getState().equals(Thread.State.NEW)) {
@@ -143,15 +145,19 @@ public class Staff implements Subject{
 		log.logInfo("Staff " + currentStaff.name + " started working");
 
     }
-    // this method is called once the staff will click on stop serving 
-
+    /**
+     *  This method is called once the staff will click on stop serving 
+     */
     public void stopServing()
     {
     	currentStaff.pause();
 		log.logInfo("Staff " + currentStaff.name + " stopped working");
     }
     
-    //this method is called by thread once an order is fetched and assigned to the staff
+    /**
+     * this method is called by thread once an order is fetched and assigned to the staff
+     * @param order Order which is being processed
+     */
     public void processingOrder(Order order)
     {
     	order.setServer(this);
@@ -159,7 +165,10 @@ public class Staff implements Subject{
     	notifyObserver();
     }
     
-    //this method returns the order this staff is working on
+    /**
+     * This method returns the order this staff is working on
+     * @return The current order
+     */
     public Order getOrderWorkingOn()
     {
     	return currentOrder ;
