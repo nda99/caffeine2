@@ -19,7 +19,7 @@ public class Staff implements Subject{
     private Order currentOrder;
     private List<Observer> observers;
     //private StaffThread currentStaff;
-	private StaffThread currentStaff = new StaffThread(this, (long) 6000.0);
+	private StaffThread currentStaff;
 
 
 	/**
@@ -68,6 +68,7 @@ public class Staff implements Subject{
         }catch(InvalidUsersFileException e){
 		    e.printStackTrace();
         }
+	    this.currentStaff = new StaffThread(this, (long) 6000.0);
     }
 	
 	//Standard getter and setters

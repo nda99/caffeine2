@@ -27,9 +27,10 @@ public class StaffThread extends Thread{
         this.staff = staff;
         this.eta = eta;
     }
-    
-  
 
+    /**
+     * main method of the thread, if the thread is not paused, it will process the orders in the queue.
+     */
     public void run(){
         while(true){
             if(!paused) {
@@ -38,6 +39,7 @@ public class StaffThread extends Thread{
                     log.logInfo("Staff " + this.name + " Processing: " + currentOrder.toString());
                     staff.processingOrder(currentOrder);
                     try {
+                        //sleep so the simulation is not too fast
                         sleep(eta);
                         staff.processingOrder(currentOrder);
                         System.out.println(staff.getFullName() + " is asleep!");
@@ -48,6 +50,14 @@ public class StaffThread extends Thread{
                 }
             }
         }
+    }
+
+    public void pause(){
+        this.paused = true;
+    }
+
+    public void resumeService(){
+        this.paused = false;
     }
     
     //This method will return the current order served by the staff
@@ -75,14 +85,6 @@ public class StaffThread extends Thread{
     	ordersQueue.notifyObserver();
     	
     	return tempOrder;
-    }
-
-    public void pause(){
-        this.paused = true;
-    }
-
-    public void resumeService(){
-        this.paused = false;
     }
 
 }
