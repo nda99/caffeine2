@@ -60,7 +60,6 @@ public class RegisterGUI extends JFrame{
 			this.login = new Login(staffFile);
 			System.out.println("successfull creation");
 		} catch (InvalidUsersFileException e) {
-			// TODO Auto-generated catch block
 			error.setText(e.getMessage());
 		}
 		buildGUI();

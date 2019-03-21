@@ -23,7 +23,6 @@ public class RegisterController {
 		try {
 			login = new Login(staffFile);
 		} catch (InvalidUsersFileException e) {
-			// TODO Auto-generated catch block
 			rGUI.setErrorText(e.getMessage());
 		}
 		rGUI.addStaffListener(new StaffRadioListener());
@@ -74,7 +73,6 @@ public class RegisterController {
 								StaffController sco = new StaffController(gui,staff);
 							}
 						} catch (StaffNonExistantException e) {
-							// TODO Auto-generated catch block
 							rGUI.setErrorText(e.getMessage());
 						}
 
@@ -90,7 +88,6 @@ public class RegisterController {
 							}
 
 						} catch (StaffNonExistantException e1) {
-							// TODO Auto-generated catch block
 							rGUI.setErrorForeground();
 							rGUI.setErrorText("Oops! User does not exist. ");
 							e1.printStackTrace();
@@ -103,7 +100,6 @@ public class RegisterController {
 					}
 				}
 			} catch (InvalidRegistrationException e) {
-				// TODO Auto-generated catch block
 				rGUI.setErrorText(e.getMessage());
 			}
 

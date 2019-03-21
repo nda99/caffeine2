@@ -3,17 +3,17 @@ package model;
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
+import java.rmi.activation.ActivationID;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import exceptions.*;
 
 public class AllCustomers {
     private HashMap<String, LoyalCustomer> customers;
     private String customerFile;
+    private ActivityLog log = ActivityLog.getInstance();
 
     /**
      * Constructor, reads the input csv file and build the HashMap based on the data found
@@ -66,6 +66,7 @@ public class AllCustomers {
                 return false;
             }
         }
+        log.logInfo("Loyal customer with membership number " + membershipNo + " Successfully added");
         return true;
     }
 

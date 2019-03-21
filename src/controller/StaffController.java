@@ -96,7 +96,7 @@ public class StaffController {
 				//Core-Functional Requirement #3, report is generated
 				SummaryReport report = new SummaryReport();
 				Date today = new Date();
-				if(report.getOrderCounter() != 0)
+				if(AllOrders.getOrdersCount() != 0)
 					{
 					report.printSummaryReport(today.getDate()+"", today.getDate()+"");
 					JOptionPane.showMessageDialog(staffGUI, "Thank you report is generated");
@@ -185,17 +185,14 @@ public class StaffController {
 								Menu.readFile(chooser.getSelectedFile().toString());
 
 							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+							} catch (IOException e2) {
+								e2.printStackTrace();
 							}
 						} else {
 							System.out.println("No selection");
 						}
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
@@ -222,23 +219,12 @@ public class StaffController {
 								AllOrders.readOrderFile(chooser.getSelectedFile().toString());
 
 							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 						} else {
 							System.out.println("No selection");
 						}
 					}
-
-					////////////////////////////////////////
-					catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
 				}
 
 			@Override

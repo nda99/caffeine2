@@ -120,7 +120,6 @@ public class AllOrders {
 		try {
 			parsedDate = dateFormat.parse(time);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			try {
 				parsedDate = dateFormat2.parse(time);
 			} catch (ParseException e1) {
@@ -170,7 +169,6 @@ public class AllOrders {
 			parsedDate = dateFormat.parse(time);
 			format = true;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			try {
 				parsedDate = dateFormat2.parse(time);
 				format = true;
@@ -310,5 +308,10 @@ public class AllOrders {
 	 */
 	public static TreeMap<Timestamp, Order> getOrderMap() {
 		return orderMap;
+	}
+	
+	public static int getOrdersCount()
+	{
+		return orderMap.size();
 	}
 }

@@ -270,14 +270,12 @@ public class Order {
 		try {
 			customers = new AllCustomers("customers.csv");
 		} catch (InvalidCustomerFileException e) {
-			// TODO Auto-generated catch block
 			System.out.println("File not Found");
 		}
 
 		try {  // Tries to create a new Loyal customer
 			customers.addLoyalCustomer(voucher);
 		} catch (UserNameAlreadyTakenException e) {
-			// TODO Auto-generated catch block
 			try {// If loyal customer already exists, add points to customer file
 				LoyalCustomer loyal = customers.getLoyalCustomer(voucher);
 				points = points + loyal.getPoints();
@@ -287,7 +285,6 @@ public class Order {
 					redeemed = true;
 				}
 			} catch (CustomerNonExistantException e1) {
-				// TODO Auto-generated catch block
 			}
 		}
 

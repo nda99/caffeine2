@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -45,7 +44,6 @@ public class LoginController {
 				}
 				
 			} catch (StaffNonExistantException e1) {
-				// TODO Auto-generated catch block
 				loginGUI.setErrorRed();
 				loginGUI.setErrorText("Oops! User does not exist. ");
 				//e1.printStackTrace();
@@ -78,7 +76,6 @@ public class LoginController {
 				loginGUI.setErrorRed();
 				loginGUI.setErrorVisible(true);
 				loginGUI.setErrorText("Oops! You don't have manager privilege. ");
-			//	e1.printStackTrace();
 			}
 		}
 		
@@ -106,14 +103,10 @@ public class LoginController {
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	}
