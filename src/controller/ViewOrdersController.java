@@ -7,8 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.AllOrders;
-import model.nullOrderException;
-
+import exceptions.*;
 public class ViewOrdersController {
 	ViewOrdersGUI vGUI;
 	

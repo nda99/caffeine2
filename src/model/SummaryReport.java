@@ -16,7 +16,7 @@ public class SummaryReport {
 	private int ordersCounter = 0;
 	private double totalIncome = 0.0;
 	private Map<Timestamp, Order> ordersMap = AllOrders.getOrderMap();
-	private AllOrders orders = new AllOrders();
+	private AllOrders orders = AllOrders.getInstance();
 
 /**
  * Constructor method

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import exceptions.*;
 
 public class Order {
 	private Timestamp time;
@@ -16,6 +17,7 @@ public class Order {
 	private boolean processed = false;
 	private boolean validated = false;
 	private boolean redeemed = false;
+	private boolean queued = false;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	private ActivityLog log = ActivityLog.getInstance();
@@ -389,7 +391,15 @@ public class Order {
 	public boolean isProcessed() {
 		return processed;
 	}
-	
+
+	/**
+	 * Check if the order is in the queue to be processed
+	 * @return True if order is in the queue, false else
+	 */
+	public boolean isQueued(){
+		return queued;
+	}
+
 	/**
 	 * Process order and update stock
 	 */
@@ -412,5 +422,9 @@ public class Order {
 			Menu.updateFile();
 			log.logInfo("Order " + time.toString() + " from " + customer + " has been processed");
 		}
+	}
+
+	public void setAsQueued(){
+		queued = true;
 	}
 }

@@ -1,4 +1,5 @@
 package model;
+import exceptions.*;
 
 /**
  * Staff class, doesn't have the stock methods yet
@@ -16,7 +17,7 @@ public class Staff {
 	 * Staff Constructor, create and register a new staff member
 	 * **/
 	public Staff(String fullName, String emailAddress, String userName, String password, String staffFile)
-            throws InvalidRegistration{
+            throws InvalidRegistrationException {
 		this.fullName = fullName;
 		this.emailAddress = emailAddress;
 		this.userName = userName;
@@ -118,6 +119,20 @@ public class Staff {
         this.loggedIn = false;
         log.logInfo("User " + userName + " has logged out." );
     }
+    
+    public void startServing()
+    {
+    	StaffThread currentStaff = new StaffThread(this.getFullName(), (long) 6000.0);
+		currentStaff.start();
+		StaffServing server = new StaffServing(currentStaff);
+
+    }
+    
+    public void stopServing()
+    {
+    	//something going to stop it
+    }
+    
 
 
 }

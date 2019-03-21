@@ -1,9 +1,6 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -16,6 +13,7 @@ import javax.swing.JOptionPane;
 import model.AllOrders;
 import model.Manager;
 import model.Menu;
+import model.OrdersQueue;
 import model.Staff;
 import model.StaffServing;
 import model.StaffThread;
@@ -34,6 +32,7 @@ public class StaffController {
 		this.staffGUI = sg;
 		this.staff = st;
 		staffGUI.addStartListener(new startListener());
+		staffGUI.addFinishListener(new finishListener());
 		staffGUI.addViewOrdersListener(new ViewOrdersListener());
 		staffGUI.addStockListener(new StockListener());
 		staffGUI.addUpdateListener(new UpdateListener());
@@ -292,9 +291,6 @@ public class StaffController {
 		public void mouseClicked(MouseEvent arg0) {
 			OrdersGUI og = new OrdersGUI();
 			
-		//SummaryReportGUI report = new SummaryReportGUI(rep);
-		ServerController sc = new ServerController(og);
-		//	report.buildGUI();
 		}
 
 		@Override
@@ -318,15 +314,17 @@ public class StaffController {
 		public void mouseReleased(MouseEvent arg0) {}
 		
 	}
-	
 	public class startListener implements MouseListener{
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			//On mouse click, start the thread.
-			StaffThread currentStaff = new StaffThread(staff.getUserName(), (long) 6000.0);
-			currentStaff.start();
-			StaffServing server = new StaffServing(currentStaff);
+			OrdersQueue orders = new OrdersQueue();
+			orders.getQueue();
+			staff.startServing();
+			staffGUI.getButton("start").setEnabled(false);
+			staffGUI.getButton("finish").setEnabled(true);
+
 		}
 
 		@Override
@@ -346,6 +344,34 @@ public class StaffController {
 		public void mouseReleased(MouseEvent arg0) {}
 		
 	}
+	
+	public class finishListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			//On mouse click, kill the thread.
+			staff.stopServing();
+			staffGUI.getButton("start").setEnabled(true);
+			staffGUI.getButton("finish").setEnabled(false);
+			JOptionPane.showMessageDialog(staffGUI, "Thank you for your service!");
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
+		
+	}
+	
 	
 } //End of the class
 

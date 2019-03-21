@@ -1,4 +1,4 @@
-package model;
+package exceptions;
 
 public class NotEnoughPointsException extends Exception {
     public NotEnoughPointsException(int points, int toRedeem){
