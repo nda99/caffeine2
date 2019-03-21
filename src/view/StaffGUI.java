@@ -30,7 +30,7 @@ public class StaffGUI extends JFrame{
 	private JLabel label6 = new JLabel("Summary Report", JLabel.LEFT);
 	private JLabel label7 = new JLabel("Current Orders", JLabel.LEFT);
 	private JButton start = new JButton("Start Serving");
-	private JButton finish = new JButton("End Serving");
+	private JButton finish = new JButton("Stop Serving");
 	
 
 
