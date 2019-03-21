@@ -26,8 +26,8 @@ public class StaffServing extends JPanel implements Observer{
 	public void update() {
 		String process = currentServer.getFullName();
 		process += "\n Processing "+currentServer.getOrderWorkingOn().getDetails();
-		process += "\n Total £"+Math.round(currentServer.getOrderWorkingOn().calculateTotal()) ;
-		process += "with £ "+currentServer.getOrderWorkingOn().getDiscount()+"+ discount";
+		process += "\n Total £ "+Math.round(currentServer.getOrderWorkingOn().calculateTotal()) ;
+		process += "  with £ "+currentServer.getOrderWorkingOn().getDiscount()+" discount";
 		tf.setText(process);
 		
 		OrdersGUI.updateView();

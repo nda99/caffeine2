@@ -96,7 +96,7 @@ public class StaffController {
 				//Core-Functional Requirement #3, report is generated
 				SummaryReport report = new SummaryReport();
 				Date today = new Date();
-				if(report.getOrderCounter() != 0)
+				if(AllOrders.getOrdersCount() != 0)
 					{
 					report.printSummaryReport(today.getDate()+"", today.getDate()+"");
 					JOptionPane.showMessageDialog(staffGUI, "Thank you report is generated");
