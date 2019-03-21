@@ -1,10 +1,13 @@
 package model;
+import java.util.LinkedList;
+import java.util.List;
+
 import exceptions.*;
 
 /**
  * Staff class, doesn't have the stock methods yet
  */
-public class Staff {
+public class Staff implements Subject{
 	
 	protected String fullName;
 	protected String emailAddress;
@@ -13,6 +16,9 @@ public class Staff {
 	protected Login loginData;
     protected String staffFile;
     private ActivityLog log = ActivityLog.getInstance();
+    private Order currentOrder;
+    private List<Observer> observers;
+
 	/**
 	 * Staff Constructor, create and register a new staff member
 	 * **/
@@ -122,16 +128,52 @@ public class Staff {
     
     public void startServing()
     {
-    	StaffThread currentStaff = new StaffThread(this.getFullName(), (long) 6000.0);
+    	StaffThread currentStaff = new StaffThread(this, (long) 6000.0);
 		currentStaff.start();
-		StaffServing server = new StaffServing(currentStaff);
+        observers = new LinkedList<Observer>();
+		StaffServing server = new StaffServing(this);
 
+    }
+    
+    public void processingOrder(Order order)
+    {
+    	order.setServer(this);
+    	currentOrder = order;
+    	notifyObserver();
+    }
+    
+    public Order getOrderWorkingOn()
+    {
+    	return currentOrder ;
     }
     
     public void stopServing()
     {
     	//something going to stop it
     }
+    
+
+	@Override
+	public void registerObserver(Observer o) {
+		observers.add(o);
+
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);	
+		
+	}
+
+	@Override
+	public void notifyObserver() {
+		for(Observer o : observers)
+		{
+			o.update();
+			System.out.println("NOTIFIED");
+
+		}
+	}
     
 
 
