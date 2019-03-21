@@ -16,7 +16,6 @@ public class OrdersGUI extends JFrame{
 	private JFrame frame = new JFrame();
 	private static JPanel servers = new JPanel();
 	private static JPanel orders = new JPanel();
-	private JScrollPane scroll = new JScrollPane();
 
 	
 	public OrdersGUI()

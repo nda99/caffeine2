@@ -26,7 +26,7 @@ public class StaffThread extends Thread{
 
     public void run(){
         while(true){
-            if(!OrdersQueue.orders.isEmpty()){
+            if(!OrdersQueue.getInstance().orders.isEmpty()){
                 currentOrder = getOrderToProcess();
                 System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
                 staff.processingOrder(currentOrder);
@@ -48,6 +48,7 @@ public class StaffThread extends Thread{
     	return currentOrder;
     }
     
+    //this method returns the current staff name
     public String getCurrentServer()
     {
     	return name;
@@ -58,7 +59,7 @@ public class StaffThread extends Thread{
     	OrdersQueue ordersQueue = OrdersQueue.getInstance();
     	ordersQueue.getQueue();
     	Order tempOrder = ordersQueue.getNextOrder();
-    	System.out.print("CURRENTLY WORKING ON :" +tempOrder);
+    	ordersQueue.notifyObserver();
     	
     	return tempOrder;
     }

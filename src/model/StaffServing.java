@@ -1,13 +1,9 @@
 package model;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import view.OrdersGUI;
 
 public class StaffServing extends JPanel implements Observer{
@@ -17,7 +13,6 @@ public class StaffServing extends JPanel implements Observer{
 	private JTextArea tf = new JTextArea();
 
 	
-	public StaffServing() {}
 	
 	public StaffServing(Staff server)
 	{
@@ -26,20 +21,20 @@ public class StaffServing extends JPanel implements Observer{
 		buildBlock();
 	}
 	
+	// update method is called when an observer is notified, it will add the orders to the staff block
 	@Override
 	public void update() {
-		//JLabel staffName = new JLabel(currentServer.getCurrentServer());
 		String process = currentServer.getFullName();
 		process += "\n Processing "+currentServer.getOrderWorkingOn().getDetails();
 		process += "\n Total £"+Math.round(currentServer.getOrderWorkingOn().calculateTotal()) ;
 		process += "with £ "+currentServer.getOrderWorkingOn().getDiscount()+"+ discount";
 		tf.setText(process);
 		
-		//serverBlock.add(staffName);
 		OrdersGUI.updateView();
 		
 		}
 	
+	//this method is called once staffserving observer constructor is called, it will only build the block of the staff
 	public void buildBlock()
 	{
 		serverBlock.setLayout(new GridLayout(2,1,5,5));
@@ -53,6 +48,7 @@ public class StaffServing extends JPanel implements Observer{
 
 	}
 	
+	//this method returns the JPanel to the ordersGUI
 	public static JPanel get()
 	{
 		System.out.println("Server Block created");

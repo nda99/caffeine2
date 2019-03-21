@@ -126,6 +126,7 @@ public class Staff implements Subject{
         log.logInfo("User " + userName + " has logged out." );
     }
     
+    // this method is called once the staff will click on start serving 
     public void startServing()
     {
     	StaffThread currentStaff = new StaffThread(this, (long) 6000.0);
@@ -134,7 +135,14 @@ public class Staff implements Subject{
 		StaffServing server = new StaffServing(this);
 
     }
+    // this method is called once the staff will click on stop serving 
+
+    public void stopServing()
+    {
+    	//something going to stop it
+    }
     
+    //this method is called by thread once an order is fetched and assigned to the staff
     public void processingOrder(Order order)
     {
     	order.setServer(this);
@@ -142,15 +150,13 @@ public class Staff implements Subject{
     	notifyObserver();
     }
     
+    //this method returns the order this staff is working on
     public Order getOrderWorkingOn()
     {
     	return currentOrder ;
     }
     
-    public void stopServing()
-    {
-    	//something going to stop it
-    }
+   
     
 
 	@Override
