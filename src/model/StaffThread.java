@@ -52,21 +52,30 @@ public class StaffThread extends Thread{
         }
     }
 
+    /**
+     * Pauses the thread
+     */
     public void pause(){
         this.paused = true;
     }
-
+    /**
+     * Resumes thread activity
+     */
     public void resumeService(){
         this.paused = false;
     }
     
-    //This method will return the current order served by the staff
+    /*
+     * This method will return the current order served by the staff
+     */
     public Order getCurrentOrder()
     {
     	return currentOrder;
     }
     
-    //this method returns the current staff name
+    /*
+     * This method returns the current staff name
+     */
     public String getCurrentServer()
     {
     	return name;

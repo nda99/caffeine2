@@ -16,10 +16,10 @@ import model.Manager;
 import model.Menu;
 import model.OrdersQueue;
 import model.Staff;
-import model.StaffServing;
 import model.StaffThread;
 import model.SummaryReport;
 import view.StaffGUI;
+import view.StaffServing;
 import view.StockGUI;
 import view.SummaryReportGUI;
 import view.ViewOrdersGUI;
@@ -52,7 +52,11 @@ public class StaffController {
 		staffGUI.addOrdersListener(new ordersListener());
 		staffGUI.addLogoutListener(new LogoutListener());
 	}
-	
+	/**
+	 * Listener to update the GUI
+	 * @author Nathan
+	 *
+	 */
 	public class UpdateListener implements MouseListener{
 
 		//public void control(JLabel label, int number) {
@@ -85,7 +89,11 @@ public class StaffController {
 
 	}
 	
-
+	/**
+	 * Listener to Logout
+	 * @author Nathan
+	 *
+	 */
 	public class LogoutListener implements MouseListener{
 
 		@SuppressWarnings("deprecation")

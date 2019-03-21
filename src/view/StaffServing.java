@@ -1,10 +1,12 @@
-package model;
+package view;
 
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import view.OrdersGUI;
+
+import model.Staff;
+import model.Observer;
 
 public class StaffServing extends JPanel implements Observer{
 
@@ -13,7 +15,10 @@ public class StaffServing extends JPanel implements Observer{
 	private JTextArea tf = new JTextArea();
 
 	
-	
+	/**
+	 * Constructor for StaffServing
+	 * @param server
+	 */
 	public StaffServing(Staff server)
 	{
 		currentServer = server;
