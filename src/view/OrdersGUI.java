@@ -10,8 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
 import model.OrdersQueueObserver;
 import model.StaffServing;
 
@@ -33,6 +31,7 @@ public class OrdersGUI extends JFrame{
 		buildGUI();
 	}
 	
+	//this method will update the panels, its called once the blocks are created in the observers
 	public static void updateView()
 	{
 		 orders = OrdersQueueObserver.get();
@@ -40,6 +39,7 @@ public class OrdersGUI extends JFrame{
 		
 	}
 	
+	// listens to the buttons
 	public void addListener(ActionListener e, String speed) {
 		switch(speed) {
 		case "slow":
@@ -60,10 +60,9 @@ public class OrdersGUI extends JFrame{
 		frameTotal.setLocation(300, 500);
 		frameTotal.setVisible(true);
 
-
 		speed.setLayout(new GridLayout(1,4,10,500));
 		frameTotal.setLayout(new BorderLayout());
-		
+		//Simulations speed controls
 		speed.add(speedLabel);
 		speed.add(slow);
 		speed.add(normal);
@@ -75,12 +74,11 @@ public class OrdersGUI extends JFrame{
 		frame.add(title, BorderLayout.NORTH);
 		frameTotal.add(speed, BorderLayout.NORTH);
 		frame.setLayout(new GridLayout(3,1,5,5));
-		//JPanel ordersObserver = new JPanel();
+		//the orders observer > observing ordersQueue
 		frame.add(orders);
+		//staff observer > observing working staff 
 		frame.add(servers);
-
 		frameTotal.add(frame, BorderLayout.CENTER);
-		//frame.add(staffObserver);
 	}
 	
 	/**

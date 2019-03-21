@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 /**
- * This class is a singleton
+ * This class is using a singleton and observer design patterns
  */
 public class OrdersQueue implements Subject{
 
@@ -21,7 +21,6 @@ public class OrdersQueue implements Subject{
 	}
 	
 	public  PriorityQueue<Order> getQueue() {
-		//System.out.println("GET QUEUE CALLED");
 		return orders;
 	}
 
