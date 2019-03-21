@@ -91,6 +91,8 @@ public class StaffController {
 		public void mouseClicked(MouseEvent arg0) {
 			if(manager==null) {
 				staff.logout();
+				SummaryReport report = new SummaryReport();
+				report.printSummaryReport(null, null)
 			}
 			else {
 				manager.logout();

@@ -125,9 +125,25 @@ public class SummaryReport {
 				sb.append(',');
 				sb.append(Menu.getItem(item).getPrice() * itemsIncome.get(item)).toString();
 				sb.append('\n');
+			
+
 
 			}
+			sb.append('\n');
+			sb.append('\n');
+			sb.append("Number of Orders");
+			sb.append(',');
+			sb.append("Total Income");
+			sb.append('\n');
+			sb.append(getOrderCounter());
+			sb.append(',');
+			sb.append(getTotalIncome());
+			sb.append('\n');
+
 			writer.write(sb.toString());
+
+
+			
 			return true;
 
 		} catch (FileNotFoundException e) {
