@@ -63,6 +63,10 @@ public class AllOrders {
 				 for (int i=2; i<details.length; i = i+2) {
 					 nOrder.addItem(Menu.getItem(details[i]), Integer.parseInt(details[i+1]));
 				 }
+				 nOrder.setAsQueued();
+				 if(nOrder.isQueued()) {
+					 OrdersQueue.getInstance().addOrder(nOrder);
+				 }
 				 
 				 orderMap.put(timestamp, nOrder);
 			 }
