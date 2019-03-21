@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.OrdersQueueObserver;
-import model.StaffServing;
 
 public class OrdersGUI extends JFrame{
 	private JFrame frameTotal = new JFrame();
@@ -31,7 +30,9 @@ public class OrdersGUI extends JFrame{
 		buildGUI();
 	}
 	
-	//this method will update the panels, its called once the blocks are created in the observers
+	/**
+	 * This method will update the panels, its called once the blocks are created in the observers
+	 */
 	public static void updateView()
 	{
 		 orders = OrdersQueueObserver.get();
@@ -39,7 +40,11 @@ public class OrdersGUI extends JFrame{
 		
 	}
 	
-	// listens to the buttons
+	/**
+	 * Adds listener to the buttons
+	 * @param e Action Listener to be added
+	 * @param speed String ("slow", "normal" or "fast")
+	 */
 	public void addListener(ActionListener e, String speed) {
 		switch(speed) {
 		case "slow":
@@ -53,7 +58,9 @@ public class OrdersGUI extends JFrame{
 		}
 	}
 
-
+	/**
+	 * Builds Orders GUI
+	 */
 	private void buildGUI() {
 		frameTotal.setTitle("Caffeine App");
 		frameTotal.setSize(500, 700);
