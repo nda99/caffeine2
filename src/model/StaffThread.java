@@ -4,40 +4,41 @@ package model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StaffThread extends Thread implements Subject{
+public class StaffThread extends Thread{
+	private Staff staff;
     public String name;
     private Order currentOrder;
     private long eta = (long) 5000.0;
-    private List<Observer> observers;
 
-    public StaffThread(String staffName){
-        this.name = staffName;
-        observers = new LinkedList<Observer>();
-        
+    public StaffThread(Staff staff){
+        this.name = staff.getFullName();
+        this.staff = staff;
 
     }
 
-    public StaffThread(String staffName, long eta){
-        this.name = staffName;
+    public StaffThread(Staff staff, long eta){
+        this.name = staff.getFullName();
+        this.staff = staff;
         this.eta = eta;
-        observers = new LinkedList<Observer>();
     }
     
   
 
     public void run(){
         while(true){
-          //  if(!PQueue.orderQueue.isEmpty()){
+            if(!OrdersQueue.orders.isEmpty()){
                 currentOrder = getOrderToProcess();
                 System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
-                notifyObserver();
+                staff.processingOrder(currentOrder);
                 try {
                     sleep(eta);
+                    staff.processingOrder(currentOrder);
+                    System.out.println(staff.getFullName() + " is asleep!");
                     currentOrder.processOrder();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-           // }
+            }
         }
     }
     
@@ -52,7 +53,7 @@ public class StaffThread extends Thread implements Subject{
     	return name;
     }
     //this method will pop an order from the order queue to be served
-    public synchronized Order getOrderToProcess()
+    public Order getOrderToProcess()
     {
     	OrdersQueue ordersQueue = OrdersQueue.getInstance();
     	ordersQueue.getQueue();
@@ -62,22 +63,5 @@ public class StaffThread extends Thread implements Subject{
     	return tempOrder;
     }
  
-	@Override
-	public void registerObserver(Observer o) {
 
-		observers.add(o);
-	}
-
-	@Override
-	public void removeObserver(Observer o) {
-		observers.remove(o);
-	}
-
-	@Override
-	public void notifyObserver() {
-		for(Observer o : observers)
-		{
-			o.update();
-		}
-	}
 }

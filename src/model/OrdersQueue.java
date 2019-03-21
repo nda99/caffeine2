@@ -8,9 +8,9 @@ import java.util.PriorityQueue;
 
 public class OrdersQueue implements Subject{
 
-	private static PriorityQueue<Order> orders ;
-	private List<Observer> observers;
-	private static OrdersQueue pQueue = new OrdersQueue();
+	public static PriorityQueue<Order> orders ;
+	private static List<Observer> observers;
+	public static OrdersQueue pQueue = new OrdersQueue();
 	
 	public OrdersQueue()
 	{
@@ -19,7 +19,7 @@ public class OrdersQueue implements Subject{
 
 	}
 	
-	public synchronized PriorityQueue<Order> getQueue() {
+	public  PriorityQueue<Order> getQueue() {
 
 		for(Map.Entry<Timestamp, Order> entry:AllOrders.getOrderMap().entrySet()) {
 			if(!entry.getValue().isProcessed() && !entry.getValue().isQueued())
@@ -33,7 +33,7 @@ public class OrdersQueue implements Subject{
 		return orders;
 	}
 
-	public static synchronized OrdersQueue getInstance() {
+	public static  OrdersQueue getInstance() {
 		return pQueue;
 	}
 	
@@ -43,9 +43,9 @@ public class OrdersQueue implements Subject{
 		notifyObserver();
 	}
 	
-	public synchronized Order getNextOrder()
+	public static Order getNextOrder()
 	{
-		return this.orders.poll();
+		return orders.poll();
 	}
 
 

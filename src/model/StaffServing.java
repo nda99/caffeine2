@@ -12,14 +12,14 @@ import view.OrdersGUI;
 
 public class StaffServing extends JPanel implements Observer{
 
-	private StaffThread currentServer;
+	private Staff currentServer;
 	private static JPanel	serverBlock = new JPanel();
 	private JTextArea tf = new JTextArea();
 
 	
 	public StaffServing() {}
 	
-	public StaffServing(StaffThread server)
+	public StaffServing(Staff server)
 	{
 		currentServer = server;
 		server.registerObserver(this);
@@ -28,12 +28,11 @@ public class StaffServing extends JPanel implements Observer{
 	
 	@Override
 	public void update() {
-		System.out.println("STAFF THREAD ADDED" +currentServer.getCurrentOrder());
 		//JLabel staffName = new JLabel(currentServer.getCurrentServer());
-		String process = currentServer.getCurrentServer();
-		process += "\n Processing "+currentServer.getCurrentOrder().getDetails();
-		process += "\n Total £"+Math.round(currentServer.getCurrentOrder().calculateTotal()) ;
-		process += "with £"+currentServer.getCurrentOrder().getDiscount()+"+discount";
+		String process = currentServer.getFullName();
+		process += "\n Processing "+currentServer.getOrderWorkingOn().getDetails();
+		process += "\n Total £"+Math.round(currentServer.getOrderWorkingOn().calculateTotal()) ;
+		process += "with £ "+currentServer.getOrderWorkingOn().getDiscount()+"+ discount";
 		tf.setText(process);
 		
 		//serverBlock.add(staffName);
@@ -44,7 +43,7 @@ public class StaffServing extends JPanel implements Observer{
 	public void buildBlock()
 	{
 		serverBlock.setLayout(new GridLayout(2,1,5,5));
-		String process = currentServer.getCurrentServer();
+		String process = currentServer.getFullName();
 		tf.enableInputMethods(false);
 		tf.setLineWrap(true);
         tf.setWrapStyleWord(true);
