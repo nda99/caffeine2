@@ -31,7 +31,6 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 	
 	@Override 
 	public void update() {
-		System.out.println("OrdersQueue observer called");
 		String speed = "NORMAL";
 		if (StaffThread.getEta() > 8000) speed = "SLOW";
 		if (StaffThread.getEta() < 8000) speed = "FAST";
@@ -71,7 +70,7 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 	
 	public static JPanel get()
 	{
-		System.out.println("Order Block created");
+		
 		
 		return ordersBlock;
 	}

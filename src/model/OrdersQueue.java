@@ -65,7 +65,6 @@ public class OrdersQueue implements Subject{
 	public void notifyObserver() {
 		for(Observer o : observers)
 		{
-			System.out.println("OQ NOTIFIED");
 			o.update();
 
 		}

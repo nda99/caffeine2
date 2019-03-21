@@ -194,7 +194,6 @@ public class Staff implements Subject{
 		for(Observer o : observers)
 		{
 			o.update();
-			System.out.println("NOTIFIED");
 
 		}
 	}

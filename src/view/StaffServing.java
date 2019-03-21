@@ -56,7 +56,6 @@ public class StaffServing extends JPanel implements Observer{
 	//this method returns the JPanel to the ordersGUI
 	public static JPanel get()
 	{
-		System.out.println("Server Block created");
 		return serverBlock;
 	}
 	

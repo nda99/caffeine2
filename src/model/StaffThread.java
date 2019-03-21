@@ -42,7 +42,7 @@ public class StaffThread extends Thread{
                         //sleep so the simulation is not too fast
                         sleep(eta);
                         staff.processingOrder(currentOrder);
-                        System.out.println(staff.getFullName() + " is asleep!");
+                        log.logInfo(staff.getFullName() + " is asleep!");
                         currentOrder.processOrder();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
