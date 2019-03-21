@@ -13,7 +13,7 @@ public class OrdersQueue implements Subject{
 	public OrdersQueue()
 	{
 		this.orders = new PriorityQueue<Order>(new OrderComparator());
-        observers = new LinkedList<Observer>();
+        this.observers = new LinkedList<Observer>();
 
 	}
 	
