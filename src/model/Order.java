@@ -13,7 +13,7 @@ public class Order {
 	private Timestamp time;
 	private String customer = "Anonymous";
 	private double total;
-	private double discounts;
+	private double discounts = 0.0;
 	private boolean processed = false;
 	private boolean validated = false;
 	private boolean redeemed = false;
@@ -406,18 +406,18 @@ public class Order {
 	public void processOrder() {
 		processed = true;
 
-		for (Map.Entry m: orderItems.entrySet()) {
-			try {
-			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
-			}
-			catch(NotEnoughStockException e) {
-				processed = false;
-
-				log.logWarning("Order " + time.toString() + " from " + customer + " could NOT be processed");
-			}
-
-		}
-		
+//		for (Map.Entry m: orderItems.entrySet()) {
+//			try {
+//			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
+//			}
+//			catch(NotEnoughStockException e) {
+//				processed = false;
+//
+//				log.logWarning("Order " + time.toString() + " from " + customer + " could NOT be processed. Item(s) out of stock.");
+//			}
+//
+//		}
+//		
 		if(processed) {
 			Menu.updateFile();
 			log.logInfo("Order " + time.toString() + " from " + customer + " has been processed");
@@ -425,6 +425,21 @@ public class Order {
 	}
 
 	public void setAsQueued(){
+		
 		queued = true;
+		
+		for (Map.Entry m: orderItems.entrySet()) {
+			try {
+			Menu.getItem(m.getKey().toString()).decreaseQuantity(orderItems.get(m.getKey()));
+			}
+			catch(NotEnoughStockException e) {
+				queued = false;
+
+				log.logWarning("Order " + time.toString() + " from " + customer + " could NOT be placed. Item(s) out of stock.");
+			}
+
+		}
+		
+		
 	}
 }
