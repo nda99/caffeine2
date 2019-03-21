@@ -4,10 +4,18 @@ public class StaffThread extends Thread{
 	private Staff staff;
     public String name;
     private Order currentOrder;
-    private long eta = (long) 5000.0;
     private ActivityLog log = ActivityLog.getInstance();
+    private static long eta = (long) 8000.0;
 
-    public StaffThread(Staff staff){
+    public static long getEta() {
+		return eta;
+	}
+
+	public static void setEta(long eta) {
+		StaffThread.eta = eta;
+	}
+
+	public StaffThread(Staff staff){
         this.name = staff.getFullName();
         this.staff = staff;
 

@@ -32,7 +32,11 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 	@Override 
 	public void update() {
 		System.out.println("OrdersQueue observer called");
-		String orders = "There are currently " +queueData.getQueue().size() + " people waiting in the queue:\n";
+		String speed = "NORMAL";
+		if (StaffThread.getEta() > 8000) speed = "SLOW";
+		if (StaffThread.getEta() < 8000) speed = "FAST";
+		String orders = "Speed: " + speed + "\n" + "There are currently " +queueData.getQueue().size() + " people waiting in the queue:\n";
+		
 
 		for(Order order :queueData.getQueue()) {
 				
@@ -49,7 +53,11 @@ public class OrdersQueueObserver extends JPanel implements Observer{
 	public void buildBlock()
 	{
 		ordersBlock.setLayout(new GridLayout(1,1,5,5));
-		String process = "There are currently " +queueData.getQueue().size() + " people waiting in the queue:\n";
+		String speed = "NORMAL";
+		if (StaffThread.getEta() > 8000) speed = "SLOW";
+		if (StaffThread.getEta() < 8000) speed = "FAST";
+		
+		String process = "Speed: " + speed + "\n" + "There are currently " +queueData.getQueue().size() + " people waiting in the queue:\n";
 		orderText.enableInputMethods(false);
 		orderText.setLineWrap(true);
 		orderText.setWrapStyleWord(true);
