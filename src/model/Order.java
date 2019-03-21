@@ -18,6 +18,7 @@ public class Order {
 	private boolean validated = false;
 	private boolean redeemed = false;
 	private boolean queued = false;
+	private Staff staff = null;
 	Map<MenuItem,Integer> orderItems = new HashMap<MenuItem,Integer>();
 	
 	private ActivityLog log = ActivityLog.getInstance();
@@ -440,6 +441,11 @@ public class Order {
 
 		}
 		
-		
 	}
+	public void setServer(Staff staff)
+	{
+		this.staff = staff;
+	}
+	
+	
 }

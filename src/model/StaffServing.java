@@ -1,50 +1,44 @@
 package model;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import view.OrdersGUI;
 
 public class StaffServing extends JPanel implements Observer{
 
-	private StaffThread currentServer;
+	private Staff currentServer;
 	private static JPanel	serverBlock = new JPanel();
 	private JTextArea tf = new JTextArea();
 
 	
-	public StaffServing() {}
 	
-	public StaffServing(StaffThread server)
+	public StaffServing(Staff server)
 	{
 		currentServer = server;
 		server.registerObserver(this);
 		buildBlock();
 	}
 	
+	// update method is called when an observer is notified, it will add the orders to the staff block
 	@Override
 	public void update() {
-		System.out.println("STAFF THREAD ADDED" +currentServer.getCurrentOrder());
-		//JLabel staffName = new JLabel(currentServer.getCurrentServer());
-		String process = currentServer.getCurrentServer();
-		process += "\n Processing "+currentServer.getCurrentOrder().getDetails();
-		process += "\n Total £"+Math.round(currentServer.getCurrentOrder().calculateTotal()) ;
-		process += "with £"+currentServer.getCurrentOrder().getDiscount()+"+discount";
+		String process = currentServer.getFullName();
+		process += "\n Processing "+currentServer.getOrderWorkingOn().getDetails();
+		process += "\n Total £"+Math.round(currentServer.getOrderWorkingOn().calculateTotal()) ;
+		process += "with £ "+currentServer.getOrderWorkingOn().getDiscount()+"+ discount";
 		tf.setText(process);
 		
-		//serverBlock.add(staffName);
 		OrdersGUI.updateView();
 		
 		}
 	
+	//this method is called once staffserving observer constructor is called, it will only build the block of the staff
 	public void buildBlock()
 	{
 		serverBlock.setLayout(new GridLayout(2,1,5,5));
-		String process = currentServer.getCurrentServer();
+		String process = currentServer.getFullName();
 		tf.enableInputMethods(false);
 		tf.setLineWrap(true);
         tf.setWrapStyleWord(true);
@@ -54,6 +48,7 @@ public class StaffServing extends JPanel implements Observer{
 
 	}
 	
+	//this method returns the JPanel to the ordersGUI
 	public static JPanel get()
 	{
 		System.out.println("Server Block created");
