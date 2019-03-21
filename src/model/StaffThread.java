@@ -3,6 +3,7 @@ package model;
 public class StaffThread extends Thread{
 	private Staff staff;
     public String name;
+    private volatile boolean paused = false;
     private Order currentOrder;
     private ActivityLog log = ActivityLog.getInstance();
     private static long eta = (long) 8000.0;
@@ -31,18 +32,20 @@ public class StaffThread extends Thread{
 
     public void run(){
         while(true){
-            if(!OrdersQueue.getInstance().orders.isEmpty()){
-                currentOrder = getOrderToProcess();
-//                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
-                log.logInfo("Staff " + this.name +" Processing: " + currentOrder.toString());
-                staff.processingOrder(currentOrder);
-                try {
-                    sleep(eta);
+            if(!paused) {
+                if (!OrdersQueue.getInstance().orders.isEmpty()) {
+                    currentOrder = getOrderToProcess();
+                    //                System.out.println("Staff " + this.name +" Processing: " + currentOrder.toString());
+                    log.logInfo("Staff " + this.name + " Processing: " + currentOrder.toString());
                     staff.processingOrder(currentOrder);
-                    System.out.println(staff.getFullName() + " is asleep!");
-                    currentOrder.processOrder();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        sleep(eta);
+                        staff.processingOrder(currentOrder);
+                        System.out.println(staff.getFullName() + " is asleep!");
+                        currentOrder.processOrder();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -74,6 +77,13 @@ public class StaffThread extends Thread{
     	
     	return tempOrder;
     }
- 
+
+    public void pause(){
+        this.paused = true;
+    }
+
+    public void resumeService(){
+        this.paused = false;
+    }
 
 }
